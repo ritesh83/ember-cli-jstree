@@ -1,7 +1,7 @@
 {
   "name": "ember-cli-jstree",
-  "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "version": "0.0.1",
+  "description": "ember-cli addon for jstree",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -11,7 +11,10 @@
     "build": "ember build",
     "test": "ember test"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ritesh83/ember-cli-jstree.git"
+  },
   "engines": {
     "node": ">= 0.10.0"
   },
@@ -34,7 +37,8 @@
     "broccoli-static-compiler": "^0.2.1"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "jstree"
   ],
   "dependencies": {
     "ember-cli-babel": "^4.0.0"
