@@ -1,7 +1,21 @@
+body,html {
+	font-size: 0.9em;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
 .selected-nodes
 {
     position: absolute;
     top: 75px;
     left: 400px;
     font-weight: bold;
+}
+
+.sample-tree {
+	position:absolute:
+	top: 75px;
+	left: 25px;
+	margin-right: 25px;
+	width: 350px;
+	border: 1px solid #000;
 }

@@ -1,10 +1,14 @@
 <h2 id="title">Welcome to Ember.js</h2>
 
-{{ember-jstree
-    data=data
-    plugins=plugins
-    checkboxOptions=checkboxOptions
-    selectionDidChange="handleTreeSelectionChange"}}
+<div class="sample-tree">
+    {{ember-jstree
+        data=data
+        plugins=plugins
+        checkboxOptions=checkboxOptions
+        typesOptions=typesOptions
+        contextMenuOptions=contextMenuOptions
+        selectionDidChange="handleTreeSelectionChange"}}
+</div>
 
 <div class="selected-nodes">
     Selected: {{selectedNodes}}

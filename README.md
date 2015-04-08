@@ -1,6 +1,23 @@
-# Ember-cli-jstree
+# ember-cli-jstree
 
-This README outlines the details of collaborating on this Ember addon.
+Brings [jsTree](http://www.jstree.com/) functionality into your Ember app.
+
+## Plugins
+
+Plugins for your tree should be specified by a `plugins` string property. Multiple plugins should be
+separated with commas.
+
+	{
+		"plugins": "checkbox, wholerow"
+	}
+
+The following [plugins](http://www.jstree.com/plugins/) are currently supported. More on the way!
+
+* Checkbox
+* Contextmenu
+* State
+* Types
+* Wholerow
 
 ## Installation
 

@@ -4,6 +4,15 @@ export default Ember.Controller.extend({
     data: [
         'Simple root node',
         {
+            'text': 'Root childless node type',
+            'type': 'single-level',
+            'children': [
+                'one child',
+                'two children',
+                'three children'
+            ]
+        },
+        {
             'text' : 'Root node 2',
             'state' : {
                 'opened' : true,
@@ -18,9 +27,22 @@ export default Ember.Controller.extend({
         }
     ],
 
-    plugins: "checkbox, wholerow",
+    plugins: "checkbox, wholerow, types, contextmenu",
 
     checkboxOptions: {"keep_selected_style" : false},
+    typesOptions: {
+        'single-level': {
+            'icon': 'test',
+            'max_depth': '0',
+            'max_children': '1'
+        }
+    },
+
+    contextMenuOptions: {
+        "items" : {
+            
+        }             
+    },
 
     actions: {
         handleTreeSelectionChange: function(node) {
