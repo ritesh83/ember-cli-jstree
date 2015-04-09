@@ -32,7 +32,7 @@ export default Ember.Controller.extend({
 
     plugins: "checkbox, wholerow, types, contextmenu",
     themes: {
-        'name': 'proton',
+        'name': 'default',
         'responsive': true
     },
 
