@@ -1,8 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-    jstreeComponent: null,
-    
+    jsTreeActionReceiver: null,
+
     data: [
         'Simple root node',
         {
@@ -54,6 +54,15 @@ export default Ember.Controller.extend({
     },
 
     actions: {
+
+        redraw: function() {
+            this.get('jsTreeActionReceiver').send('redraw');
+        },
+
+        destroy: function() {
+            this.get('jsTreeActionReceiver').send('destroy');
+        },
+        
         handleTreeSelectionChange: function(node) {
             if(node) {
                 this.set("selectedNodes", node.text);

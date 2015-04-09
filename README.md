@@ -35,9 +35,11 @@ Run supported actions on the tree by registering it to your controller with the 
 Plugins for your tree should be specified by a `plugins` string property. Multiple plugins should be
 separated with commas.
 
-	{
-		"plugins": "checkbox, wholerow"
-	}
+````JSON
+{
+	"plugins": "checkbox, wholerow"
+}
+````
 
 The following [plugins](http://www.jstree.com/plugins/) are currently supported. More on the way!
 

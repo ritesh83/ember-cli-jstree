@@ -2,7 +2,7 @@
 
 <div class="sample-tree">
     {{ember-jstree
-        registerJstreeComponent='jstreeComponent'
+        actionReceiver=jsTreeActionReceiver
         data=data
         plugins=plugins
         themes=themes
@@ -19,12 +19,16 @@
     Tree Ready? {{treeReady}}<br>
     Selected: {{selectedNodes}}<br>
     Context Item Clicked: {{itemClicked}}
+
+    <div class="actions">
+        <ul>
+            <li><a href="#" {{action "redraw"}}>Redraw</a></li>
+            <li><a href="#" {{action "destroy"}}>Destroy Tree</a></li>
+            <li><a href="#" {{action "addChildByText" "Single child node"}}>Add Child to (Supposedly) Single-Child Node</a> &mdash; <em>This should not work</em></li>
+            <li><a href="#" {{action "addChildByText" "Root node 2"}}>Add Child to "Root Node 2"</a> &mdash; <em>This should work</em></li> 
+        </ul>
+    </div>
+    
 </div>
 
-<div class="actions">
-    <ul>
-        <li><a href="#" {{action "destroyTree"}}>Destroy Tree</a></li>
-        <li><a href="#" {{action "addChildByText" "Single child node"}}>Add Child to (Supposedly) Single-Child Node</a> &mdash; <em>This should not work</em></li>
-        <li><a href="#" {{action "addChildByText" "Root node 2"}}>Add Child to "Root Node 2"</a> &mdash; <em>This should work</em></li> 
-    </ul>
-</div>
+

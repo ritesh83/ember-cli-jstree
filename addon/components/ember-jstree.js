@@ -1,8 +1,10 @@
 /*jshint loopfunc: true */
 
 import Ember from 'ember';
+import ActionProxy from 'ember-component-inbound-actions/action-proxy';
 
 export default Ember.Component.extend({
+    actionReceiver: null,
     data: null,
     plugins: null,
     themes: null,
@@ -10,23 +12,15 @@ export default Ember.Component.extend({
     contextmenuOptions: null,
     typesOptions: null,
     selectionDidChange: null,
-    jsTreeObject: null,
-
-    _register: function() {
-        this.set('registerJstreeComponent', this);
-    }.on('init'),
-
-    redraw: function() {
-        var o = this.get('jsTreeObject');
-        o.redraw();
-    },
+    treeObject: null,
 
     didInsertElement: function() {
         var configObject = {};
         var self = this;
 
         configObject["core"] = {
-            "data" : this.get('data')
+            "data": this.get('data'),
+            "check_callback": true
         };
 
         var themes = this.get('themes');
@@ -82,6 +76,24 @@ export default Ember.Component.extend({
         treeObject.on('ready.jstree', function() {
             this.sendAction("treeDidBecomeReady");
         }.bind(this));
+
+        var proxy = ActionProxy.create({
+            target: this
+        });
+
+        this.set('actionReceiver', proxy);
+        this.set('treeObject', treeObject);
+    },
+
+    _refresh: function() {
+        var o = this.get('treeObject');
+        if (null !== o) {
+            o.jstree({
+                'core': {
+                    'data': this.get('data')
+                }
+            });
+        }
     },
 
     willDestroyElement: function() {
@@ -89,6 +101,21 @@ export default Ember.Component.extend({
     },
 
     actions: {
+        redraw: function() {
+            var o = this.get('treeObject');
+            if (null !== o) {
+                this._refresh();
+                o.jstree().redraw(true);
+            }
+        },
+
+        destroy: function() {
+            var o = this.get('treeObject');
+            if (null !== o) {
+                o.jstree().destroy();
+            }
+        },
+
         contextmenuItemDidClick: function(actionName) {
             if (undefined !== actionName) {
                 this.sendAction(actionName);
