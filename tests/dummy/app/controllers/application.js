@@ -1,15 +1,15 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+    jstreeComponent: null,
+    
     data: [
         'Simple root node',
         {
-            'text': 'Root childless node type',
-            'type': 'single-level',
+            'text': 'Single child node',
+            'type': 'single-child',
             'children': [
-                'one child',
-                'two children',
-                'three children'
+                'one child'
             ]
         },
         {
@@ -27,20 +27,29 @@ export default Ember.Controller.extend({
         }
     ],
 
+    itemClicked: '',
+    treeReady: 'No',
+
     plugins: "checkbox, wholerow, types, contextmenu",
+    themes: {
+        'name': 'proton',
+        'responsive': true
+    },
 
     checkboxOptions: {"keep_selected_style" : false},
     typesOptions: {
-        'single-level': {
-            'icon': 'test',
-            'max_depth': '0',
+        'single-child': {
             'max_children': '1'
         }
     },
 
-    contextMenuOptions: {
+    contextmenuOptions: {
+        "show_at_node": false,
         "items" : {
-            
+            "editItem": {
+                "label": "Edit Item",
+                "action": "editItemContextmenuAction"
+            }
         }             
     },
 
@@ -49,6 +58,32 @@ export default Ember.Controller.extend({
             if(node) {
                 this.set("selectedNodes", node.text);
             }
+        },
+
+        editItemContextmenuAction: function() {
+            var self = this;
+            this.set('itemClicked', 'Edit item menu was clicked.');
+            Ember.run.later(function() {
+                self.set('itemClicked', '');
+            }, 2000);
+        },
+
+        addChildByText: function(nodeTextName) {
+            if (typeof nodeTextName !== 'string') {
+                return;
+            }
+
+            var data = this.get('data');
+            data.forEach(function(node, index) {
+                if (typeof node === 'object' && node["text"] === nodeTextName) {
+                    data[index].children.push('added child');
+                }
+            });
+            this.set(data);
+        },
+
+        treeBecameReady: function() {
+            this.set('treeReady', "Yes");
         }
     }
 });

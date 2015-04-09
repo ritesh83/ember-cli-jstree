@@ -2,6 +2,34 @@
 
 Brings [jsTree](http://www.jstree.com/) functionality into your Ember app.
 
+## Installation
+
+Ember CLI addons can be installed with `npm`
+
+	npm install ember-cli-jstree
+
+## Usage
+
+Out of the box, the bare minimum you need on the template is `data`.
+Run supported actions on the tree by registering it to your controller with the `registerJstreeComponent` property.
+
+````Handlebars
+<div class="sample-tree">
+    {{ember-jstree
+        registerJstreeComponent="jstreeComponent"
+        data=data
+        plugins=plugins
+        themes=themes
+        checkboxOptions=checkboxOptions
+        typesOptions=typesOptions
+        contextmenuOptions=contextmenuOptions
+        selectionDidChange="handleTreeSelectionChange"
+        editItemContextmenuAction="editItemContextmenuAction"
+        treeDidBecomeReady="treeBecameReady"
+    }}
+</div>
+````
+
 ## Plugins
 
 Plugins for your tree should be specified by a `plugins` string property. Multiple plugins should be
@@ -19,24 +47,8 @@ The following [plugins](http://www.jstree.com/plugins/) are currently supported.
 * Types
 * Wholerow
 
-## Installation
+## Demo
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
-
-## Running
-
-* `ember server`
+* Run `ember serve`
 * Visit your app at http://localhost:4200.
 
-## Running Tests
-
-* `ember test`
-* `ember test --server`
-
-## Building
-
-* `ember build`
-
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
