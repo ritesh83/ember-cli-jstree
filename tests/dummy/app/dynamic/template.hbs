@@ -1,0 +1,45 @@
+<div class="sample-tree">
+    {{ember-jstree
+        actionReceiver=jstreeActionReceiver
+        selectedNodes=jstreeSelectedNodes
+        data=data
+        plugins=plugins
+        themes=themes
+        checkboxOptions=checkboxOptions
+        contextmenuOptions=contextmenuOptions
+        stateOptions=stateOptions
+        typesOptions=typesOptions
+        contextMenuReportClicked="contextMenuReportClicked"
+        jstreeDidBecomeReady="handleTreeDidBecomeReady"
+    }}
+</div>
+
+<div class="info">
+    <div class="status">
+        <h2>Tree Status</h2>
+        <span {{bind-attr class=":tree-status treeReady:tree-ready:tree-not-ready"}}>Tree Ready? <strong>{{#if treeReady}}Yes{{else}}No{{/if}}</strong></span><br>
+        Last Context Item Clicked: <strong>{{lastItemClicked}}</strong>
+    </div>
+
+    <div class="selected">
+        <h2>Selected Items</h2>
+        {{#if sortedSelectedNodes}}
+            <ul>
+            {{#each node in sortedSelectedNodes}}
+                <li><strong>{{node.text}}</strong></li>
+            {{/each}}
+            </ul>
+        {{/if}}
+    </div>
+
+    <div class="actions">
+        <h2>Actions</h2>
+        <ul>
+            <li><a href="#" {{action "redraw"}}>Redraw</a></li>
+            <li><a href="#" {{action "destroy"}}>Destroy Tree</a></li>
+            <li><a href="#" {{action "addChildByText" "Single child node"}}>Add Child to (Supposedly) Single-Child Node</a> &mdash; <em>This should not work</em></li>
+            <li><a href="#" {{action "addChildByText" "Root node 2"}}>Add Child to "Root Node 2"</a> &mdash; <em>This should work</em></li> 
+        </ul>
+    </div>
+
+</div>

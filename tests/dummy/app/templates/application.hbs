@@ -1,34 +1,9 @@
 <h2 id="title">Welcome to Ember.js</h2>
 
-<div class="sample-tree">
-    {{ember-jstree
-        actionReceiver=jsTreeActionReceiver
-        data=data
-        plugins=plugins
-        themes=themes
-        checkboxOptions=checkboxOptions
-        typesOptions=typesOptions
-        contextmenuOptions=contextmenuOptions
-        selectionDidChange="handleTreeSelectionChange"
-        editItemContextmenuAction="editItemContextmenuAction"
-        treeDidBecomeReady="treeBecameReady"
-    }}
-</div>
+<h3>Sample Tables</h3>
+<ul>
+    <li>{{#link-to "dynamic"}}Dynamic (JSON-loaded){{/link-to}}</li>
+    <li>{{#link-to "static"}}Static with addons{{/link-to}}</li>
+</ul>
 
-<div class="selected-nodes">
-    Tree Ready? {{treeReady}}<br>
-    Selected: {{selectedNodes}}<br>
-    Context Item Clicked: {{itemClicked}}
-
-    <div class="actions">
-        <ul>
-            <li><a href="#" {{action "redraw"}}>Redraw</a></li>
-            <li><a href="#" {{action "destroy"}}>Destroy Tree</a></li>
-            <li><a href="#" {{action "addChildByText" "Single child node"}}>Add Child to (Supposedly) Single-Child Node</a> &mdash; <em>This should not work</em></li>
-            <li><a href="#" {{action "addChildByText" "Root node 2"}}>Add Child to "Root Node 2"</a> &mdash; <em>This should work</em></li> 
-        </ul>
-    </div>
-    
-</div>
-
-
+{{outlet}}

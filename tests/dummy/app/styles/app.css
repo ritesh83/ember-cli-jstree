@@ -3,12 +3,12 @@ body,html {
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-.selected-nodes
+.info
 {
+	line-height: 1.2em;
     position: absolute;
-    top: 75px;
+    top: 35px;
     left: 400px;
-    font-weight: bold;
 }
 
 .sample-tree {
@@ -18,4 +18,16 @@ body,html {
 	margin-right: 25px;
 	width: 350px;
 	border: 1px solid #000;
+}
+
+.tree-status {
+	transition: 0.25s linear all;
+}
+
+.tree-ready {
+	color: #090;
+}
+
+.tree-not-ready {
+	color: #900;
 }
