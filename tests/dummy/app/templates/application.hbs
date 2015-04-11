@@ -1,4 +1,3 @@
-<h2 id="title">Welcome to Ember.js</h2>
 
 <div class="sample-tree">
     {{ember-jstree
@@ -16,19 +15,20 @@
 </div>
 
 <div class="selected-nodes">
-    Tree Ready? {{treeReady}}<br>
-    Selected: {{selectedNodes}}<br>
-    Context Item Clicked: {{itemClicked}}
+    <p>Tree Ready? {{treeReady}}</p>
+    <p>Selected: {{selectedNodes}}</p>
+    <p>Context Item Clicked: {{itemClicked}}</p>
 
     <div class="actions">
-        <ul>
-            <li><a href="#" {{action "redraw"}}>Redraw</a></li>
-            <li><a href="#" {{action "destroy"}}>Destroy Tree</a></li>
-            <li><a href="#" {{action "addChildByText" "Single child node"}}>Add Child to (Supposedly) Single-Child Node</a> &mdash; <em>This should not work</em></li>
-            <li><a href="#" {{action "addChildByText" "Root node 2"}}>Add Child to "Root Node 2"</a> &mdash; <em>This should work</em></li> 
-        </ul>
+        <button href="#" {{action "redraw"}}>Redraw Tree</button>
+        <br/><br/>
+        <button href="#" {{action "destroy"}}>Destroy Tree</button>
+        <br/><br/>
+        <button href="#" {{action "addChildByText" "Single child node"}}>Add Child to (Supposedly) Single-Child Node</button> &mdash; <em>This should not work</em>
+        <br/><br/>
+        <button href="#" {{action "addChildByText" "Root node 2"}}>Add Child to "Root Node 2"</button> &mdash; <em>This should work</em>
     </div>
-    
+
 </div>
 
 

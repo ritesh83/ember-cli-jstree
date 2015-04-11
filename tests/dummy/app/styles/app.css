@@ -1,4 +1,5 @@
-body,html {
+body, html
+{
 	font-size: 0.9em;
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -11,11 +12,12 @@ body,html {
     font-weight: bold;
 }
 
-.sample-tree {
-	position:absolute:
+.sample-tree
+{
+	position: absolute;
 	top: 75px;
 	left: 25px;
 	margin-right: 25px;
 	width: 350px;
-	border: 1px solid #000;
+	border-right: 1px solid #000;
 }

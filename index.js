@@ -1,7 +1,7 @@
 /* jshint node: true */
 'use strict';
 
-var pickFiles = require('broccoli-static-compiler');
+//var pickFiles = require('broccoli-static-compiler');
 
 module.exports = {
     name: 'ember-cli-jstree',
@@ -11,17 +11,18 @@ module.exports = {
 
         app.import(app.bowerDirectory + '/jstree/dist/jstree.min.js');
         app.import(app.bowerDirectory + '/jstree/dist/themes/default/style.css');
-    },
-
-    treeForPublic: function(treeName) {
-        var tree;
-
-        tree = pickFiles(this.app.bowerDirectory + '/jstree/dist/themes/default', {
-            srcDir: '/',
-            files: ['**/*'],
-            destDir: '/assets'
-        });
-
-        return tree;
     }
+    //,
+
+    // treeForPublic: function(treeName) {
+    //     var tree;
+
+    //     tree = pickFiles(this.app.bowerDirectory + '/jstree/dist/themes/default', {
+    //         srcDir: '/',
+    //         files: ['**/*'],
+    //         destDir: '/assets'
+    //     });
+
+    //     return tree;
+    // }
 };

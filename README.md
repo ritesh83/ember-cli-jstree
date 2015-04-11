@@ -51,6 +51,9 @@ The following [plugins](http://www.jstree.com/plugins/) are currently supported.
 
 ## Demo
 
+* git clone this repo
+* npm install
+* bower install
 * Run `ember serve`
 * Visit your app at http://localhost:4200.
 
