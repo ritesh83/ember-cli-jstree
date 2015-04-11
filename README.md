@@ -2,11 +2,13 @@
 
 Brings [jsTree](http://www.jstree.com/) functionality into your Ember app.
 
+*Works with ember-cli <= 0.2.1.*
+
 ## Installation
 
 Ember CLI addons can be installed with `npm`
 
-	npm install ember-cli-jstree
+	ember install:addon ember-cli-jstree
 
 ## Usage
 

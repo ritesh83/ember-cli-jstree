@@ -40,16 +40,14 @@ export default Ember.Component.extend(InboundActions, {
             configObject["core"]["themes"] = themes;
         }
 
-        var plugins = this.get('plugins');
-        var pluginsArray = [];
-        if (plugins && typeof plugins === "string") {
-            pluginsArray = plugins.replace(/ /g, '').split(',');
-            configObject["plugins"] = plugins.replace(/ /g, '').split(',');
+        var pluginsArray = this.get('plugins');
+        if(pluginsArray) {
+            pluginsArray = pluginsArray.replace(/ /g, '').split(',');
+            configObject["plugins"] = pluginsArray;
 
             if (pluginsArray.indexOf("contextmenu") !== -1 ||
                 pluginsArray.indexOf("dnd") !== -1 ||
                 pluginsArray.indexOf("unique") !== -1) {
-
                 // These plugins need core.check_callback
                 configObject["core"]["check_callback"] = true;
             }
@@ -227,5 +225,5 @@ export default Ember.Component.extend(InboundActions, {
             }
         }
     }
-    
+
 });
