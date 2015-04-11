@@ -42,6 +42,7 @@ in your controller.
     [...]
     eventDidChange="handleJstreeEventDidChange"
 }}
+````
 
 ### Supported events
 
@@ -85,6 +86,30 @@ The following [plugins](http://www.jstree.com/plugins/) are currently supported.
 * State
 * Types
 * Wholerow
+
+### Configuring plugins
+
+Send a hash containing the jsTree options through to the addon through the `<plugin name>Options` key.
+
+In your **controller**:
+
+````Javascript
+jstreeStateOptionHash: {
+    'key': 'ember-cli-jstree-dummy'
+},
+plugins: ['state']
+````
+
+In **Handlebars**:
+
+````Handlebars
+{{ember-jstree
+    [...]
+    plugins=plugins
+    stateOptions=jstreeStateOptionHash
+}}
+````
+
 
 ## Sending actions to jsTree
 
