@@ -2,23 +2,19 @@
     {{ember-jstree
         actionReceiver=jstreeActionReceiver
         selectedNodes=jstreeSelectedNodes
+        themes=themes
         data=data
         plugins=plugins
-        themes=themes
-        checkboxOptions=checkboxOptions
-        contextmenuOptions=contextmenuOptions
-        stateOptions=stateOptions
-        typesOptions=typesOptions
         contextMenuReportClicked="contextMenuReportClicked"
-        jstreeDidBecomeReady="handleTreeDidBecomeReady"
+        eventDidBecomeReady="handleTreeDidBecomeReady"
     }}
 </div>
 
 <div class="info">
     <div class="status">
         <h2>Tree Status</h2>
-        <span {{bind-attr class=":tree-status treeReady:tree-ready:tree-not-ready"}}>Tree Ready? <strong>{{#if treeReady}}Yes{{else}}No{{/if}}</strong></span><br>
-        Last Context Item Clicked: <strong>{{lastItemClicked}}</strong>
+        <p {{bind-attr class=":tree-status treeReady:tree-ready:tree-not-ready"}}>Tree Ready? <strong>{{#if treeReady}}Yes{{else}}No{{/if}}</strong></p>
+        <p>Last Context Item Clicked: <strong>{{lastItemClicked}}</strong></p>
     </div>
 
     <div class="selected">
@@ -34,12 +30,9 @@
 
     <div class="actions">
         <h2>Actions</h2>
-        <ul>
-            <li><a href="#" {{action "redraw"}}>Redraw</a></li>
-            <li><a href="#" {{action "destroy"}}>Destroy Tree</a></li>
-            <li><a href="#" {{action "addChildByText" "Single child node"}}>Add Child to (Supposedly) Single-Child Node</a> &mdash; <em>This should not work</em></li>
-            <li><a href="#" {{action "addChildByText" "Root node 2"}}>Add Child to "Root Node 2"</a> &mdash; <em>This should work</em></li> 
-        </ul>
+        <button {{action "redraw"}}>Redraw</button>
+        <br><br>
+        <button {{action "destroy"}}>Destroy</button>
     </div>
 
 </div>

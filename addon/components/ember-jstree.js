@@ -3,16 +3,26 @@
 import Ember from 'ember';
 import InboundActions from 'ember-component-inbound-actions/inbound-actions';
 
+/**
+    ember-cli-jstree
+**/
 export default Ember.Component.extend(InboundActions, {
+    // Properties for Ember communication
     actionReceiver: null,
     currentNode: null,
+    selectedNodes: null,
+
+    // Basic configuration objects
     data: null,
     plugins: null,
     themes: null,
+    checkCallback: true,
+
+    // Plugin option objects
     checkboxOptions: null,
     contextmenuOptions: null,
     typesOptions: null,
-    selectedNodes: null,
+
     selectionDidChange: null,
     treeObject: null,
 
@@ -22,7 +32,7 @@ export default Ember.Component.extend(InboundActions, {
 
         configObject["core"] = {
             "data": this.get('data'),
-            "check_callback": true
+            "check_callback": this.get('checkCallback')
         };
 
         var themes = this.get('themes');
@@ -30,14 +40,19 @@ export default Ember.Component.extend(InboundActions, {
             configObject["core"]["themes"] = themes;
         }
 
-        var pluginsArray = this.get('plugins').replace(/ /g, '').split(',');
-        configObject["plugins"] = pluginsArray;
+        var plugins = this.get('plugins');
+        var pluginsArray = [];
+        if (plugins && typeof plugins === "string") {
+            pluginsArray = plugins.replace(/ /g, '').split(',');
+            configObject["plugins"] = plugins.replace(/ /g, '').split(',');
 
-        if (pluginsArray.indexOf("contextmenu") !== -1 ||
-            pluginsArray.indexOf("dnd") !== -1 ||
-            pluginsArray.indexOf("unique") !== -1) {
-            // These plugins need core.check_callback
-            configObject["core"]["check_callback"] = true;
+            if (pluginsArray.indexOf("contextmenu") !== -1 ||
+                pluginsArray.indexOf("dnd") !== -1 ||
+                pluginsArray.indexOf("unique") !== -1) {
+
+                // These plugins need core.check_callback
+                configObject["core"]["check_callback"] = true;
+            }
         }
 
         var checkboxOptions = this.get('checkboxOptions');
@@ -57,9 +72,7 @@ export default Ember.Component.extend(InboundActions, {
 
         var contextmenuOptions = this.get('contextmenuOptions');
 
-        /*
-         * This has eventually got to go. It's terrible.
-         */
+        // This has eventually got to go. It's terrible.
         if (contextmenuOptions && pluginsArray.indexOf("contextmenu") !== -1) {
             // Remap action hash to functions and don't forget to pass node through
             if (typeof contextmenuOptions["items"] === "object") {
@@ -99,20 +112,57 @@ export default Ember.Component.extend(InboundActions, {
         }
 
         var treeObject = this.$().jstree(configObject);
+
+        /**
+            Register all sorts of events
+            TODO: This should eventually encompass all of the jsTree events declared
+              in their API.
+        */
+
+        /**
+            Event: init.jstree
+            Action: jstreeDidInit
+            triggered after all events are bound
+        **/
+        treeObject.on('init.jstree', function() {
+            this.sendAction('eventDidInit');
+        }.bind(this));
+
+        /**
+            Event: ready.jstree
+            Action: jstreeDidBecomeReady
+            triggered after all nodes are finished loading
+        **/
+        treeObject.on('ready.jstree', function() {
+            this.sendAction('eventDidBecomeReady');
+        }.bind(this));
+
+        /**
+            Event: redraw.jstree
+            Action: jstreeDidRedraw
+            triggered after nodes are redrawn
+        **/
+        treeObject.on('redraw.jstree', function() {
+            this.sendAction('eventDidRedraw');
+        }.bind(this));
+
+        /**
+            Event: changed.jstree
+            Action: jstreeDidChange
+            triggered when selection changes
+        **/
         treeObject.on('changed.jstree', function (e, data) {
-            this.sendAction("jstreeDidChange", data);
+            this.sendAction('eventDidChange', data);
 
             // Check if selection changed
             var selectionChangedEventNames = ["model", "select_node", "deselect_node", "select_all", "deselect_all"];
             if (data.action && selectionChangedEventNames.indexOf(data.action) !== -1) {
                 var selNodes = Ember.A(this.get('treeObject').jstree(true).get_selected(true));
-                this.set("selectedNodes", selNodes);
+                this.set('selectedNodes', selNodes);
             }
+        }.bind(this));
 
-        }.bind(this));
-        treeObject.on('ready.jstree', function() {
-            this.sendAction("jstreeDidBecomeReady");
-        }.bind(this));
+        
 
         this.set('treeObject', treeObject);
     },
@@ -141,6 +191,32 @@ export default Ember.Component.extend(InboundActions, {
             var o = this.get('treeObject');
             if (null !== o) {
                 o.jstree(true).destroy();
+            }
+        },
+
+        getNode: function(nodeId) {
+            if (typeof nodeId !== "string") {
+                throw new Error('getNode() requires a node ID to be passed to it to return the node!');
+            } 
+
+            var o = this.get('treeObject');
+            if (null !== o) {
+                this.sendAction('actionGetNode', o.jstree(true).get_node(nodeId));
+            }
+        },
+
+        getContainer: function() {
+            var o = this.get('treeObject');
+            if (null !== o) {
+                this.sendAction('actionGetContainer', o.jstree(true).get_container());
+            }
+        },
+
+        getParent: function(obj) {
+            obj = obj || "#";
+            var o = this.get('treeObject');
+            if (null !== o) {
+                this.sendAction('actionGetParent', o.jstree(true).get_parent(obj));
             }
         },
 

@@ -26,27 +26,37 @@ Run supported actions on the tree by registering it to your controller with the 
         stateOptions=stateOptions
         typesOptions=typesOptions
         contextMenuReportClicked="contextMenuReportClicked"
-        jstreeDidBecomeReady="handleTreeDidBecomeReady"
+        eventDidBecomeReady="handleTreeDidBecomeReady"
     }}
 </div>
 ````
 
 ## Event Handling
 
-Events must be bound using the view helper.
+The addon listens for events from jstree and sends them back to you using actions bound
+to the Handlebars template. Simply set the property to the string name of the action
+in your controller.
+
+````Handlebars
+{{ember-jstree
+    [...]
+    eventDidChange="handleJstreeEventDidChange"
+}}
 
 ### Supported events
 
-The following events have basic support included. More are on the way
+The following events have basic support included. More are on the way.
 
-| jsTree Event   | Ember Action         |
-|----------------|----------------------|
-| ready.jstree   | jstreeDidBecomeReady |
-| changed.jstree | jstreeDidChange      |
+| jsTree Event   | Ember Action        |
+|----------------|---------------------|
+| changed.jstree | eventDidChange      |
+| init.jstree    | eventDidInit        |
+| ready.jstree   | eventDidBecomeReady |
+| redraw.jstree  | eventDidRedraw      |
 
 ### Selected nodes
 
-Selected nodes are always available through `selectedNodes`.
+Selected nodes are always available through the `selectedNodes` property
 
 ## Plugins
 
@@ -79,21 +89,53 @@ The following [plugins](http://www.jstree.com/plugins/) are currently supported.
 ## Sending actions to jsTree
 
 The addon component will try to register an `actionReceiver` (see view helper example) to a property in
-your controller if you define it. You can then send actions using:
+your controller if you define it. You can then send actions through that bound property:
 
 ````Javascript
 this.get('jstreeActionReceiver').send('redraw');
 ````
 
+**Note:** Action names in Ember are camelized (e.g.: `get_node()` in jsTree is mapped to `getNode()` in Ember).
+
+If the corresponding jsTree method has a return value, the addon will send an action with the name corresponding
+to supported actions in the table below. Because the addon actually calls these jsTree events, if any events
+occur because of an action, they will be sent as actions (see Event Handling above).
+
 ### Supported actions
 
-* redraw
-* destroy
+| jsTree Action     | Ember Action      | Return Action      |
+|-------------------|-------------------|--------------------|
+| destroy           | destroy           |                    |
+| get_container     | getContainer      | actionGetContainer |
+| get_node(id)      | getNode(id)       | actionGetNode      |
+| get_parent(obj)   | getParent(obj)    | actionGetParent    |
+| redraw            | redraw            |                    |
+
+### Receiving return values
+
+In your Handlebars component, map the return action (as above, most of which follow the pattern `action<action name>`):
+
+````Handlebars
+{{ember-jstree
+    [...]
+    actionGetNode="handleJstreeGetNode"
+}}
+````
+
+Any params that jsTree returns will be given in the order specified by its API.
+
+````Javascript
+actionGetNode: function (node) {
+    this.set('someValue', node);
+}
+````
 
 ## Demo
 
 Both dynamic (AJAX loaded) and static examples are in the dummy demo.
 
+* Clone this repo: `git clone`
+* Install packages: `npm install` then `bower install`
 * Run `ember serve`
-* Visit your app at http://localhost:4200.
+* Visit the sample app at http://localhost:4200.
 

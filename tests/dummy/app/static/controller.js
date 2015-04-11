@@ -3,6 +3,9 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
     jstreeActionReceiver: null,
     jstreeSelectedNodes: Ember.A(),
+    jstreeBuffer: null,
+    jsonifiedBuffer: '<No output>',
+
     sortedSelectedNodes: Ember.computed.sort('jstreeSelectedNodes', function(a, b) {
         if (a.text > b.text) {
             return 1;
@@ -23,6 +26,7 @@ export default Ember.Controller.extend({
             ]
         },
         {
+            'id': 'rn2',
             'text' : 'Root node 2',
             'state' : {
                 'opened' : true,
@@ -68,6 +72,16 @@ export default Ember.Controller.extend({
         }             
     },
 
+    _jsonifyBuffer: function() {
+        var b = this.get('jstreeBuffer');
+
+        if (null !== b) {
+            this.set('jsonifiedBuffer', JSON.stringify(b));
+        } else {
+            this.set('jsonifiedBuffer', '<No output>');
+        }
+    }.observes('jstreeBuffer'),
+
     actions: {
 
         redraw: function() {
@@ -78,8 +92,12 @@ export default Ember.Controller.extend({
             this.get('jstreeActionReceiver').send('destroy');
         },
 
-        handleTreeSelectionDidChange: function(data) {
-            var selected = this.get('jsTreeActionReceiver').send('getSelected');
+        getNode: function(nodeId) {
+            this.get('jstreeActionReceiver').send('getNode', nodeId);
+        },
+
+        handleGetNode: function(node) {
+            this.set('jstreeBuffer', node);
         },
 
         contextMenuReportClicked: function(node, tree) {
@@ -99,6 +117,7 @@ export default Ember.Controller.extend({
                 }
             });
             this.set(data);
+            this.send('redraw');
         },
 
         handleTreeDidBecomeReady: function() {

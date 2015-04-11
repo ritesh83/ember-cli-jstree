@@ -27,32 +27,11 @@ export default Ember.Controller.extend({
     lastItemClicked: '',
     treeReady: false,
 
-    plugins: "checkbox, wholerow, state, types, contextmenu",
+
+    plugins: "wholerow",
     themes: {
-        'name': 'default',
+        'name': 'default-dark',
         'responsive': true
-    },
-
-    checkboxOptions: {"keep_selected_style" : false},
-
-    stateOptions: {
-        'key': 'ember-cli-jstree-dummy'
-    },
-
-    typesOptions: {
-        'single-child': {
-            'max_children': '1'
-        }
-    },
-
-    contextmenuOptions: {
-        "show_at_node": false,
-        "items" : {
-            "reportClicked": {
-                "label": "Report Clicked",
-                "action": "contextMenuReportClicked"
-            }
-        }             
     },
 
     actions: {
