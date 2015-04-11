@@ -1,34 +1,4 @@
+<h2>Sample Tables</h2>
+<p>{{#link-to "static"}}Static with addons{{/link-to}} &bull; {{#link-to "dynamic"}}Dynamic (AJAX-loaded){{/link-to}}</p>
 
-<div class="sample-tree">
-    {{ember-jstree
-        actionReceiver=jsTreeActionReceiver
-        data=data
-        plugins=plugins
-        themes=themes
-        checkboxOptions=checkboxOptions
-        typesOptions=typesOptions
-        contextmenuOptions=contextmenuOptions
-        selectionDidChange="handleTreeSelectionChange"
-        editItemContextmenuAction="editItemContextmenuAction"
-        treeDidBecomeReady="treeBecameReady"
-    }}
-</div>
-
-<div class="selected-nodes">
-    <p>Tree Ready? {{treeReady}}</p>
-    <p>Selected: {{selectedNodes}}</p>
-    <p>Context Item Clicked: {{itemClicked}}</p>
-
-    <div class="actions">
-        <button href="#" {{action "redraw"}}>Redraw Tree</button>
-        <br/><br/>
-        <button href="#" {{action "destroy"}}>Destroy Tree</button>
-        <br/><br/>
-        <button href="#" {{action "addChildByText" "Single child node"}}>Add Child to (Supposedly) Single-Child Node</button> &mdash; <em>This should not work</em>
-        <br/><br/>
-        <button href="#" {{action "addChildByText" "Root node 2"}}>Add Child to "Root Node 2"</button> &mdash; <em>This should work</em>
-    </div>
-
-</div>
-
-
+{{outlet}}

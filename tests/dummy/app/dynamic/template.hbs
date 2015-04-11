@@ -1,0 +1,38 @@
+<div class="sample-tree">
+    {{ember-jstree
+        actionReceiver=jstreeActionReceiver
+        selectedNodes=jstreeSelectedNodes
+        themes=themes
+        data=data
+        plugins=plugins
+        contextMenuReportClicked="contextMenuReportClicked"
+        eventDidBecomeReady="handleTreeDidBecomeReady"
+    }}
+</div>
+
+<div class="info">
+    <div class="status">
+        <h2>Tree Status</h2>
+        <p {{bind-attr class=":tree-status treeReady:tree-ready:tree-not-ready"}}>Tree Ready? <strong>{{#if treeReady}}Yes{{else}}No{{/if}}</strong></p>
+        <p>Last Context Item Clicked: <strong>{{lastItemClicked}}</strong></p>
+    </div>
+
+    <div class="selected">
+        <h2>Selected Items</h2>
+        {{#if sortedSelectedNodes}}
+            <ul>
+            {{#each node in sortedSelectedNodes}}
+                <li><strong>{{node.text}}</strong></li>
+            {{/each}}
+            </ul>
+        {{/if}}
+    </div>
+
+    <div class="actions">
+        <h2>Actions</h2>
+        <button {{action "redraw"}}>Redraw</button>
+        <br><br>
+        <button {{action "destroy"}}>Destroy</button>
+    </div>
+
+</div>

@@ -4,20 +4,41 @@ body, html
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-.selected-nodes
+.info
 {
+	line-height: 1.2em;
     position: absolute;
-    top: 75px;
+    top: 60px;
     left: 400px;
-    font-weight: bold;
+    padding-left: 20px;
+    border-left: 1px solid #ccc;
 }
 
 .sample-tree
 {
 	position: absolute;
-	top: 75px;
+	top: 100px;
 	left: 25px;
 	margin-right: 25px;
 	width: 350px;
-	border-right: 1px solid #000;
+}
+
+.tree-status {
+	transition: 0.25s linear all;
+}
+
+.tree-ready {
+	color: #090;
+}
+
+.tree-not-ready {
+	color: #900;
+}
+
+.buffer pre {
+	font-size: 1.2em;
+	width: 380px;
+	padding: 10px;
+	border: 1px solid #ccc;
+	word-wrap: break-word;
 }
