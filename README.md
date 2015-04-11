@@ -64,14 +64,6 @@ Selected nodes are always available through the `selectedNodes` property
 Plugins for your tree should be specified by a `plugins` string property. Multiple plugins should be
 separated with commas.
 
-````Javascript
-export default Ember.Controller.extend({
-	"plugins": "checkbox, wholerow"
-});
-````
-
-Don't forget to include this as part of the helper:
-
 ````Handlebars
 {{ember-jstree
     data=data
@@ -97,7 +89,7 @@ In your **controller**:
 jstreeStateOptionHash: {
     'key': 'ember-cli-jstree-dummy'
 },
-plugins: ['state']
+plugins: 'state'
 ````
 
 In **Handlebars**:
@@ -109,7 +101,6 @@ In **Handlebars**:
     stateOptions=jstreeStateOptionHash
 }}
 ````
-
 
 ## Sending actions to jsTree
 
