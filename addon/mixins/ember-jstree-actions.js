@@ -139,7 +139,9 @@ export default Ember.Mixin.create({
         lastError: function() {
             var o = this.get('treeObject');
             if (null !== o) {
-                this.sendAction('actionLastError', o.jstree(true).last_error());
+                var e = o.jstree(true).last_error();
+                this.set('_lastError', e);
+                this.sendAction('actionLastError', e);
             }
         }
     }
