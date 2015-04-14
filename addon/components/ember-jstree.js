@@ -153,14 +153,16 @@ export default Ember.Component.extend(InboundActions, {
             this.sendAction('eventDidChange', data);
 
             // Check if selection changed
-            var selectionChangedEventNames = ["model", "select_node", "deselect_node", "select_all", "deselect_all"];
-            if (data.action && selectionChangedEventNames.indexOf(data.action) !== -1) {
-                var selNodes = Ember.A(this.get('treeObject').jstree(true).get_selected(true));
-                this.set('selectedNodes', selNodes);
+            if(this.get('treeObject')) {
+                var selectionChangedEventNames = ["model", "select_node", "deselect_node", "select_all", "deselect_all"];
+                if (data.action && selectionChangedEventNames.indexOf(data.action) !== -1) {
+                    var selNodes = Ember.A(this.get('treeObject').jstree(true).get_selected(true));
+                    this.set('selectedNodes', selNodes);
+                }
             }
         }.bind(this));
 
-        
+
 
         this.set('treeObject', treeObject);
     },
