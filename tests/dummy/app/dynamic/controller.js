@@ -30,7 +30,7 @@ export default Ember.Controller.extend({
 
     plugins: "wholerow",
     themes: {
-        'name': 'default-dark',
+        'name': 'default',
         'responsive': true
     },
 
