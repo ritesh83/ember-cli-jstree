@@ -3,9 +3,8 @@
 import Ember from 'ember';
 import InboundActions from 'ember-component-inbound-actions/inbound-actions';
 import EmberJstreeActions from 'ember-cli-jstree/mixins/ember-jstree-actions';
-import EmberJstreeEvents from 'ember-cli-jstree/mixins/ember-jstree-events';
 
-export default Ember.Component.extend(InboundActions, EmberJstreeActions, EmberJstreeEvents, {
+export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     // Properties for Ember communication
     actionReceiver:       null,
     currentNode:          null,
@@ -27,9 +26,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, EmberJ
 
     didInsertElement: function() {
         var treeObject = this._setupJsTree();
-
-        EmberJstreeEvents._setupEventHandlers(treeObject);
-
+        this._setupEventHandlers(treeObject);
         this.set('treeObject', treeObject);
     },
 
@@ -139,6 +136,66 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, EmberJ
             // Pass options back into the config object
             return contextmenuOptions;
         }
+    },
+
+    /**
+     * Register all sorts of events
+     * TODO: This should eventually encompass all of the jsTree events declared in their API.
+     *
+     * @method _setupEventHandlers
+     * @param  {Object}
+     * @return
+     */
+    _setupEventHandlers: function(treeObject) {
+
+        if (typeof treeObject !== 'object') {
+            throw new Error('You must pass a valid jsTree object to set up its event handlers');
+        }
+
+        /*
+          Event: init.jstree
+          Action: jstreeDidInit
+          triggered after all events are bound
+        */
+        treeObject.on('init.jstree', function() {
+            this.sendAction('eventDidInit');
+        }.bind(this));
+
+        /*
+          Event: ready.jstree
+          Action: jstreeDidBecomeReady
+          triggered after all nodes are finished loading
+        */
+        treeObject.on('ready.jstree', function() {
+            this.sendAction('eventDidBecomeReady');
+        }.bind(this));
+
+        /*
+          Event: redraw.jstree
+          Action: jstreeDidRedraw
+          triggered after nodes are redrawn
+        */
+        treeObject.on('redraw.jstree', function() {
+            this.sendAction('eventDidRedraw');
+        }.bind(this));
+
+        /*
+          Event: changed.jstree
+          Action: jstreeDidChange
+          triggered when selection changes
+        */
+        treeObject.on('changed.jstree', function (e, data) {
+            this.sendAction('eventDidChange', data);
+
+            // Check if selection changed
+            if(this.get('treeObject')) {
+                var selectionChangedEventNames = ["model", "select_node", "deselect_node", "select_all", "deselect_all"];
+                if (data.action && selectionChangedEventNames.indexOf(data.action) !== -1) {
+                    var selNodes = Ember.A(this.get('treeObject').jstree(true).get_selected(true));
+                    this.set('selectedNodes', selNodes);
+                }
+            }
+        }.bind(this));
     },
 
     /**
