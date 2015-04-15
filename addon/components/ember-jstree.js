@@ -5,7 +5,7 @@ import InboundActions from 'ember-component-inbound-actions/inbound-actions';
 import EmberJstreeActions from 'ember-cli-jstree/mixins/ember-jstree-actions';
 import EmberJstreeEvents from 'ember-cli-jstree/mixins/ember-jstree-events';
 
-export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
+export default Ember.Component.extend(InboundActions, EmberJstreeActions, EmberJstreeEvents, {
     // Properties for Ember communication
     actionReceiver:       null,
     currentNode:          null,
@@ -28,7 +28,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     didInsertElement: function() {
         var treeObject = this._setupJsTree();
 
-        this._setupEventHandlers(treeObject);
+        EmberJstreeEvents._setupEventHandlers(treeObject);
 
         this.set('treeObject', treeObject);
     },
