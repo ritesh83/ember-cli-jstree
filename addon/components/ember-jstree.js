@@ -2,8 +2,9 @@
 
 import Ember from 'ember';
 import InboundActions from 'ember-component-inbound-actions/inbound-actions';
+import EmberJstreeActions from 'ember-cli-jstree/mixins/ember-jstree-actions';
 
-export default Ember.Component.extend(InboundActions, {
+export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     // Properties for Ember communication
     actionReceiver:       null,
     currentNode:          null,
@@ -31,9 +32,14 @@ export default Ember.Component.extend(InboundActions, {
         this.set('treeObject', treeObject);
     },
 
+    /**
+    * Main setup function that registers all the plugins and sets up the core
+    * configuration object for jsTree
+    *
+    * @method _setupJsTree
+    */
     _setupJsTree: function() {
         var configObject = {};
-        var self = this;
 
         configObject["core"] = {
             "data": this.get('data'),
@@ -72,14 +78,27 @@ export default Ember.Component.extend(InboundActions, {
                 configObject["types"] = typesOptions;
             }
 
-            this._setupContextMenus(pluginsArray);
+            configObject["contextmenu"] = this._setupContextMenus(pluginsArray);
         }
 
         return this.$().jstree(configObject);
     },
 
-    _setupContextMenus: function() {
+    /**
+     * We essentially need to hijack the jstree contextmenu plugin in order for us
+     * to do messaging between this Ember addon/component and jstree
+     *
+     * @method _setupContextMenus
+     * @param  {Array} pluginsArray Array of plugins to be used
+     * @return {Array} An Array of Ember-friendly options to pass back into the config object
+     */
+    _setupContextMenus: function(pluginsArray) {
         var contextmenuOptions = this.get('contextmenuOptions');
+        var self = this;
+        
+        if (null === pluginsArray) {
+            return;
+        }
 
         // This has eventually got to go. It's terrible.
         if (contextmenuOptions && pluginsArray.indexOf("contextmenu") !== -1) {
@@ -116,8 +135,8 @@ export default Ember.Component.extend(InboundActions, {
 
             }
 
-            // Pass options into the config object
-            configObject["contextmenu"] = contextmenuOptions;
+            // Pass options back into the config object
+            return contextmenuOptions;
         }
     },
 
@@ -127,8 +146,14 @@ export default Ember.Component.extend(InboundActions, {
      *
      * @method _setupEventHandlers
      * @param  {Object}
+     * @return
      */
     _setupEventHandlers: function(treeObject) {
+
+        if (typeof treeObject !== 'object') {
+            throw new Error('You must pass a valid jsTree object to set up its event handlers');
+        }
+
         /*
           Event: init.jstree
           Action: jstreeDidInit
@@ -175,11 +200,13 @@ export default Ember.Component.extend(InboundActions, {
         }.bind(this));
     },
 
-    willDestroyElement: function() {
-
-    },
-
-    _redrawTree: function() {
+    /**
+     * Refreshes the data in the tree
+     * TODO: Investigate why redraw(true) doesn't work...
+     *
+     * @method _redrawTree
+     */
+    _refreshTree: function() {
         var o = this.get('treeObject');
         var t = o.jstree(true);
         if (null !== t) {
@@ -194,43 +221,6 @@ export default Ember.Component.extend(InboundActions, {
     },
 
     actions: {
-
-        redraw: function() {
-            this._redrawTree();
-        },
-
-        destroy: function() {
-            var o = this.get('treeObject');
-            if (null !== o) {
-                o.jstree(true).destroy();
-            }
-        },
-
-        getNode: function(nodeId) {
-            if (typeof nodeId !== "string") {
-                throw new Error('getNode() requires a node ID to be passed to it to return the node!');
-            }
-
-            var o = this.get('treeObject');
-            if (null !== o) {
-                this.sendAction('actionGetNode', o.jstree(true).get_node(nodeId));
-            }
-        },
-
-        getContainer: function() {
-            var o = this.get('treeObject');
-            if (null !== o) {
-                this.sendAction('actionGetContainer', o.jstree(true).get_container());
-            }
-        },
-
-        getParent: function(obj) {
-            obj = obj || "#";
-            var o = this.get('treeObject');
-            if (null !== o) {
-                this.sendAction('actionGetParent', o.jstree(true).get_parent(obj));
-            }
-        },
 
         contextmenuItemDidClick: function(actionName, node) {
             var tree = this.get('getTree');

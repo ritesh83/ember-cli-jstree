@@ -30,7 +30,7 @@ export default Ember.Controller.extend({
 
     plugins: "wholerow",
     themes: {
-        'name': 'default-dark',
+        'name': 'default',
         'responsive': true
     },
 
@@ -50,7 +50,7 @@ export default Ember.Controller.extend({
 
         contextMenuReportClicked: function(node, tree) {
             var self = this;
-            this.set('lastItemClicked', '"Report" item for node: <' + node.text + '> was clicked.');
+            // this.set('lastItemClicked', '"Report" item for node: <' + node.text + '> was clicked.');
         },
 
         addChildByText: function(nodeTextName) {

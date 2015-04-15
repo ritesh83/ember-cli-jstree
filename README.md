@@ -43,6 +43,7 @@ in your controller.
 {{ember-jstree
     [...]
     eventDidChange="handleJstreeEventDidChange"
+    treeObject="jstreeObject"
 }}
 ````
 
@@ -56,6 +57,18 @@ The following events have basic support included. More are on the way.
 | init.jstree    | eventDidInit        |
 | ready.jstree   | eventDidBecomeReady |
 | redraw.jstree  | eventDidRedraw      |
+
+**Note:** In the meantime, you can add event listeners yourself by calling them on a mapped `treeObject` property.
+
+````Javascript
+_handleOpenNode: function() {
+    var treeObject = this.get('jstreeObject');
+    treeObject.on('open_node.jstree', function(e, data) {
+        console.info('A node was opened.');
+        console.log(data);
+    }.bind(this));
+}
+````
 
 ### Selected nodes
 
@@ -121,13 +134,26 @@ occur because of an action, they will be sent as actions (see Event Handling abo
 
 ### Supported actions
 
-| jsTree Action     | Ember Action      | Return Action      |
-|-------------------|-------------------|--------------------|
-| destroy           | destroy           |                    |
-| get_container     | getContainer      | actionGetContainer |
-| get_node(id)      | getNode(id)       | actionGetNode      |
-| get_parent(obj)   | getParent(obj)    | actionGetParent    |
-| redraw            | redraw            |                    |
+| jsTree Action     | Ember Action      | Return Action         |
+|-------------------|-------------------|-----------------------|
+| close_all         | closeAll          |                       |
+| close_node        | closeNode         |                       |
+| create_node       | createNode        | actionCreateNode      |
+| delete_node       | deleteNode        | actionDeleteNode      |
+| destroy           | destroy           |                       |
+| get_children_dom  | getChildrenDom    | actionGetChildrenDom  |
+| get_container     | getContainer      | actionGetContainer    |
+| get_node          | getNode           | actionGetNode         |
+| get_parent        | getParent         | actionGetParent       |
+| get_path          | getPath           | actionGetPath         |
+| last_error        | lastError         | actionLastError       |
+| load_all          | loadAll           | actionLoadAll         |
+| load_node         | loadNode          | actionLoadNode        |
+| open_all          | openAll           |                       |
+| open_node         | openNode          |                       |
+| redraw            | redraw            |                       |
+| rename_node       | renameNode        | actionRenameNode      |
+| toggle_node       | toggleNode        |                       |
 
 ### Receiving return values
 
