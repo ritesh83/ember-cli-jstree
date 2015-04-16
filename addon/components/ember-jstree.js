@@ -37,7 +37,8 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     * @method _setupJsTree
     */
     _setupJsTree: function() {
-        var configObject = {};
+        var configObject = {},
+            self = this;
 
         configObject["core"] = {
             "data": this.get('data'),
@@ -79,7 +80,9 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
             configObject["contextmenu"] = this._setupContextMenus(pluginsArray);
         }
 
-        return this.$().jstree(configObject);
+        return Ember.run(function() {
+            return self.$().jstree(configObject);
+        });
     },
 
     /**
@@ -188,7 +191,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
             this.sendAction('eventDidChange', data);
 
             // Check if selection changed
-            if(this.get('treeObject')) {
+            if(this.get('treeObject') && !(this.get('isDestroyed') || this.get('isDestroying'))) {
                 var selectionChangedEventNames = ["model", "select_node", "deselect_node", "select_all", "deselect_all"];
                 if (data.action && selectionChangedEventNames.indexOf(data.action) !== -1) {
                     var selNodes = Ember.A(this.get('treeObject').jstree(true).get_selected(true));
