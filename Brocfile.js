@@ -2,6 +2,7 @@
 /* global require, module */
 
 var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
+var Funnel = require('broccoli-funnel');
 
 var app = new EmberAddon();
 
@@ -18,4 +19,11 @@ var app = new EmberAddon();
 // please specify an object with the list of modules as keys
 // along with the exports of each module as its value.
 
-module.exports = app.toTree();
+var dummyAssets = new Funnel('bower_components/jstree/dist/themes/default', {
+    srcDir: '/',
+    include: ['**/*'],
+    destDir: '/assets'
+});
+
+
+module.exports = app.toTree(dummyAssets);
