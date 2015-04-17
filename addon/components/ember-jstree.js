@@ -32,6 +32,19 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         this.set('treeObject', treeObject);
     },
 
+    searchCallback: function(str, node) {
+        if(typeof node.original === 'object') {
+            if(node.original[this.search_property]) {
+               var propValue = node.original[this.search_property];
+               if(propValue === str) {
+                  return true;
+               }
+            }
+        }
+
+        return false;
+    },
+
     /**
     * Main setup function that registers all the plugins and sets up the core
     * configuration object for jsTree
@@ -79,6 +92,8 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
             }
 
             configObject["contextmenu"] = this._setupContextMenus(pluginsArray);
+
+            configObject["search"] = {"search_callback" : this.searchCallback.bind(this)};
         }
 
         return this.$().jstree(configObject);
