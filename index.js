@@ -1,6 +1,8 @@
 /* jshint node: true */
 'use strict';
 
+var Funnel = require('broccoli-funnel');
+
 module.exports = {
     name: 'ember-cli-jstree',
 
@@ -10,12 +12,10 @@ module.exports = {
         app.import(app.bowerDirectory + '/jstree/dist/themes/default/style.css');
     },
 
-    treeForPublic: function(treeName) {
+    treeForPublic: function() {
         this._requireBuildPackages();
 
-        var tree;
-
-        tree = this.pickFiles(this.app.bowerDirectory + '/jstree/dist/themes/default', {
+        var tree = new Funnel(this.app.bowerDirectory + '/jstree/dist/themes/default', {
             srcDir: '/',
             files: ['**/*'],
             destDir: '/assets'
