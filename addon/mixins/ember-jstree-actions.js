@@ -24,6 +24,7 @@ export default Ember.Mixin.create({
             if (null !== o) {
                 o.jstree(true).destroy();
             }
+            this.sendAction('eventDidDestroy');
         },
 
         getNode: function(nodeId) {

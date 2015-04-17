@@ -63,6 +63,7 @@ The following events have basic support included. More are on the way.
 | ready.jstree          | eventDidBecomeReady   |
 | redraw.jstree         | eventDidRedraw        |
 | select_node.jstree    | eventDidSelectNode    |
+|(destroyed - no event) | eventDidDestroy       |
 
 **Note:** In the meantime, you can add event listeners yourself by calling them on a mapped `treeObject` property.
 

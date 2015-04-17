@@ -28,6 +28,11 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         this._setupJsTree();
     },
 
+    willDestroyElement: function() {
+        this.get('treeObject').jstree(true).destroy();
+        this.sendAction('eventDidDestroy');
+    },
+
     searchCallback: function(str, node) {
         if(typeof node.original === 'object') {
             if(node.original[this.search_property]) {
@@ -115,7 +120,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     _setupContextMenus: function(pluginsArray) {
         var contextmenuOptions = this.get('contextmenuOptions');
         var self = this;
-        
+
         if (null === pluginsArray) {
             return;
         }
