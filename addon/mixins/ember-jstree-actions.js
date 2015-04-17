@@ -143,6 +143,30 @@ export default Ember.Mixin.create({
                 this.set('_lastError', e);
                 this.sendAction('actionLastError', e);
             }
+        },
+
+        selectNodes: function(property, values) {
+            if(this.plugins.indexOf("search") === -1) {
+                 Ember.assert("'search' plugin is required to perform 'selectNodes'");
+                 return;
+            }
+
+            var treeObject = this.get('treeObject');
+            if (null !== treeObject) {
+                this.set('search_property', property);
+
+                treeObject.on('search.jstree', function(event, data) {
+                    treeObject.jstree(true).select_node(data.nodes, true, true);
+                }.bind(this));
+
+                if(Ember.$.isArray(values)) {
+                    for(var i=0; i<values.length; i++) {
+                        treeObject.jstree(true).search(values[i]);
+                    }
+
+                    treeObject.jstree(true).clear_search();
+                }
+            }
         }
     }
 });
