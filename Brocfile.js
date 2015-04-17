@@ -19,11 +19,4 @@ var app = new EmberAddon();
 // please specify an object with the list of modules as keys
 // along with the exports of each module as its value.
 
-var dummyAssets = new Funnel('bower_components/jstree/dist/themes/default', {
-    srcDir: '/',
-    include: ['**/*'],
-    destDir: '/assets'
-});
-
-
-module.exports = app.toTree(dummyAssets);
+module.exports = app.toTree();

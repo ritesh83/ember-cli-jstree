@@ -25,7 +25,11 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     treeObject:           null,
 
     didInsertElement: function() {
-        this._setupJsTree();
+        var treeObject = this._setupJsTree();
+
+        this._setupEventHandlers(treeObject);
+
+        this.set('treeObject', treeObject);
     },
 
     searchCallback: function(str, node) {
@@ -48,8 +52,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     * @method _setupJsTree
     */
     _setupJsTree: function() {
-        var configObject = {},
-            self = this;
+        var configObject = {};
 
         configObject["core"] = {
             "data": this.get('data'),
@@ -90,18 +93,10 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
 
             configObject["contextmenu"] = this._setupContextMenus(pluginsArray);
 
-            configObject["search"] = {
-                "search_callback" : Ember.run(function() {
-                    self.searchCallback.bind(this);
-                })
-            };
+            configObject["search"] = {"search_callback" : this.searchCallback.bind(this)};
         }
 
-        Ember.run(function() {
-            var treeObject = self.$().jstree(configObject);
-            self._setupEventHandlers(treeObject);
-            self.set('treeObject', treeObject);
-        });
+        return this.$().jstree(configObject);
     },
 
     /**
