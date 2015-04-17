@@ -25,9 +25,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     treeObject:           null,
 
     didInsertElement: function() {
-        var treeObject = this._setupJsTree();
-        this._setupEventHandlers(treeObject);
-        this.set('treeObject', treeObject);
+        this._setupJsTree();
     },
 
     searchCallback: function(str, node) {
@@ -95,8 +93,10 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
             configObject["search"] = {"search_callback" : this.searchCallback.bind(this)};
         }
 
-        return Ember.run(function() {
-            return self.$().jstree(configObject);
+        Ember.run(function() {
+            var treeObject = self.$().jstree(configObject);
+            self._setupEventHandlers(treeObject);
+            self.set('treeObject', treeObject);
         });
     },
 
