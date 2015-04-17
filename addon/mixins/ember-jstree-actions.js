@@ -157,6 +157,34 @@ export default Ember.Mixin.create({
             }
         },
 
+        selectNode: function(obj, suppress_event) {
+            var o = this.get('treeObject');
+            if (null !== o) {
+                o.jstree(true).select_node(obj, suppress_event);
+            }
+        },
+
+        deselectNode: function(obj, suppress_event) {
+            var o = this.get('treeObject');
+            if (null !== o) {
+                o.jstree(true).deselect_node(obj, suppress_event);
+            }
+        },
+
+        selectAll: function(suppress_event) {
+            var o = this.get('treeObject');
+            if (null !== o) {
+                o.jstree(true).select_all(suppress_event);
+            }
+        },
+
+        deselectAll: function(suppress_event) {
+            var o = this.get('treeObject');
+            if (null !== o) {
+                o.jstree(true).deselect_all(suppress_event);
+            }
+        },
+
         lastError: function() {
             var o = this.get('treeObject');
             if (null !== o) {

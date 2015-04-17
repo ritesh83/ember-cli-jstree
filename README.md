@@ -147,6 +147,8 @@ occur because of an action, they will be sent as actions (see Event Handling abo
 | close_node        | closeNode         |                       |
 | create_node       | createNode        | actionCreateNode      |
 | delete_node       | deleteNode        | actionDeleteNode      |
+| deselect_all      | deselectAll       |                       |
+| deselect_node     | deselectNode      |                       |
 | destroy           | destroy           |                       |
 | get_children_dom  | getChildrenDom    | actionGetChildrenDom  |
 | get_container     | getContainer      | actionGetContainer    |
@@ -162,6 +164,8 @@ occur because of an action, they will be sent as actions (see Event Handling abo
 | open_node         | openNode          |                       |
 | redraw            | redraw            |                       |
 | rename_node       | renameNode        | actionRenameNode      |
+| select_all        | selectAll         |                       |
+| select_node       | selectNode        |                       |
 | toggle_node       | toggleNode        |                       |
 
 ### Receiving return values
