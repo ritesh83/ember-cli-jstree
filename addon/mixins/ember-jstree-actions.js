@@ -145,6 +145,13 @@ export default Ember.Mixin.create({
             }
         },
 
+        deselectNodes: function() {
+            var o = this.get('treeObject');
+            if (null !== o) {
+                o.jstree(true).deselect_all();
+            }
+        },
+
         selectNodes: function(property, values) {
             if(this.plugins.indexOf("search") === -1) {
                  Ember.assert("'search' plugin is required to perform 'selectNodes'");
