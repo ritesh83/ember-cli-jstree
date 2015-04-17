@@ -1,12 +1,14 @@
-# ember-cli-jstree
+# ember-cli-jstree 
+
+[![Travis-CI status](https://travis-ci.org/yectep/ember-cli-jstree.svg?branch=master)](https://travis-ci.org/yectep/ember-cli-jstree) [![Ember Observer Score](http://emberobserver.com/badges/ember-cli-jstree.svg)](http://emberobserver.com/addons/ember-cli-jstree)
 
 Brings [jsTree](http://www.jstree.com/) functionality into your Ember app.
 
-*Works with ember-cli <= 0.2.1.*
+***Works with ember-cli <= 0.2.1.***
 
 ## Installation
 
-Ember CLI addons can be installed with `npm`
+Ember CLI addons can be installed with `ember install:addon`
 
 	ember install:addon ember-cli-jstree
 
@@ -51,12 +53,16 @@ in your controller.
 
 The following events have basic support included. More are on the way.
 
-| jsTree Event   | Ember Action        |
-|----------------|---------------------|
-| changed.jstree | eventDidChange      |
-| init.jstree    | eventDidInit        |
-| ready.jstree   | eventDidBecomeReady |
-| redraw.jstree  | eventDidRedraw      |
+| jsTree Event          | Ember Action          |
+|-----------------------|-----------------------|
+| after_open.jstree     | eventDidOpen          |
+| after_close.jstree    | eventDidClose         |
+| changed.jstree        | eventDidChange        |
+| deselect_node.jstree  | eventDidDeselectNode  |
+| init.jstree           | eventDidInit          |
+| ready.jstree          | eventDidBecomeReady   |
+| redraw.jstree         | eventDidRedraw        |
+| select_node.jstree    | eventDidSelectNode    |
 
 **Note:** In the meantime, you can add event listeners yourself by calling them on a mapped `treeObject` property.
 
@@ -136,6 +142,7 @@ occur because of an action, they will be sent as actions (see Event Handling abo
 
 | jsTree Action     | Ember Action      | Return Action         |
 |-------------------|-------------------|-----------------------|
+| copy_node         | copyNode          |                       |
 | close_all         | closeAll          |                       |
 | close_node        | closeNode         |                       |
 | create_node       | createNode        | actionCreateNode      |
@@ -146,9 +153,11 @@ occur because of an action, they will be sent as actions (see Event Handling abo
 | get_node          | getNode           | actionGetNode         |
 | get_parent        | getParent         | actionGetParent       |
 | get_path          | getPath           | actionGetPath         |
+| get_text          | getText           | actionGetText         |
 | last_error        | lastError         | actionLastError       |
 | load_all          | loadAll           | actionLoadAll         |
 | load_node         | loadNode          | actionLoadNode        |
+| move_node         | moveNode          |                       |
 | open_all          | openAll           |                       |
 | open_node         | openNode          |                       |
 | redraw            | redraw            |                       |
