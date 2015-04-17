@@ -23,6 +23,7 @@ export default Ember.Mixin.create({
             var o = this.get('treeObject');
             if (null !== o) {
                 o.jstree(true).destroy();
+                this.sendAction('eventDidDestroy');
             }
         },
 
