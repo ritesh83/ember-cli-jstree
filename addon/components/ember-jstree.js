@@ -90,11 +90,11 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
 
             configObject["contextmenu"] = this._setupContextMenus(pluginsArray);
 
-            // configObject["search"] = {
-            //     "search_callback" : Ember.run(function() {
-            //         self.searchCallback.bind(this);
-            //     })
-            // };
+            configObject["search"] = {
+                "search_callback" : Ember.run(function() {
+                    self.searchCallback.bind(this);
+                })
+            };
         }
 
         Ember.run(function() {
