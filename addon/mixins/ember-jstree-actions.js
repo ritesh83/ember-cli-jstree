@@ -24,6 +24,7 @@ export default Ember.Mixin.create({
             if (null !== o) {
                 o.jstree(true).destroy();
             }
+            this.sendAction('eventDidDestroy');
         },
 
         getNode: function(nodeId) {
@@ -34,6 +35,13 @@ export default Ember.Mixin.create({
             var o = this.get('treeObject');
             if (null !== o) {
                 this.sendAction('actionGetNode', o.jstree(true).get_node(nodeId));
+            }
+        },
+
+        getText: function(obj) {
+            var o = this.get('treeObject');
+            if (null !== o) {
+                this.sendAction('actionGetText', o.jstree(true).get_text(obj));
             }
         },
 
@@ -129,10 +137,52 @@ export default Ember.Mixin.create({
             }
         },
 
+        moveNode: function(obj, par, pos, callback, is_loaded) {
+            var o = this.get('treeObject');
+            if (null !== o) {
+                o.jstree(true).move_node(obj, par, pos, callback, is_loaded);
+            }
+        },
+
+        copyNode: function(obj, par, pos, callback, is_loaded) {
+            var o = this.get('treeObject');
+            if (null !== o) {
+                o.jstree(true).copy_node(obj, par, pos, callback, is_loaded);
+            }
+        },
+
         deleteNode: function(obj) {
             var o = this.get('treeObject');
             if (null !== o) {
                 this.sendAction('actionDeleteNode', o.jstree(true).delete_node(obj));
+            }
+        },
+
+        selectNode: function(obj, suppress_event) {
+            var o = this.get('treeObject');
+            if (null !== o) {
+                o.jstree(true).select_node(obj, suppress_event);
+            }
+        },
+
+        deselectNode: function(obj, suppress_event) {
+            var o = this.get('treeObject');
+            if (null !== o) {
+                o.jstree(true).deselect_node(obj, suppress_event);
+            }
+        },
+
+        selectAll: function(suppress_event) {
+            var o = this.get('treeObject');
+            if (null !== o) {
+                o.jstree(true).select_all(suppress_event);
+            }
+        },
+
+        deselectAll: function(suppress_event) {
+            var o = this.get('treeObject');
+            if (null !== o) {
+                o.jstree(true).deselect_all(suppress_event);
             }
         },
 

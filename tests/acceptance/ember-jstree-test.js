@@ -1,19 +1,23 @@
 import Ember from 'ember';
-import {
-    module,
-    test
-} from 'qunit';
+import { module, test } from 'qunit';
 import startApp from '../helpers/start-app';
+var App;
 
-var application;
-
-module('Acceptance: EmberJstree Addon', {
+module('Acceptance - ember-cli-jstree', {
     beforeEach: function() {
-        application = startApp();
+        App = startApp();
+        
+        // PhantomJS doesn't support bind yet
+        Function.prototype.bind = Function.prototype.bind || function (thisp) {
+            var fn = this;
+            return function () {
+                return fn.apply(thisp, arguments);
+            };
+        }; 
     },
 
     afterEach: function() {
-        Ember.run(application, 'destroy');
+        Ember.run(App, App.destroy);
     }
 });
 
