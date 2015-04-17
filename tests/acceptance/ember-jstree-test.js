@@ -6,7 +6,14 @@ var App;
 module('Acceptance - ember-cli-jstree', {
     beforeEach: function() {
         App = startApp();
-        Ember.testing = false;
+        
+        // PhantomJS doesn't support bind yet
+        Function.prototype.bind = Function.prototype.bind || function (thisp) {
+            var fn = this;
+            return function () {
+                return fn.apply(thisp, arguments);
+            };
+        }; 
     },
 
     afterEach: function() {
