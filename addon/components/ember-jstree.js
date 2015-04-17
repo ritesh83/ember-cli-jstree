@@ -178,7 +178,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
 
         /*
           Event: init.jstree
-          Action: jstreeDidInit
+          Action: eventDidInit
           triggered after all events are bound
         */
         treeObject.on('init.jstree', function() {
@@ -189,7 +189,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
 
         /*
           Event: ready.jstree
-          Action: jstreeDidBecomeReady
+          Action: eventDidBecomeReady
           triggered after all nodes are finished loading
         */
         treeObject.on('ready.jstree', function() {
@@ -200,12 +200,56 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
 
         /*
           Event: redraw.jstree
-          Action: jstreeDidRedraw
+          Action: eventDidRedraw
           triggered after nodes are redrawn
         */
         treeObject.on('redraw.jstree', function() {
             Ember.run(function() {
                 self.sendAction('eventDidRedraw');
+            });
+        }.bind(this));
+
+        /*
+          Event: after_open.jstree
+          Action: eventDidOpen
+          triggered when a node is opened and the animation is complete
+        */
+        treeObject.on('after_open.jstree', function(e, data) {
+            Ember.run(function() {
+                self.sendAction('eventDidOpen', data.node);
+            });
+        }.bind(this));
+
+        /*
+          Event: after_close.jstree
+          Action: eventDidClose
+          triggered when a node is closed and the animation is complete
+        */
+        treeObject.on('after_close.jstree', function(e, data) {
+            Ember.run(function() {
+                self.sendAction('eventDidClose', data.node);
+            });
+        }.bind(this));
+
+        /*
+          Event: select_node.jstree
+          Action: eventDidSelectNode
+          triggered when an node is selected
+        */
+        treeObject.on('select_node.jstree', function(e, data) {
+            Ember.run(function() {
+                self.sendAction('eventDidSelectNode', data.node, data.selected, data.event);
+            });
+        }.bind(this));
+
+        /*
+          Event: deselect_node.jstree
+          Action: eventDidDeelectNode
+          triggered when an node is deselected
+        */
+        treeObject.on('deselect_node.jstree', function(e, data) {
+            Ember.run(function() {
+                self.sendAction('eventDidDeselectNode', data.node, data.selected, data.event);
             });
         }.bind(this));
 

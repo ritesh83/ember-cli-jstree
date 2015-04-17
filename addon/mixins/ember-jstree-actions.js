@@ -37,6 +37,13 @@ export default Ember.Mixin.create({
             }
         },
 
+        getText: function(obj) {
+            var o = this.get('treeObject');
+            if (null !== o) {
+                this.sendAction('actionGetText', o.jstree(true).get_text(obj));
+            }
+        },
+
         getPath: function(obj, glue, ids) {
             var o = this.get('treeObject');
             if (null !== o) {
@@ -126,6 +133,20 @@ export default Ember.Mixin.create({
             var o = this.get('treeObject');
             if (null !== o) {
                 this.sendAction('actionRenameNode', o.jstree(true).rename_node(obj, val));
+            }
+        },
+
+        moveNode: function(obj, par, pos, callback, is_loaded) {
+            var o = this.get('treeObject');
+            if (null !== o) {
+                o.jstree(true).move_node(obj, par, pos, callback, is_loaded);
+            }
+        },
+
+        copyNode: function(obj, par, pos, callback, is_loaded) {
+            var o = this.get('treeObject');
+            if (null !== o) {
+                o.jstree(true).copy_node(obj, par, pos, callback, is_loaded);
             }
         },
 
