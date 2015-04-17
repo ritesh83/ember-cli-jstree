@@ -51,12 +51,13 @@ in your controller.
 
 The following events have basic support included. More are on the way.
 
-| jsTree Event   | Ember Action        |
-|----------------|---------------------|
-| changed.jstree | eventDidChange      |
-| init.jstree    | eventDidInit        |
-| ready.jstree   | eventDidBecomeReady |
-| redraw.jstree  | eventDidRedraw      |
+| jsTree Event           | Ember Action          |
+|------------------------|-----------------------|
+| changed.jstree         | eventDidChange        |
+| init.jstree            | eventDidInit          |
+| ready.jstree           | eventDidBecomeReady   |
+| redraw.jstree          | eventDidRedraw        |
+| (destroyed - no event) | eventDidDestroy       |
 
 **Note:** In the meantime, you can add event listeners yourself by calling them on a mapped `treeObject` property.
 
