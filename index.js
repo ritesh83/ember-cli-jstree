@@ -1,6 +1,7 @@
 /* jshint node: true */
 'use strict';
 
+var path = require('path');
 var Funnel = require('broccoli-funnel');
 
 module.exports = {
@@ -9,17 +10,21 @@ module.exports = {
     included: function (app) {
         this._super.included(app);
         app.import(app.bowerDirectory + '/jstree/dist/jstree.min.js');
-        app.import(app.bowerDirectory + '/jstree/dist/themes/default/style.css');
+        app.import(app.bowerDirectory + '/jstree/dist/themes/default/style.min.css');
+        app.import(app.bowerDirectory + '/jstree/dist/themes/default/32px.png');
+        app.import(app.bowerDirectory + '/jstree/dist/themes/default/40px.png');
+        app.import(app.bowerDirectory + '/jstree/dist/themes/default/throbber.gif');
     },
 
-    treeForVendor: function() {
-        var dummyAssets = new Funnel('bower_components/jstree/dist/themes/default', {
+    treeForPublic: function() {
+        var defaultThemePath = path.join(this.app.bowerDirectory, 'jstree', 'dist', 'themes', 'default');
+        var defaultThemeAssets = new Funnel(this.treeGenerator(defaultThemePath), {
             srcDir: '/',
             include: ['**/*'],
             destDir: '/assets'
         });
 
-        return dummyAssets;
+        return defaultThemeAssets;
     }
 
 };
