@@ -11,9 +11,6 @@ module.exports = {
         this._super.included(app);
         app.import(app.bowerDirectory + '/jstree/dist/jstree.min.js');
         app.import(app.bowerDirectory + '/jstree/dist/themes/default/style.min.css');
-        app.import(app.bowerDirectory + '/jstree/dist/themes/default/32px.png');
-        app.import(app.bowerDirectory + '/jstree/dist/themes/default/40px.png');
-        app.import(app.bowerDirectory + '/jstree/dist/themes/default/throbber.gif');
     },
 
     treeForPublic: function() {
