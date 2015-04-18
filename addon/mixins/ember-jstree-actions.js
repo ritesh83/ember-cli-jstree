@@ -12,17 +12,16 @@ export default Ember.Mixin.create({
         redraw: function() {
             // Redraw true currently does not work as intended. Need to investigate.
             this._refreshTree();
-
-            // var o = this.get('treeObject');
-            // if (null !== o) {
-            //     o.jstree(true).refresh(true);
-            // }
         },
 
         destroy: function() {
             var o = this.get('treeObject');
             if (null !== o) {
-                o.jstree(true).destroy();
+                if (!Ember.testing && !this.get('_isDestroying')) {
+                    o.jstree(true).destroy();
+                }
+
+                this.sendAction('eventDidDestroy');
             }
         },
 
@@ -191,6 +190,13 @@ export default Ember.Mixin.create({
                 var e = o.jstree(true).last_error();
                 this.set('_lastError', e);
                 this.sendAction('actionLastError', e);
+            }
+        },
+
+        deselectNodes: function() {
+            var o = this.get('treeObject');
+            if (null !== o) {
+                o.jstree(true).deselect_all();
             }
         },
 

@@ -37,20 +37,20 @@
         {{/if}}
     </div>
 
-    <div class="actions">
+    <div class="actions ember-test-actions">
         <h2>Actions</h2>
-        <button {{action "getNode" "rn2"}}>Get "Root node 2"</button>
+        <button {{action "getNode" "rn2"}} class="ember-test-getnode-button">Get "Root node 2"</button>
         <br><br>
         <button {{action "redraw"}}>Redraw</button>
         <br><br>
-        <button {{action "destroy"}}>Destroy</button>
+        <button {{action "destroy"}} class="ember-test-destroy-button">Destroy</button>
         <br><br>
         <button {{action "addChildByText" "Root node 2"}}>Add child to "Root node 2"</button>
     </div>
 
     <div class="buffer">
         <h2>Buffer Console</h2>
-        <pre>{{jsonifiedBuffer}}</pre>
+        <pre class="ember-test-buffer">{{jsonifiedBuffer}}</pre>
     </div>
 
 </div>

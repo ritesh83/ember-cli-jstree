@@ -1,16 +1,14 @@
-# ember-cli-jstree 
+# ember-cli-jstree
 
 [![Travis-CI status](https://travis-ci.org/yectep/ember-cli-jstree.svg?branch=master)](https://travis-ci.org/yectep/ember-cli-jstree) [![Ember Observer Score](http://emberobserver.com/badges/ember-cli-jstree.svg)](http://emberobserver.com/addons/ember-cli-jstree)
 
 Brings [jsTree](http://www.jstree.com/) functionality into your Ember app.
 
-***Works with ember-cli <= 0.2.1.***
-
 ## Installation
 
-Ember CLI addons can be installed with `ember install:addon`
+Ember CLI addons can be installed with `ember install`
 
-	ember install:addon ember-cli-jstree
+	ember install ember-cli-jstree
 
 ## Usage
 
@@ -53,16 +51,17 @@ in your controller.
 
 The following events have basic support included. More are on the way.
 
-| jsTree Event          | Ember Action          |
-|-----------------------|-----------------------|
-| after_open.jstree     | eventDidOpen          |
-| after_close.jstree    | eventDidClose         |
-| changed.jstree        | eventDidChange        |
-| deselect_node.jstree  | eventDidDeselectNode  |
-| init.jstree           | eventDidInit          |
-| ready.jstree          | eventDidBecomeReady   |
-| redraw.jstree         | eventDidRedraw        |
-| select_node.jstree    | eventDidSelectNode    |
+| jsTree Event              | Ember Action          |
+|---------------------------|-----------------------|
+| after_open.jstree         | eventDidOpen          |
+| after_close.jstree        | eventDidClose         |
+| changed.jstree            | eventDidChange        |
+| deselect_node.jstree      | eventDidDeselectNode  |
+| init.jstree               | eventDidInit          |
+| ready.jstree              | eventDidBecomeReady   |
+| redraw.jstree             | eventDidRedraw        |
+| select_node.jstree        | eventDidSelectNode    |
+| (destroyed - no event)    | eventDidDestroy       |
 
 **Note:** In the meantime, you can add event listeners yourself by calling them on a mapped `treeObject` property.
 
