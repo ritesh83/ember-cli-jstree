@@ -8,7 +8,7 @@ Brings [jsTree](http://www.jstree.com/) functionality into your Ember app.
 
 Ember CLI addons can be installed with `npm`
 
-	ember install:addon ember-cli-jstree
+	ember install ember-cli-jstree
 
 ## Usage
 
