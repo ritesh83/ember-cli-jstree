@@ -43,7 +43,7 @@ in your controller.
 {{ember-jstree
     [...]
     eventDidChange="handleJstreeEventDidChange"
-    treeObject="jstreeObject"
+    treeObject=jstreeObject
 }}
 ````
 
