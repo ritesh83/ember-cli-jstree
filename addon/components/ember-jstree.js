@@ -27,7 +27,15 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     // Internals
     _isDestroying:        false,
 
+    isReady:              false,
+    _isReadyTestWaiter: function() {
+        return this.get('isReady') === true;
+    },
+
     didInsertElement: function() {
+        // Add test waiter.
+        Ember.Test.registerWaiter(this, this._isReadyTestWaiter);
+
         var treeObject = this._setupJsTree();
 
         this._setupEventHandlers(treeObject);
@@ -36,6 +44,8 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     },
 
     willDestroyElement: function() {
+        Ember.Test.unregisterWaiter(this, this._isReadyTestWaiter);
+        this.set('isReady', false);
         this.set('_isDestroying', true);
         this.send('destroy');
     },
@@ -117,7 +127,6 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
      */
     _setupContextMenus: function(pluginsArray) {
         var contextmenuOptions = this.get('contextmenuOptions');
-        var self = this;
 
         if (null === pluginsArray) {
             return;
@@ -138,22 +147,22 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
                         if (typeof contextmenuOptions["items"][menuItem]["action"] === "string") {
                             var emberAction = contextmenuOptions["items"][menuItem]["action"];
                             newMenuItems[menuItem]["action"] = function() {
-                                Ember.run(self, function() {
+                                Ember.run(this, function() {
                                     var node = this.get('currentNode');
                                     this.send("contextmenuItemDidClick", emberAction, node);
                                 });
-                            };
+                            }.bind(this);
                         }
                     }
                 }
 
                 // Wrap it up
                 contextmenuOptions["items"] = function(node) {
-                    Ember.run(self, function() {
+                    Ember.run(this, function() {
                         this.set('currentNode', node);
                     });
                     return newMenuItems;
-                };
+                }.bind(this);
 
 
             }
@@ -177,16 +186,14 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
             throw new Error('You must pass a valid jsTree object to set up its event handlers');
         }
 
-        var self = this;
-
         /*
           Event: init.jstree
           Action: eventDidInit
           triggered after all events are bound
         */
         treeObject.on('init.jstree', function() {
-            Ember.run(function() {
-                self.sendAction('eventDidInit');
+            Ember.run(this, function() {
+                this.sendAction('eventDidInit');
             });
         }.bind(this));
 
@@ -196,8 +203,9 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
           triggered after all nodes are finished loading
         */
         treeObject.on('ready.jstree', function() {
-            Ember.run(function() {
-                self.sendAction('eventDidBecomeReady');
+            Ember.run(this, function() {
+                this.set('isReady', true);
+                this.sendAction('eventDidBecomeReady');
             });
         }.bind(this));
 
@@ -207,8 +215,8 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
           triggered after nodes are redrawn
         */
         treeObject.on('redraw.jstree', function() {
-            Ember.run(function() {
-                self.sendAction('eventDidRedraw');
+            Ember.run(this, function() {
+                this.sendAction('eventDidRedraw');
             });
         }.bind(this));
 
@@ -218,8 +226,8 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
           triggered when a node is opened and the animation is complete
         */
         treeObject.on('after_open.jstree', function(e, data) {
-            Ember.run(function() {
-                self.sendAction('eventDidOpen', data.node);
+            Ember.run(this, function() {
+                this.sendAction('eventDidOpen', data.node);
             });
         }.bind(this));
 
@@ -229,8 +237,8 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
           triggered when a node is closed and the animation is complete
         */
         treeObject.on('after_close.jstree', function(e, data) {
-            Ember.run(function() {
-                self.sendAction('eventDidClose', data.node);
+            Ember.run(this, function() {
+                this.sendAction('eventDidClose', data.node);
             });
         }.bind(this));
 
@@ -240,8 +248,8 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
           triggered when an node is selected
         */
         treeObject.on('select_node.jstree', function(e, data) {
-            Ember.run(function() {
-                self.sendAction('eventDidSelectNode', data.node, data.selected, data.event);
+            Ember.run(this, function() {
+                this.sendAction('eventDidSelectNode', data.node, data.selected, data.event);
             });
         }.bind(this));
 
@@ -251,8 +259,8 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
           triggered when an node is deselected
         */
         treeObject.on('deselect_node.jstree', function(e, data) {
-            Ember.run(function() {
-                self.sendAction('eventDidDeselectNode', data.node, data.selected, data.event);
+            Ember.run(this, function() {
+                this.sendAction('eventDidDeselectNode', data.node, data.selected, data.event);
             });
         }.bind(this));
 
@@ -262,15 +270,15 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
           triggered when selection changes
         */
         treeObject.on('changed.jstree', function (e, data) {
-            Ember.run(function() {
-                self.sendAction('eventDidChange', data);
+            Ember.run(this, function() {
+                this.sendAction('eventDidChange', data);
 
                 // Check if selection changed
-                if(self.get('treeObject') && !(self.get('isDestroyed') || self.get('isDestroying'))) {
+                if(this.get('treeObject') && !(this.get('isDestroyed') || this.get('isDestroying'))) {
                     var selectionChangedEventNames = ["model", "select_node", "deselect_node", "select_all", "deselect_all"];
                     if (data.action && selectionChangedEventNames.indexOf(data.action) !== -1) {
-                        var selNodes = Ember.A(self.get('treeObject').jstree(true).get_selected(true));
-                        self.set('selectedNodes', selNodes);
+                        var selNodes = Ember.A(this.get('treeObject').jstree(true).get_selected(true));
+                        this.set('selectedNodes', selNodes);
                     }
                 }
             });
