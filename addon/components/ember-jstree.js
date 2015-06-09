@@ -33,8 +33,11 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     },
 
     didInsertElement: function() {
-        // Add test waiter.
-        Ember.Test.registerWaiter(this, this._isReadyTestWaiter);
+        var applicationConfig = this.container.lookupFactory('config:environment');
+        if(applicationConfig.environment === "test") {
+            // Add test waiter.
+            Ember.Test.registerWaiter(this, this._isReadyTestWaiter);
+        }
 
         var treeObject = this._setupJsTree();
 
@@ -44,7 +47,11 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     },
 
     willDestroyElement: function() {
-        Ember.Test.unregisterWaiter(this, this._isReadyTestWaiter);
+        var applicationConfig = this.container.lookupFactory('config:environment');
+        if(applicationConfig.environment === "test") {
+            Ember.Test.unregisterWaiter(this, this._isReadyTestWaiter);
+        }
+
         this.set('isReady', false);
         this.set('_isDestroying', true);
         this.send('destroy');
