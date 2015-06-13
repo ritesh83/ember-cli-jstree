@@ -20,4 +20,3 @@ install:
 
 script:
   - npm test
-

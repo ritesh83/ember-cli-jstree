@@ -72,15 +72,15 @@ export default Ember.Controller.extend({
         }             
     },
 
-    _jsonifyBuffer: function() {
-        var b = this.get('jstreeBuffer');
+    // _jsonifyBuffer: function() {
+    //     var b = this.get('jstreeBuffer');
 
-        if (null !== b) {
-            this.set('jsonifiedBuffer', JSON.stringify(b));
-        } else {
-            this.set('jsonifiedBuffer', '<No output>');
-        }
-    }.observes('jstreeBuffer'),
+    //     if (null !== b) {
+    //         this.set('jsonifiedBuffer', JSON.stringify(b));
+    //     } else {
+    //         this.set('jsonifiedBuffer', '<No output>');
+    //     }
+    // }.observes('jstreeBuffer'),
 
     actions: {
 
