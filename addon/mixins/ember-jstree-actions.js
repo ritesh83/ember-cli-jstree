@@ -17,9 +17,9 @@ export default Ember.Mixin.create({
         destroy: function() {
             var o = this.get('treeObject');
             if (null !== o) {
-                // if (!Ember.testing && !this.get('_isDestroying')) {
+                if (!Ember.testing && !this.get('_isDestroying')) {
                     o.jstree(true).destroy();
-                // }
+                }
 
                 this.sendAction('eventDidDestroy');
             }
