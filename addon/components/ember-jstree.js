@@ -283,14 +283,14 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
      *
      * @method _redrawTree
      */
-    _refreshTree: function() {
+    _refreshTree: Ember.observer('data', function() {
         var o = this.get('treeObject');
         var t = o.jstree(true);
         if (null !== t) {
             t.settings.core['data'] = this.get('data');
             t.refresh();
         }
-    }.observes('data'),
+    }),
 
     getTree: function() {
         var o = this.get('treeObject');

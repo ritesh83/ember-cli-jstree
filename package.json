@@ -46,7 +46,7 @@
   "dependencies": {
     "ember-cli-babel": "^5.0.0",
     "broccoli-funnel": "^0.2.3",
-    "ember-component-inbound-actions": "0.0.2"
+    "ember-component-inbound-actions": "git://github.com/yectep/ember-component-inbound-actions.git#no-proto-extensions"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
