@@ -19,19 +19,21 @@ export default Ember.Controller.extend({
     data: [
         'Simple root node',
         {
-            'text': 'Single child node',
+            'text': 'Single child node (has tooltip)',
             'type': 'single-child',
             'children': [
                 'one child'
-            ]
+            ],
+            'a_attr': {'class': 'hint--top', 'data-hint': 'Use a_attr to add tooltips'}
         },
         {
             'id': 'rn2',
-            'text' : 'Root node 2',
+            'text' : 'Opened node (has tooltip)',
             'state' : {
                 'opened' : true,
                 'selected' : true
             },
+            'a_attr': {'class': 'hint--bottom', 'data-hint': 'This is a bottom mounted node tooltip'},
             'children' : [
                 {
                   'text' : 'Child 1'
@@ -69,18 +71,18 @@ export default Ember.Controller.extend({
                 "label": "Report Clicked",
                 "action": "contextMenuReportClicked"
             }
-        }             
+        }
     },
 
-    _jsonifyBuffer: function() {
+    _jsonifyBufferWatcher: Ember.observer('jstreeBuffer', function() {
         var b = this.get('jstreeBuffer');
 
-        if (null !== b) {
+        if (null !== b && b) {
             this.set('jsonifiedBuffer', JSON.stringify(b));
         } else {
             this.set('jsonifiedBuffer', '<No output>');
         }
-    }.observes('jstreeBuffer'),
+    }),
 
     actions: {
 
@@ -97,7 +99,9 @@ export default Ember.Controller.extend({
         },
 
         handleGetNode: function(node) {
-            this.set('jstreeBuffer', node);
+            if (node) {
+                this.set('jstreeBuffer', node);
+            }
         },
 
         contextMenuReportClicked: function(node, tree) {
@@ -124,5 +128,5 @@ export default Ember.Controller.extend({
             this.set('treeReady', true);
         }
     }
-    
+
 });

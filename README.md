@@ -4,6 +4,8 @@
 
 Brings [jsTree](http://www.jstree.com/) functionality into your Ember app.
 
+> Version 0.1.0 of this addon or greater has support for Ember-CLI 1.13 and has **prototype extensions disabled**.
+
 ## Installation
 
 Ember CLI addons can be installed with `ember install`
@@ -31,6 +33,28 @@ Run supported actions on the tree by registering it to your controller with the 
         eventDidBecomeReady="handleTreeDidBecomeReady"
     }}
 </div>
+````
+
+### Adding classes
+
+As per the [jsTree JSON docs](https://www.jstree.com/docs/json/), you can add custom classes to both the `<li>` and `<a>` tags of each
+individual node. These are passed on to jQuery's `attr` function.
+
+For example, to add [hint.css](http://kushagragour.in/lab/hint/) tooltips, use the following in your JSON data hash.
+
+````Javascript
+{
+	'id': 'node15',
+	'text': 'Node title',
+	'state': { 'selected': true },
+	'a_attr': { 'class': 'hint--bottom', 'data-hint': 'Some hint goes here' }
+}
+````
+
+This will get rendered in HTML as
+
+````HTML
+<a class="jstree-anchor jstree-clicked hint--bottom" href="#" tabindex="-1" data-hint="Some hint goes here" id="node15_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>Node title</a>
 ````
 
 ## Event Handling
@@ -194,4 +218,3 @@ Both dynamic (AJAX loaded) and static examples are in the dummy demo.
 * Install packages: `npm install` then `bower install`
 * Run `ember serve`
 * Visit the sample app at http://localhost:4200.
-

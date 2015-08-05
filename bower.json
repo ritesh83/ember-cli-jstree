@@ -8,12 +8,11 @@
     "ember-load-initializers": "ember-cli/ember-load-initializers#0.1.4",
     "ember-qunit": "0.3.3",
     "ember-qunit-notifications": "0.0.7",
+    "qunit": "~1.17.1",
+    "jstree": "git://github.com/cristinawithout/jstree.git#4cbfbe263949fa1c88e45faa1c8233348ce25352",
     "ember-resolver": "~0.1.15",
     "jquery": "^1.11.1",
     "loader.js": "ember-cli/loader.js#3.2.0",
     "qunit": "~1.17.1"
-  },
-  "devDependencies": {
-    "jstree": "~3.1.0"
   }
 }
