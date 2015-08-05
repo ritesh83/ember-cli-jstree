@@ -11,9 +11,7 @@
     "ember-load-initializers": "ember-cli/ember-load-initializers#0.1.4",
     "ember-qunit": "0.3.1",
     "ember-qunit-notifications": "0.0.7",
-    "qunit": "~1.17.1"
-  },
-  "devDependencies": {
+    "qunit": "~1.17.1",
     "jstree": "git://github.com/cristinawithout/jstree.git#4cbfbe263949fa1c88e45faa1c8233348ce25352"
   }
 }

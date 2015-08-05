@@ -2,7 +2,7 @@
     {{ember-jstree
         actionReceiver=jstreeActionReceiver
         selectedNodes=jstreeSelectedNodes
-        
+
         data=data
         plugins=plugins
         themes=themes
@@ -39,13 +39,13 @@
 
     <div class="actions ember-test-actions">
         <h2>Actions</h2>
-        <button {{action "getNode" "rn2"}} class="ember-test-getnode-button">Get "Root node 2"</button>
+        <button {{action "getNode" "rn2"}} class="ember-test-getnode-button">Get "Opened node"</button>
         <br><br>
         <button {{action "redraw"}}>Redraw</button>
         <br><br>
         <button {{action "destroy"}} class="ember-test-destroy-button">Destroy</button>
         <br><br>
-        <button {{action "addChildByText" "Root node 2"}}>Add child to "Root node 2"</button>
+        <button {{action "addChildByText" "Opened node (has tooltip)"}}>Add child to "Opened node"</button>
     </div>
 
     <div class="buffer">
