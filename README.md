@@ -4,6 +4,8 @@
 
 Brings [jsTree](http://www.jstree.com/) functionality into your Ember app.
 
+> Version 0.1.0 of this addon or greater has support for Ember-CLI 1.13 and has **prototype extensions disabled**.
+
 ## Installation
 
 Ember CLI addons can be installed with `ember install`
@@ -40,7 +42,7 @@ individual node. These are passed on to jQuery's `attr` function.
 
 For example, to add [hint.css](http://kushagragour.in/lab/hint/) tooltips, use the following in your JSON data hash.
 
-````JSON
+````Javascript
 {
 	'id': 'node15',
 	'text': 'Node title',
