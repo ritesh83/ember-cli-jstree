@@ -153,12 +153,14 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
                         // This needs to be done so Ember can hijack the action and call it instead
                         if (typeof contextmenuOptions["items"][menuItem]["action"] === "string") {
                             var emberAction = contextmenuOptions["items"][menuItem]["action"];
-                            newMenuItems[menuItem]["action"] = function() {
-                                Ember.run(this, function() {
-                                    var node = this.get('currentNode');
-                                    this.send("contextmenuItemDidClick", emberAction, node);
-                                });
-                            }.bind(this);
+                            newMenuItems[menuItem]["action"] = (function(self, action) {
+                            		return function() {
+                                		Ember.run(self, function() {
+                                    		var node = self.get('currentNode');
+                                    		self.send("contextmenuItemDidClick", action, node);
+                                		});
+                            		}
+                            })(this, emberAction);
                         }
                     }
                 }
