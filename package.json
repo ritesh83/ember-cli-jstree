@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-jstree",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "ember-cli addon for jstree http://www.jstree.com/",
   "directories": {
     "doc": "doc",
