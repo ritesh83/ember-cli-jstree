@@ -44,7 +44,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
 		this._setupEventHandlers(treeObject);
 
 		this.set('treeObject', treeObject);
-	 }
+	 },
 
 	 didInsertElement: function() {
 		  Ember.run.scheduleOnce('afterRender', this, 'initComponent');
