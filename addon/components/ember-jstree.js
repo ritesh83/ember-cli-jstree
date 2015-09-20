@@ -315,6 +315,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
 				t.settings.core['data'] = this.get('data');
 				if ( this.get('firstRun') && this.get('preserveInitialState') ) {
 					t.refresh( false, true);
+					this.set('firstRun', false);
 				} else {
 					t.refresh();	
 				}
