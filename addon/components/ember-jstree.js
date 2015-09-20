@@ -21,6 +21,10 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
 	 contextmenuOptions:   null,
 	 typesOptions:         null,
 
+	 // Properties to handle tree with 'selected' state already set
+	 preserveInitialState: null,
+	 firstRun: true,
+
 	 selectionDidChange:   null,
 	 treeObject:           null,
 
@@ -309,7 +313,12 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
 		  var t = o.jstree(true);
 		  if (null !== t) {
 				t.settings.core['data'] = this.get('data');
-				t.refresh();
+				if ( this.get('firstRun') && this.get('preserveInitialState') ) {
+					t.refresh( false, true);
+				} else {
+					t.refresh();	
+				}
+				
 		  }
 	 }),
 
