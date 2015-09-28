@@ -201,25 +201,37 @@ export default Ember.Mixin.create({
         },
 
         selectNodes: function(property, values) {
-            if(this.plugins.indexOf("search") === -1) {
-                 Ember.assert("'search' plugin is required to perform 'selectNodes'");
-                 return;
-            }
-
             var treeObject = this.get('treeObject');
             if (null !== treeObject) {
-                this.set('search_property', property);
-
-                treeObject.on('search.jstree', function(event, data) {
-                    treeObject.jstree(true).select_node(data.nodes, true, true);
-                }.bind(this));
-
-                if(Ember.$.isArray(values)) {
-                    for(var i=0; i<values.length; i++) {
-                        treeObject.jstree(true).search(values[i]);
+                if ('id' === property) {
+                    // If property is ID, can use get_node, which is faster than search.
+                    if(Ember.$.isArray(values)) {
+                        var nodes = [];
+                        for(var i=0; i<values.length; i++) {
+                            var node = treeObject.jstree(true).get_node(values[i]);
+                            nodes.push(node);
+                        }
+                        treeObject.jstree(true).select_node(nodes, true, true);
+                    }
+                } else {
+                    if(this.plugins.indexOf("search") === -1) {
+                         Ember.assert("'search' plugin is required to perform 'selectNodes' on properties other than 'id'");
+                         return;
                     }
 
-                    treeObject.jstree(true).clear_search();
+                    this.set('search_property', property);
+
+                    treeObject.on('search.jstree', function(event, data) {
+                        treeObject.jstree(true).select_node(data.nodes, true, true);
+                    }.bind(this));
+
+                    if(Ember.$.isArray(values)) {
+                        for(var i=0; i<values.length; i++) {
+                            treeObject.jstree(true).search(values[i]);
+                        }
+
+                        treeObject.jstree(true).clear_search();
+                    }
                 }
             }
         }
