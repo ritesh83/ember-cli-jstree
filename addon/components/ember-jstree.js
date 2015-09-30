@@ -213,7 +213,9 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         */
         treeObject.on('ready.jstree', function() {
             Ember.run(this, function() {
-                this.set('isReady', true);
+                if (true !== this.get('isDestroyed') && true !== this.get('isDestroying')) {
+                    this.set('isReady', true);
+                }
                 this.sendAction('eventDidBecomeReady');
             });
         }.bind(this));
