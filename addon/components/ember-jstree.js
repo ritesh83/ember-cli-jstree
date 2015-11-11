@@ -28,6 +28,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     _isDestroying:        false,
 
     isReady:              false,
+
     _isReadyTestWaiter: function() {
         return this.get('isReady') === true;
     },
@@ -159,7 +160,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
                                     		var node = self.get('currentNode');
                                     		self.send("contextmenuItemDidClick", action, node);
                                 		});
-                            		}
+                            		};
                             })(this, emberAction);
                         }
                     }
@@ -303,11 +304,15 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
      * @method _redrawTree
      */
     _refreshTree: Ember.observer('data', function() {
-        var o = this.get('treeObject');
-        var t = o.jstree(true);
-        if (null !== t) {
+        var t = this.getTree();
+        if (null !== t && false !== t) {
             t.settings.core['data'] = this.get('data');
             t.refresh();
+        } else {
+            // setup again if destroyed
+            var treeObject = this._setupJsTree();
+            this._setupEventHandlers(treeObject);
+            this.set('treeObject', treeObject);
         }
     }),
 

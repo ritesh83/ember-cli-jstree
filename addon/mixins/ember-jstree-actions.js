@@ -203,11 +203,12 @@ export default Ember.Mixin.create({
         selectNodes: function(property, values) {
             var treeObject = this.get('treeObject');
             if (null !== treeObject) {
+                var i;
                 if ('id' === property) {
                     // If property is ID, can use get_node, which is faster than search.
                     if(Ember.$.isArray(values)) {
                         var nodes = [];
-                        for(var i=0; i<values.length; i++) {
+                        for(i=0; i<values.length; i++) {
                             var node = treeObject.jstree(true).get_node(values[i]);
                             nodes.push(node);
                         }
@@ -226,7 +227,7 @@ export default Ember.Mixin.create({
                     }.bind(this));
 
                     if(Ember.$.isArray(values)) {
-                        for(var i=0; i<values.length; i++) {
+                        for(i=0; i<values.length; i++) {
                             treeObject.jstree(true).search(values[i]);
                         }
 

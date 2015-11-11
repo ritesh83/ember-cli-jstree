@@ -22,7 +22,16 @@
 <div class="info">
     <div class="status">
         <h2>Tree Status</h2>
-        <p {{bind-attr class=":tree-status treeReady:tree-ready:tree-not-ready"}}>Tree Ready? <strong>{{#if treeReady}}Yes{{else}}No{{/if}}</strong></p>
+        <p class="tree-status {{if treeReady "tree-ready" "tree-not-ready"}}">
+            Tree Ready? 
+            <strong>
+                {{#if treeReady}}
+                    Yes
+                {{else}}
+                    No
+                {{/if}}
+            </strong>
+        </p>
         <p>Last Context Item Clicked: <strong>{{lastItemClicked}}</strong></p>
     </div>
 
@@ -30,7 +39,7 @@
         <h2>Selected Items</h2>
         {{#if sortedSelectedNodes}}
             <ul>
-            {{#each node in sortedSelectedNodes}}
+            {{#each sortedSelectedNodes as |node|}}
                 <li><strong>{{node.text}}</strong></li>
             {{/each}}
             </ul>
