@@ -104,8 +104,7 @@ export default Ember.Controller.extend({
             }
         },
 
-        contextMenuReportClicked: function(node, tree) {
-            var self = this;
+        contextMenuReportClicked: function(node) {
             this.set('lastItemClicked', '"Report" item for node: <' + node.text + '> was clicked.');
         },
 
@@ -120,7 +119,7 @@ export default Ember.Controller.extend({
                     data[index].children.push('added child');
                 }
             });
-            this.set(data);
+            this.set('data', data);
             this.send('redraw');
         },
 
