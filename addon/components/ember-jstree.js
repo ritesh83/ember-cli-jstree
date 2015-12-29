@@ -99,7 +99,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
                 pluginsArray.indexOf("dnd") !== -1 ||
                 pluginsArray.indexOf("unique") !== -1) {
                 // These plugins need core.check_callback
-                configObject["core"]["check_callback"] = true;
+                configObject["core"]["check_callback"] = configObject["core"]["check_callback"] || true;
             }
 
             var checkboxOptions = this.get('checkboxOptions');
