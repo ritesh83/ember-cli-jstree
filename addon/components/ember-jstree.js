@@ -34,8 +34,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     },
 
     didInsertElement: function() {
-        var applicationConfig = this.container.lookupFactory('config:environment');
-        if(applicationConfig.environment === "test") {
+        if (Ember.testing) {
             // Add test waiter.
             Ember.Test.registerWaiter(this, this._isReadyTestWaiter);
         }
@@ -48,8 +47,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     },
 
     willDestroyElement: function() {
-        var applicationConfig = this.container.lookupFactory('config:environment');
-        if(applicationConfig.environment === "test") {
+        if(Ember.testing) {
             Ember.Test.unregisterWaiter(this, this._isReadyTestWaiter);
         }
 
