@@ -34,17 +34,24 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     },
 
     didInsertElement: function() {
-        if (Ember.testing) {
-            // Add test waiter.
-            Ember.Test.registerWaiter(this, this._isReadyTestWaiter);
-        }
-
-        var treeObject = this._setupJsTree();
-
-        this._setupEventHandlers(treeObject);
-
-        this.set('treeObject', treeObject);
+        // Moved code to the createTree method to remove the deprecation warning.
+        // https://github.com/emberjs/ember.js/issues/12290
     },
+
+    createTree: Ember.on('init', function () {
+        Ember.run.schedule('afterRender', this, function () {
+            if (Ember.testing) {
+                // Add test waiter.
+                Ember.Test.registerWaiter(this, this._isReadyTestWaiter);
+            }
+
+            var treeObject = this._setupJsTree();
+
+            this._setupEventHandlers(treeObject);
+
+            this.set('treeObject', treeObject);
+        });
+    }),
 
     willDestroyElement: function() {
         if(Ember.testing) {
@@ -153,12 +160,12 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
                         if (typeof contextmenuOptions["items"][menuItem]["action"] === "string") {
                             var emberAction = contextmenuOptions["items"][menuItem]["action"];
                             newMenuItems[menuItem]["action"] = (function(self, action) {
-                            		return function() {
-                                		Ember.run(self, function() {
-                                    		var node = self.get('currentNode');
-                                    		self.send("contextmenuItemDidClick", action, node);
-                                		});
-                            		};
+                                return function() {
+                                    Ember.run(self, function() {
+                                        var node = self.get('currentNode');
+                                        self.send("contextmenuItemDidClick", action, node);
+                                    });
+                                };
                             })(this, emberAction);
                         }
                     }
@@ -171,7 +178,6 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
                     });
                     return newMenuItems;
                 }.bind(this);
-
 
             }
 
@@ -302,10 +308,10 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
      * @method _redrawTree
      */
     _refreshTree: Ember.observer('data', function() {
-        var t = this.getTree();
-        if (null !== t && false !== t) {
-            t.settings.core['data'] = this.get('data');
-            t.refresh();
+        var tree = this.getTree();
+        if (null !== tree && false !== tree) {
+            tree.settings.core['data'] = this.get('data');
+            tree.refresh();
         } else {
             // setup again if destroyed
             var treeObject = this._setupJsTree();
@@ -315,8 +321,8 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     }),
 
     getTree: function() {
-        var o = this.get('treeObject');
-        return o.jstree(true);
+        var tree = this.get('treeObject');
+        return tree.jstree(true);
     },
 
     actions: {
