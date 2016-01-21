@@ -207,6 +207,9 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         */
         treeObject.on('init.jstree', function() {
             Ember.run(this, function() {
+                if (this.get('isDestroyed') || this.get('isDestroying')) {
+                    return;
+                }
                 this.sendAction('eventDidInit');
             });
         }.bind(this));
@@ -218,9 +221,10 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         */
         treeObject.on('ready.jstree', function() {
             Ember.run(this, function() {
-                if (true !== this.get('isDestroyed') && true !== this.get('isDestroying')) {
-                    this.set('isReady', true);
+                if (this.get('isDestroyed') || this.get('isDestroying')) {
+                    return;
                 }
+                this.set('isReady', true);
                 this.sendAction('eventDidBecomeReady');
             });
         }.bind(this));
@@ -232,6 +236,9 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         */
         treeObject.on('redraw.jstree', function() {
             Ember.run(this, function() {
+                if (this.get('isDestroyed') || this.get('isDestroying')) {
+                    return;
+                }
                 this.sendAction('eventDidRedraw');
             });
         }.bind(this));
@@ -243,6 +250,9 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         */
         treeObject.on('after_open.jstree', function(e, data) {
             Ember.run(this, function() {
+                if (this.get('isDestroyed') || this.get('isDestroying')) {
+                    return;
+                }
                 this.sendAction('eventDidOpen', data.node);
             });
         }.bind(this));
@@ -254,6 +264,9 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         */
         treeObject.on('after_close.jstree', function(e, data) {
             Ember.run(this, function() {
+                if (this.get('isDestroyed') || this.get('isDestroying')) {
+                    return;
+                }
                 this.sendAction('eventDidClose', data.node);
             });
         }.bind(this));
@@ -265,6 +278,9 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         */
         treeObject.on('select_node.jstree', function(e, data) {
             Ember.run(this, function() {
+                if (this.get('isDestroyed') || this.get('isDestroying')) {
+                    return;
+                }
                 this.sendAction('eventDidSelectNode', data.node, data.selected, data.event);
             });
         }.bind(this));
@@ -276,6 +292,9 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         */
         treeObject.on('deselect_node.jstree', function(e, data) {
             Ember.run(this, function() {
+                if (this.get('isDestroyed') || this.get('isDestroying')) {
+                    return;
+                }
                 this.sendAction('eventDidDeselectNode', data.node, data.selected, data.event);
             });
         }.bind(this));
@@ -287,6 +306,9 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         */
         treeObject.on('changed.jstree', function (e, data) {
             Ember.run(this, function() {
+                if (this.get('isDestroyed') || this.get('isDestroying')) {
+                    return;
+                }
                 this.sendAction('eventDidChange', data);
 
                 // Check if selection changed
