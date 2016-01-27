@@ -16,6 +16,10 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     themes:               null,
     checkCallback:        true,
 
+    // Refresh configuration booleans
+    skipLoading:          false,
+    forgetState:          false,
+
     // Plugin option objects
     checkboxOptions:      null,
     contextmenuOptions:   null,
@@ -333,7 +337,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         var tree = this.getTree();
         if (null !== tree && false !== tree) {
             tree.settings.core['data'] = this.get('data');
-            tree.refresh();
+            tree.refresh(this.get('skipLoading'), this.get('forgetState'));
         } else {
             // setup again if destroyed
             var treeObject = this._setupJsTree();
