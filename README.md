@@ -148,7 +148,7 @@ In **Handlebars**:
 
 ### Configuring tree refresh
 
-Send in the following [properties](https://www.jstree.com/api/#/?f=refresh()) to control how the tree refreshed when you change thedata
+Send in the following [properties](https://www.jstree.com/api/#/?f=refresh()) to control how the tree is refreshed when you change the data
 
 * skipLoading
 * forgetState
