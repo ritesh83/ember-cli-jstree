@@ -16,7 +16,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     themes:               null,
     checkCallback:        true,
 
-    // Refresh configuration booleans
+    // Refresh configuration variables
     skipLoading:          false,
     forgetState:          false,
 
