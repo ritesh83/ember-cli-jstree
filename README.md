@@ -146,6 +146,15 @@ In **Handlebars**:
 }}
 ````
 
+### Configuring tree refresh
+
+Send in the following [properties](https://www.jstree.com/api/#/?f=refresh()) to control how the tree is refreshed when you change the data
+
+* skipLoading
+* forgetState
+
+Both default to false if nothing is passed in
+
 ## Sending actions to jsTree
 
 The addon component will try to register an `actionReceiver` (see view helper example) to a property in
