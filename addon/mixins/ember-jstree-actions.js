@@ -202,7 +202,7 @@ export default Ember.Mixin.create({
 
         selectNodes: function(property, values) {
             var treeObject = this.get('treeObject');
-            if (null !== treeObject) {
+            if (null !== treeObject && !this.get('isDestroyed') && !this.get('isDestroying')) {
                 var i;
                 if ('id' === property) {
                     // If property is ID, can use get_node, which is faster than search.
