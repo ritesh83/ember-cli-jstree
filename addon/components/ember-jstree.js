@@ -85,10 +85,18 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     * configuration object for jsTree
     *
     * @method _setupJsTree
-    */
+    */    
     _setupJsTree: function() {
-        var configObject = {};
+        return this.$().jstree(this._buildConfig());        
+    },
 
+    /**
+    * Builds config object for jsTree. Could be used to override config in descendant classes.
+    *
+    * @method _buildConfig
+    */    
+    _buildConfig: function(){
+        var configObject = {};
         configObject["core"] = {
             "data": this.get('data'),
             "check_callback": this.get('checkCallback')
@@ -118,7 +126,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
 
             var stateOptions = this.get('stateOptions');
             if(stateOptions && pluginsArray.indexOf("state") !== -1) {
-                configObject["checkbox"] = stateOptions;
+                configObject["state"] = stateOptions;
             }
 
             var typesOptions = this.get('typesOptions');
@@ -131,7 +139,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
             configObject["search"] = {"search_callback" : this.searchCallback.bind(this)};
         }
 
-        return this.$().jstree(configObject);
+        return configObject;
     },
 
     /**
