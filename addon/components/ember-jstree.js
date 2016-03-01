@@ -15,6 +15,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     plugins:              null,
     themes:               null,
     checkCallback:        true,
+    multiple:             true,
 
     // Refresh configuration variables
     skipLoading:          false,
@@ -85,21 +86,22 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     * configuration object for jsTree
     *
     * @method _setupJsTree
-    */    
+    */
     _setupJsTree: function() {
-        return this.$().jstree(this._buildConfig());        
+        return this.$().jstree(this._buildConfig());
     },
 
     /**
     * Builds config object for jsTree. Could be used to override config in descendant classes.
     *
     * @method _buildConfig
-    */    
+    */
     _buildConfig: function(){
         var configObject = {};
         configObject["core"] = {
             "data": this.get('data'),
-            "check_callback": this.get('checkCallback')
+            "check_callback": this.get('checkCallback'),
+            "multiple": this.get('multiple')
         };
 
         var themes = this.get('themes');
