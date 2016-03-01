@@ -34,11 +34,11 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
 
     isReady:              false,
 
-    _isReadyTestWaiter: function() {
+    _isReadyTestWaiter() {
         return this.get('isReady') === true;
     },
 
-    didInsertElement: function() {
+    didInsertElement() {
         // Moved code to the createTree method to remove the deprecation warning.
         // https://github.com/emberjs/ember.js/issues/12290
     },
@@ -58,7 +58,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         });
     }),
 
-    willDestroyElement: function() {
+    willDestroyElement() {
         if(Ember.testing) {
             Ember.Test.unregisterWaiter(this, this._isReadyTestWaiter);
         }
@@ -68,7 +68,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         this.send('destroy');
     },
 
-    searchCallback: function(str, node) {
+    searchCallback(str, node) {
         if(typeof node.original === 'object') {
             if(node.original[this.search_property]) {
                var propValue = node.original[this.search_property];
@@ -87,7 +87,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     *
     * @method _setupJsTree
     */
-    _setupJsTree: function() {
+    _setupJsTree() {
         return this.$().jstree(this._buildConfig());
     },
 
@@ -96,7 +96,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     *
     * @method _buildConfig
     */
-    _buildConfig: function(){
+    _buildConfig() {
         var configObject = {};
         configObject["core"] = {
             "data": this.get('data'),
@@ -152,7 +152,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
      * @param  {Array} pluginsArray Array of plugins to be used
      * @return {Array} An Array of Ember-friendly options to pass back into the config object
      */
-    _setupContextMenus: function(pluginsArray) {
+    _setupContextMenus(pluginsArray) {
         var contextmenuOptions = this.get('contextmenuOptions');
 
         if (null === pluginsArray) {
@@ -208,7 +208,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
      * @param  {Object}
      * @return
      */
-    _setupEventHandlers: function(treeObject) {
+    _setupEventHandlers(treeObject) {
 
         if (typeof treeObject !== 'object') {
             throw new Error('You must pass a valid jsTree object to set up its event handlers');
@@ -356,14 +356,14 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         }
     }),
 
-    getTree: function() {
+    getTree() {
         var tree = this.get('treeObject');
         return tree.jstree(true);
     },
 
     actions: {
 
-        contextmenuItemDidClick: function(actionName, node) {
+        contextmenuItemDidClick(actionName, node) {
             var tree = this.get('getTree');
             if (undefined !== actionName) {
                 this.sendAction(actionName, node, tree);
