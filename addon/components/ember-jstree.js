@@ -15,6 +15,11 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     plugins:              null,
     themes:               null,
     checkCallback:        true,
+    multiple:             true,
+
+    // Refresh configuration variables
+    skipLoading:          false,
+    forgetState:          false,
 
     // Plugin option objects
     checkboxOptions:      null,
@@ -28,27 +33,33 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     _isDestroying:        false,
 
     isReady:              false,
-    _isReadyTestWaiter: function() {
+
+    _isReadyTestWaiter() {
         return this.get('isReady') === true;
     },
 
-    didInsertElement: function() {
-        var applicationConfig = this.container.lookupFactory('config:environment');
-        if(applicationConfig.environment === "test") {
-            // Add test waiter.
-            Ember.Test.registerWaiter(this, this._isReadyTestWaiter);
-        }
-
-        var treeObject = this._setupJsTree();
-
-        this._setupEventHandlers(treeObject);
-
-        this.set('treeObject', treeObject);
+    didInsertElement() {
+        // Moved code to the createTree method to remove the deprecation warning.
+        // https://github.com/emberjs/ember.js/issues/12290
     },
 
-    willDestroyElement: function() {
-        var applicationConfig = this.container.lookupFactory('config:environment');
-        if(applicationConfig.environment === "test") {
+    createTree: Ember.on('init', function () {
+        Ember.run.schedule('afterRender', this, function () {
+            if (Ember.testing) {
+                // Add test waiter.
+                Ember.Test.registerWaiter(this, this._isReadyTestWaiter);
+            }
+
+            var treeObject = this._setupJsTree();
+
+            this._setupEventHandlers(treeObject);
+
+            this.set('treeObject', treeObject);
+        });
+    }),
+
+    willDestroyElement() {
+        if(Ember.testing) {
             Ember.Test.unregisterWaiter(this, this._isReadyTestWaiter);
         }
 
@@ -57,7 +68,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         this.send('destroy');
     },
 
-    searchCallback: function(str, node) {
+    searchCallback(str, node) {
         if(typeof node.original === 'object') {
             if(node.original[this.search_property]) {
                var propValue = node.original[this.search_property];
@@ -76,12 +87,21 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     *
     * @method _setupJsTree
     */
-    _setupJsTree: function() {
-        var configObject = {};
+    _setupJsTree() {
+        return this.$().jstree(this._buildConfig());
+    },
 
+    /**
+    * Builds config object for jsTree. Could be used to override config in descendant classes.
+    *
+    * @method _buildConfig
+    */
+    _buildConfig() {
+        var configObject = {};
         configObject["core"] = {
             "data": this.get('data'),
-            "check_callback": this.get('checkCallback')
+            "check_callback": this.get('checkCallback'),
+            "multiple": this.get('multiple')
         };
 
         var themes = this.get('themes');
@@ -98,7 +118,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
                 pluginsArray.indexOf("dnd") !== -1 ||
                 pluginsArray.indexOf("unique") !== -1) {
                 // These plugins need core.check_callback
-                configObject["core"]["check_callback"] = true;
+                configObject["core"]["check_callback"] = configObject["core"]["check_callback"] || true;
             }
 
             var checkboxOptions = this.get('checkboxOptions');
@@ -108,7 +128,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
 
             var stateOptions = this.get('stateOptions');
             if(stateOptions && pluginsArray.indexOf("state") !== -1) {
-                configObject["checkbox"] = stateOptions;
+                configObject["state"] = stateOptions;
             }
 
             var typesOptions = this.get('typesOptions');
@@ -121,7 +141,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
             configObject["search"] = {"search_callback" : this.searchCallback.bind(this)};
         }
 
-        return this.$().jstree(configObject);
+        return configObject;
     },
 
     /**
@@ -132,7 +152,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
      * @param  {Array} pluginsArray Array of plugins to be used
      * @return {Array} An Array of Ember-friendly options to pass back into the config object
      */
-    _setupContextMenus: function(pluginsArray) {
+    _setupContextMenus(pluginsArray) {
         var contextmenuOptions = this.get('contextmenuOptions');
 
         if (null === pluginsArray) {
@@ -153,12 +173,14 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
                         // This needs to be done so Ember can hijack the action and call it instead
                         if (typeof contextmenuOptions["items"][menuItem]["action"] === "string") {
                             var emberAction = contextmenuOptions["items"][menuItem]["action"];
-                            newMenuItems[menuItem]["action"] = function() {
-                                Ember.run(this, function() {
-                                    var node = this.get('currentNode');
-                                    this.send("contextmenuItemDidClick", emberAction, node);
-                                });
-                            }.bind(this);
+                            newMenuItems[menuItem]["action"] = (function(self, action) {
+                                return function() {
+                                    Ember.run(self, function() {
+                                        var node = self.get('currentNode');
+                                        self.send("contextmenuItemDidClick", action, node);
+                                    });
+                                };
+                            })(this, emberAction);
                         }
                     }
                 }
@@ -170,7 +192,6 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
                     });
                     return newMenuItems;
                 }.bind(this);
-
 
             }
 
@@ -187,7 +208,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
      * @param  {Object}
      * @return
      */
-    _setupEventHandlers: function(treeObject) {
+    _setupEventHandlers(treeObject) {
 
         if (typeof treeObject !== 'object') {
             throw new Error('You must pass a valid jsTree object to set up its event handlers');
@@ -200,6 +221,9 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         */
         treeObject.on('init.jstree', function() {
             Ember.run(this, function() {
+                if (this.get('isDestroyed') || this.get('isDestroying')) {
+                    return;
+                }
                 this.sendAction('eventDidInit');
             });
         }.bind(this));
@@ -211,6 +235,9 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         */
         treeObject.on('ready.jstree', function() {
             Ember.run(this, function() {
+                if (this.get('isDestroyed') || this.get('isDestroying')) {
+                    return;
+                }
                 this.set('isReady', true);
                 this.sendAction('eventDidBecomeReady');
             });
@@ -223,6 +250,9 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         */
         treeObject.on('redraw.jstree', function() {
             Ember.run(this, function() {
+                if (this.get('isDestroyed') || this.get('isDestroying')) {
+                    return;
+                }
                 this.sendAction('eventDidRedraw');
             });
         }.bind(this));
@@ -234,6 +264,9 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         */
         treeObject.on('after_open.jstree', function(e, data) {
             Ember.run(this, function() {
+                if (this.get('isDestroyed') || this.get('isDestroying')) {
+                    return;
+                }
                 this.sendAction('eventDidOpen', data.node);
             });
         }.bind(this));
@@ -245,6 +278,9 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         */
         treeObject.on('after_close.jstree', function(e, data) {
             Ember.run(this, function() {
+                if (this.get('isDestroyed') || this.get('isDestroying')) {
+                    return;
+                }
                 this.sendAction('eventDidClose', data.node);
             });
         }.bind(this));
@@ -256,6 +292,9 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         */
         treeObject.on('select_node.jstree', function(e, data) {
             Ember.run(this, function() {
+                if (this.get('isDestroyed') || this.get('isDestroying')) {
+                    return;
+                }
                 this.sendAction('eventDidSelectNode', data.node, data.selected, data.event);
             });
         }.bind(this));
@@ -267,6 +306,9 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         */
         treeObject.on('deselect_node.jstree', function(e, data) {
             Ember.run(this, function() {
+                if (this.get('isDestroyed') || this.get('isDestroying')) {
+                    return;
+                }
                 this.sendAction('eventDidDeselectNode', data.node, data.selected, data.event);
             });
         }.bind(this));
@@ -278,6 +320,9 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         */
         treeObject.on('changed.jstree', function (e, data) {
             Ember.run(this, function() {
+                if (this.get('isDestroyed') || this.get('isDestroying')) {
+                    return;
+                }
                 this.sendAction('eventDidChange', data);
 
                 // Check if selection changed
@@ -299,22 +344,26 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
      * @method _redrawTree
      */
     _refreshTree: Ember.observer('data', function() {
-        var o = this.get('treeObject');
-        var t = o.jstree(true);
-        if (null !== t) {
-            t.settings.core['data'] = this.get('data');
-            t.refresh();
+        var tree = this.getTree();
+        if (null !== tree && false !== tree) {
+            tree.settings.core['data'] = this.get('data');
+            tree.refresh(this.get('skipLoading'), this.get('forgetState'));
+        } else {
+            // setup again if destroyed
+            var treeObject = this._setupJsTree();
+            this._setupEventHandlers(treeObject);
+            this.set('treeObject', treeObject);
         }
     }),
 
-    getTree: function() {
-        var o = this.get('treeObject');
-        return o.jstree(true);
+    getTree() {
+        var tree = this.get('treeObject');
+        return tree.jstree(true);
     },
 
     actions: {
 
-        contextmenuItemDidClick: function(actionName, node) {
+        contextmenuItemDidClick(actionName, node) {
             var tree = this.get('getTree');
             if (undefined !== actionName) {
                 this.sendAction(actionName, node, tree);

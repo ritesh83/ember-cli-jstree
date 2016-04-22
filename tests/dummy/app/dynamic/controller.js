@@ -44,12 +44,11 @@ export default Ember.Controller.extend({
             this.get('jstreeActionReceiver').send('destroy');
         },
 
-        handleTreeSelectionDidChange: function(data) {
-            var selected = this.get('jsTreeActionReceiver').send('getSelected');
+        handleTreeSelectionDidChange: function() {
+            this.get('jsTreeActionReceiver').send('getSelected');
         },
 
-        contextMenuReportClicked: function(node, tree) {
-            var self = this;
+        contextMenuReportClicked: function(node) {
             this.set('lastItemClicked', '"Report" item for node: <' + node.text + '> was clicked.');
         },
 
