@@ -9,6 +9,7 @@ module.exports = {
 
     included: function (app) {
         this._super.included(app);
+        if (process.env.EMBER_CLI_FASTBOOT) return;
         app.import(app.bowerDirectory + '/jstree/dist/jstree.js');
         app.import(app.bowerDirectory + '/jstree/dist/themes/default/style.css');
     },
