@@ -39,24 +39,21 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     },
 
     didInsertElement() {
-        // Moved code to the createTree method to remove the deprecation warning.
-        // https://github.com/emberjs/ember.js/issues/12290
+        Ember.run.schedule('afterRender', this, this.createTree);
     },
 
-    createTree: Ember.on('init', function () {
-        Ember.run.schedule('afterRender', this, function () {
-            if (Ember.testing) {
-                // Add test waiter.
-                Ember.Test.registerWaiter(this, this._isReadyTestWaiter);
-            }
+    createTree() {
+        if (Ember.testing) {
+            // Add test waiter.
+            Ember.Test.registerWaiter(this, this._isReadyTestWaiter);
+        }
 
-            var treeObject = this._setupJsTree();
+        var treeObject = this._setupJsTree();
 
-            this._setupEventHandlers(treeObject);
+        this._setupEventHandlers(treeObject);
 
-            this.set('treeObject', treeObject);
-        });
-    }),
+        this.set('treeObject', treeObject);
+    },
 
     willDestroyElement() {
         if(Ember.testing) {
