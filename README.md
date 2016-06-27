@@ -80,10 +80,13 @@ The following events have basic support included. More are on the way.
 | after_open.jstree         | eventDidOpen          |
 | after_close.jstree        | eventDidClose         |
 | changed.jstree            | eventDidChange        |
+| dehover_node.jstree       | eventDidDehoverNode   |
 | deselect_node.jstree      | eventDidDeselectNode  |
+| hover_node.jstree         | eventDidHoverNode     |
 | init.jstree               | eventDidInit          |
 | ready.jstree              | eventDidBecomeReady   |
 | redraw.jstree             | eventDidRedraw        |
+| show_node.jstree          | eventDidShowNode      |
 | select_node.jstree        | eventDidSelectNode    |
 | (destroyed - no event)    | eventDidDestroy       |
 

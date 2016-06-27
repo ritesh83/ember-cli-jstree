@@ -332,6 +332,48 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
                 }
             });
         }.bind(this));
+
+        /*
+          Event: hover_node.jstree
+          Action: eventDidHoverNode
+          triggered when a node is hovered
+        */
+        treeObject.on('hover_node.jstree', function(e, data) {
+            Ember.run(this, function() {
+                if (this.get('isDestroyed') || this.get('isDestroying')) {
+                    return;
+                }
+                this.sendAction('eventDidHoverNode', data.node);
+            });
+        }.bind(this));
+
+        /*
+          Event: dehover_node.jstree
+          Action: eventDidDehoverNode
+          triggered when a node is no longer hovered
+        */
+        treeObject.on('hover_node.jstree', function(e, data) {
+            Ember.run(this, function() {
+                if (this.get('isDestroyed') || this.get('isDestroying')) {
+                    return;
+                }
+                this.sendAction('eventDidDehoverNode', data.node);
+            });
+        }.bind(this));
+
+        /*
+          Event: show_node.jstree
+          Action: eventDidShowNode
+          triggered when a node is no longer hovered
+        */
+        treeObject.on('show_node.jstree', function(e, data) {
+            Ember.run(this, function() {
+                if (this.get('isDestroyed') || this.get('isDestroying')) {
+                    return;
+                }
+                this.sendAction('eventDidShowNode', data.node);
+            });
+        }.bind(this));
     },
 
     /**
