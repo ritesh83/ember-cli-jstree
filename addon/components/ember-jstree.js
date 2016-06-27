@@ -352,7 +352,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
           Action: eventDidDehoverNode
           triggered when a node is no longer hovered
         */
-        treeObject.on('hover_node.jstree', function(e, data) {
+        treeObject.on('dehover_node.jstree', function(e, data) {
             Ember.run(this, function() {
                 if (this.get('isDestroyed') || this.get('isDestroying')) {
                     return;
