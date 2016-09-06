@@ -89,6 +89,7 @@ The following events have basic support included. More are on the way.
 | show_node.jstree          | eventDidShowNode      |
 | select_node.jstree        | eventDidSelectNode    |
 | (destroyed - no event)    | eventDidDestroy       |
+| move_node.jstree          | eventDidMoveNode      |
 
 **Note:** In the meantime, you can add event listeners yourself by calling them on a mapped `treeObject` property.
 
@@ -125,6 +126,7 @@ The following [plugins](http://www.jstree.com/plugins/) are currently supported.
 * State
 * Types
 * Wholerow
+* Drag and Drop
 
 ### Configuring plugins
 

@@ -75,7 +75,7 @@ export default Ember.Controller.extend({
     },
 
     _jsonifyBufferWatcher: Ember.observer('jstreeBuffer', function() {
-        var b = this.get('jstreeBuffer');
+        let b = this.get('jstreeBuffer');
 
         if (null !== b && b) {
             this.set('jsonifiedBuffer', JSON.stringify(b));
@@ -86,29 +86,29 @@ export default Ember.Controller.extend({
 
     actions: {
 
-        redraw: function() {
+        redraw() {
             this.get('jstreeActionReceiver').send('redraw');
         },
 
-        destroy: function() {
+        destroy() {
             this.get('jstreeActionReceiver').send('destroy');
         },
 
-        getNode: function(nodeId) {
+        getNode(nodeId) {
             this.get('jstreeActionReceiver').send('getNode', nodeId);
         },
 
-        handleGetNode: function(node) {
+        handleGetNode(node) {
             if (node) {
                 this.set('jstreeBuffer', node);
             }
         },
 
-        contextMenuReportClicked: function(node) {
+        contextMenuReportClicked(node) {
             this.set('lastItemClicked', '"Report" item for node: <' + node.text + '> was clicked.');
         },
 
-        addChildByText: function(nodeTextName) {
+        addChildByText(nodeTextName) {
             if (typeof nodeTextName !== 'string') {
                 return;
             }
@@ -123,7 +123,7 @@ export default Ember.Controller.extend({
             this.send('redraw');
         },
 
-        handleTreeDidBecomeReady: function() {
+        handleTreeDidBecomeReady() {
             this.set('treeReady', true);
         }
     }

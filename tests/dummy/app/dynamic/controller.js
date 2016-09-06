@@ -15,8 +15,8 @@ export default Ember.Controller.extend({
 
     data: {
         'url' : function (node) {
-            return node.id === '#' ? 
-                '/ajax_data_roots.json' : 
+            return node.id === '#' ?
+                '/ajax_data_roots.json' :
                 '/ajax_data_children.json';
         },
         'data' : function (node) {
@@ -28,7 +28,7 @@ export default Ember.Controller.extend({
     treeReady: false,
 
 
-    plugins: "wholerow",
+    plugins: "wholerow, dnd",
     themes: {
         'name': 'default',
         'responsive': true
@@ -36,23 +36,23 @@ export default Ember.Controller.extend({
 
     actions: {
 
-        redraw: function() {
+        redraw() {
             this.get('jstreeActionReceiver').send('redraw');
         },
 
-        destroy: function() {
+        destroy() {
             this.get('jstreeActionReceiver').send('destroy');
         },
 
-        handleTreeSelectionDidChange: function() {
+        handleTreeSelectionDidChange() {
             this.get('jsTreeActionReceiver').send('getSelected');
         },
 
-        contextMenuReportClicked: function(node) {
+        contextMenuReportClicked(node) {
             this.set('lastItemClicked', '"Report" item for node: <' + node.text + '> was clicked.');
         },
 
-        addChildByText: function(nodeTextName) {
+        addChildByText(nodeTextName) {
             if (typeof nodeTextName !== 'string') {
                 return;
             }
@@ -66,9 +66,13 @@ export default Ember.Controller.extend({
             this.set(data);
         },
 
-        handleTreeDidBecomeReady: function() {
+        handleTreeDidBecomeReady() {
             this.set('treeReady', true);
+        },
+
+        handleJstreeEventDidMoveNode(node) {
+            console.log(node);
         }
     }
-    
+
 });
