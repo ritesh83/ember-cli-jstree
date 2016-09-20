@@ -55,6 +55,21 @@ test('Get Node button gets correct node', function(assert) {
     });
 });
 
+test('Search filters to correct nodes', function(assert) {
+    visit('/static');
+    andThen(function() {
+        assert.equal(find('.sample-tree li.jstree-hidden').length, 0, 'All nodes begin visible');
+    });
+    fillIn('.search-input', 'Single child node');
+    andThen(function() {
+        assert.equal(find('.sample-tree li:not(.jstree-hidden)').length, 1, 'Only matching node shown after search');
+    });
+    fillIn('.search-input', '');
+    andThen(function() {
+        assert.equal(find('.sample-tree li.jstree-hidden').length, 0, 'All nodes are visible after clearing search');
+    });
+});
+
 test('Has dynamic demo', function(assert) {
     assert.expect(1);
     visit('/dynamic').then(function() {

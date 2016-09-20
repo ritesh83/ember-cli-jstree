@@ -5,6 +5,7 @@ export default Ember.Controller.extend({
     jstreeSelectedNodes: Ember.A(),
     jstreeBuffer: null,
     jsonifiedBuffer: '<No output>',
+    searchTerm: '',
 
     sortedSelectedNodes: Ember.computed.sort('jstreeSelectedNodes', function(a, b) {
         if (a.text > b.text) {
@@ -46,13 +47,17 @@ export default Ember.Controller.extend({
     lastItemClicked: '',
     treeReady: false,
 
-    plugins: "checkbox, wholerow, state, types, contextmenu",
+    plugins: "checkbox, wholerow, state, search, types, contextmenu",
     themes: {
         'name': 'default',
         'responsive': true
     },
 
     checkboxOptions: {"keep_selected_style" : false},
+    searchOptions: {
+      'case_insensitive': true,
+      'show_only_matches' : true
+    },
 
     stateOptions: {
         'key': 'ember-cli-jstree-dummy'

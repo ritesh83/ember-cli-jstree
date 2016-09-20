@@ -213,25 +213,6 @@ export default Ember.Mixin.create({
                         }
                         treeObject.jstree(true).select_node(nodes, true, true);
                     }
-                } else {
-                    if (this.plugins.indexOf("search") === -1) {
-                         Ember.assert("'search' plugin is required to perform 'selectNodes' on properties other than 'id'");
-                         return;
-                    }
-
-                    this.set('search_property', property);
-
-                    treeObject.on('search.jstree', (event, data) => {
-                        treeObject.jstree(true).select_node(data.nodes, true, true);
-                    });
-
-                    if (Ember.$.isArray(values)) {
-                        for(let i=0; i<values.length; i++) {
-                            treeObject.jstree(true).search(values[i]);
-                        }
-
-                        treeObject.jstree(true).clear_search();
-                    }
                 }
             }
         }
