@@ -55,7 +55,6 @@ export default Ember.Controller.extend({
 
     checkboxOptions: {"keep_selected_style" : false},
     searchOptions: {
-      'case_insensitive': true,
       'show_only_matches' : true
     },
 
