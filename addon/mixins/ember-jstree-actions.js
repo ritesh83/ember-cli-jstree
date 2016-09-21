@@ -8,6 +8,41 @@ import Ember from 'ember';
 * @class EmberJstreeActions
 */
 export default Ember.Mixin.create({
+    _jsTreeFindNodeMatches(property, values) {
+        let treeObject = this.get('treeObject'),
+            nodes = [];
+
+        if ('id' === property) {
+            // If property is ID, can use get_node, which is faster than search.
+            if (Ember.$.isArray(values)) {
+                for (let i=0; i<values.length; i++) {
+                    let node = treeObject.jstree(true).get_node(values[i]);
+                    nodes.push(node);
+                }
+            }
+        } else {
+            if (!Ember.isArray(values)) {
+                values = Ember.A([values]);
+            }
+            let data = treeObject.jstree(true)._model.data,
+                dataKeys = Object.keys(data);
+
+            for (let i=0; i < values.length; i++) {
+                let value = values[i];
+                if (!Ember.isNone(value)) {
+                    for (let j=0; j < dataKeys.length; j++) {
+                        let node = data[dataKeys[j]];
+                        if (typeof node.original !== 'undefined' && node.original[property] === value) {
+                            nodes.push(node);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return nodes;
+    },
+
     actions: {
         redraw() {
             // Redraw true currently does not work as intended. Need to investigate.
@@ -193,46 +228,23 @@ export default Ember.Mixin.create({
             }
         },
 
-        deselectNodes() {
-            let treeObject = this.get('treeObject');
-            if (!Ember.isNone(treeObject)) {
-                treeObject.jstree(true).deselect_all();
+        deselectNodes(property, values) {
+            if (arguments.length === 0) {
+                Ember.warn('Using deselectNodes without parameters to deselect all nodes is deprecated. Use the deselectAll action to deselect all nodes.');
+                this.send('deselectAll');
+                return;
             }
+            let treeObject = this.get('treeObject'),
+                nodes = this._jsTreeFindNodeMatches(property, values);
+            treeObject.jstree(true).deselect_node(nodes, true, true);
+            treeObject.jstree(true).redraw();  // Redraw so that parent nodes get their indicator changed.
         },
 
         selectNodes(property, values) {
             let treeObject = this.get('treeObject');
             if (null !== treeObject && !this.get('isDestroyed') && !this.get('isDestroying')) {
-                if ('id' === property) {
-                    // If property is ID, can use get_node, which is faster than search.
-                    if (Ember.$.isArray(values)) {
-                        let nodes = [];
-                        for (let i=0; i<values.length; i++) {
-                            let node = treeObject.jstree(true).get_node(values[i]);
-                            nodes.push(node);
-                        }
-                        treeObject.jstree(true).select_node(nodes, true, true);
-                    }
-                } else {
-                    if (this.plugins.indexOf("search") === -1) {
-                         Ember.assert("'search' plugin is required to perform 'selectNodes' on properties other than 'id'");
-                         return;
-                    }
-
-                    this.set('search_property', property);
-
-                    treeObject.on('search.jstree', (event, data) => {
-                        treeObject.jstree(true).select_node(data.nodes, true, true);
-                    });
-
-                    if (Ember.$.isArray(values)) {
-                        for(let i=0; i<values.length; i++) {
-                            treeObject.jstree(true).search(values[i]);
-                        }
-
-                        treeObject.jstree(true).clear_search();
-                    }
-                }
+                let nodes = this._jsTreeFindNodeMatches(property, values);
+                treeObject.jstree(true).select_node(nodes, true, true);
             }
         }
     }
