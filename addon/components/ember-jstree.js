@@ -320,7 +320,6 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
                 if (this.get('isDestroyed') || this.get('isDestroying')) {
                     return;
                 }
-                this.sendAction('eventDidChange', data);
 
                 // Check if selection changed
                 if (this.get('treeObject') && !(this.get('isDestroyed') || this.get('isDestroying'))) {
@@ -330,6 +329,8 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
                         this.set('selectedNodes', selNodes);
                     }
                 }
+
+                this.sendAction('eventDidChange', data);
             });
         });
 
