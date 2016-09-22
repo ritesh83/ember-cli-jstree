@@ -29,6 +29,8 @@ Run supported actions on the tree by registering it to your controller with the 
         contextmenuOptions=contextmenuOptions
         stateOptions=stateOptions
         typesOptions=typesOptions
+        searchOptions=searchOptions
+        searchTerm=searchTerm
         contextMenuReportClicked="contextMenuReportClicked"
         eventDidBecomeReady="handleTreeDidBecomeReady"
     }}
@@ -123,6 +125,7 @@ The following [plugins](http://www.jstree.com/plugins/) are currently supported.
 
 * Checkbox
 * Contextmenu
+* Search
 * State
 * Types
 * Wholerow
