@@ -118,7 +118,6 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
 
             let searchOptions = this.get('searchOptions');
             if (searchOptions && pluginsArray.indexOf("search") !== -1) {
-                searchOptions["search_callback"] = this.searchCallback;
                 configObject["search"] = searchOptions;
             }
 
