@@ -10,8 +10,10 @@
         checkboxOptions=checkboxOptions
         contextmenuOptions=contextmenuOptions
         contextMenuReportClicked="contextMenuReportClicked"
+        searchOptions=searchOptions
         stateOptions=stateOptions
         typesOptions=typesOptions
+        searchTerm=searchTerm
 
         eventDidBecomeReady="handleTreeDidBecomeReady"
 
@@ -55,6 +57,11 @@
         <button {{action "destroy"}} class="ember-test-destroy-button">Destroy</button>
         <br><br>
         <button {{action "addChildByText" "Opened node (has tooltip)"}}>Add child to "Opened node"</button>
+    </div>
+
+    <div class="search">
+      <h2>Search</h2>
+      {{input type="text" placeholder="Search" class="search-input form-control" value=searchTerm}}
     </div>
 
     <div class="buffer">

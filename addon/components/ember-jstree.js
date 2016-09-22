@@ -25,6 +25,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     checkboxOptions:      null,
     contextmenuOptions:   null,
     typesOptions:         null,
+    searchOptions:        null,
 
     selectionDidChange:   null,
     treeObject:           null,
@@ -65,18 +66,10 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         this.send('destroy');
     },
 
-    searchCallback(str, node) {
-        if (typeof node.original === 'object') {
-            if (node.original[this.search_property]) {
-                let propValue = node.original[this.search_property];
-                if (propValue === str) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    },
+    searchTermChanged: Ember.observer('searchTerm', function() {
+        let searchTerm = this.get('searchTerm');
+        this.getTree().search(searchTerm);
+    }),
 
     /**
     * Main setup function that registers all the plugins and sets up the core
@@ -123,6 +116,12 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
                 configObject["checkbox"] = checkboxOptions;
             }
 
+            let searchOptions = this.get('searchOptions');
+            if (searchOptions && pluginsArray.indexOf("search") !== -1) {
+                searchOptions["search_callback"] = this.searchCallback;
+                configObject["search"] = searchOptions;
+            }
+
             let stateOptions = this.get('stateOptions');
             if (stateOptions && pluginsArray.indexOf("state") !== -1) {
                 configObject["state"] = stateOptions;
@@ -134,8 +133,6 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
             }
 
             configObject["contextmenu"] = this._setupContextMenus(pluginsArray);
-
-            configObject["search"] = {"search_callback" : this.searchCallback.bind(this)};
         }
 
         return configObject;
