@@ -8,13 +8,14 @@ import Ember from 'ember';
 * @class EmberJstreeActions
 */
 export default Ember.Mixin.create({
+
     _jsTreeFindNodeMatches(property, values) {
-        let treeObject = this.get('treeObject'),
-            nodes = [];
+        let treeObject = this.get('treeObject');
+        let nodes = [];
 
         if ('id' === property) {
             // If property is ID, can use get_node, which is faster than search.
-            if (Ember.$.isArray(values)) {
+            if (Ember.isArray(values)) {
                 for (let i=0; i<values.length; i++) {
                     let node = treeObject.jstree(true).get_node(values[i]);
                     nodes.push(node);
@@ -24,15 +25,16 @@ export default Ember.Mixin.create({
             if (!Ember.isArray(values)) {
                 values = Ember.A([values]);
             }
-            let data = treeObject.jstree(true)._model.data,
-                dataKeys = Object.keys(data);
+
+            let data = treeObject.jstree(true)._model.data;
+            let dataKeys = Object.keys(data);
 
             for (let i=0; i < values.length; i++) {
                 let value = values[i];
                 if (!Ember.isNone(value)) {
                     for (let j=0; j < dataKeys.length; j++) {
                         let node = data[dataKeys[j]];
-                        if (typeof node.original !== 'undefined' && node.original[property] === value) {
+                        if (Ember.typeOf(node.original) !== 'undefined' && node.original[property] === value) {
                             nodes.push(node);
                             break;
                         }
@@ -40,10 +42,12 @@ export default Ember.Mixin.create({
                 }
             }
         }
+
         return nodes;
     },
 
     actions: {
+
         redraw() {
             // Redraw true currently does not work as intended. Need to investigate.
             this._refreshTree();
@@ -61,7 +65,7 @@ export default Ember.Mixin.create({
         },
 
         getNode(nodeId) {
-            if (typeof nodeId !== "string") {
+            if (Ember.typeOf(nodeId) !== 'string') {
                 throw new Error('getNode() requires a node ID to be passed to it to return the node!');
             }
 
@@ -159,7 +163,10 @@ export default Ember.Mixin.create({
         createNode(obj, node, pos, callback, is_loaded) {
             let treeObject = this.get('treeObject');
             if (!Ember.isNone(treeObject)) {
-                this.sendAction('actionCreateNode', treeObject.jstree(true).create_node(obj, node, pos, callback, is_loaded));
+                this.sendAction(
+                    'actionCreateNode',
+                    treeObject.jstree(true).create_node(obj, node, pos, callback, is_loaded)
+                );
             }
         },
 
@@ -234,8 +241,10 @@ export default Ember.Mixin.create({
                 this.send('deselectAll');
                 return;
             }
-            let treeObject = this.get('treeObject'),
-                nodes = this._jsTreeFindNodeMatches(property, values);
+
+            let treeObject = this.get('treeObject');
+            let nodes = this._jsTreeFindNodeMatches(property, values);
+
             treeObject.jstree(true).deselect_node(nodes, true, true);
             treeObject.jstree(true).redraw();  // Redraw so that parent nodes get their indicator changed.
         },

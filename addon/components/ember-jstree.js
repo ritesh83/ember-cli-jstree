@@ -5,6 +5,7 @@ import InboundActions from 'ember-component-inbound-actions/inbound-actions';
 import EmberJstreeActions from 'ember-cli-jstree/mixins/ember-jstree-actions';
 
 export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
+
     // Properties for Ember communication
     actionReceiver:       null,
     currentNode:          null,
@@ -34,6 +35,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     _isDestroying:        false,
 
     isReady:              false,
+    _searchTerm:          null,
 
     _isReadyTestWaiter() {
         return this.get('isReady') === true;
@@ -66,131 +68,116 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         this.send('destroy');
     },
 
-    searchTermChanged: Ember.observer('searchTerm', function() {
+    didUpdateAttrs() {
+        this._super(...arguments);
+
         let searchTerm = this.get('searchTerm');
-        this.getTree().search(searchTerm);
-    }),
+        if (this.get('_searchTerm') !== searchTerm) {
+            this.set('_searchTerm', searchTerm);
+            this.getTree().search(searchTerm);
+        }
+    },
 
     /**
-    * Main setup function that registers all the plugins and sets up the core
-    * configuration object for jsTree
-    *
-    * @method _setupJsTree
-    */
+     * Main setup function that registers all the plugins and sets up the core
+     * configuration object for jsTree
+     *
+     * @method _setupJsTree
+     */
     _setupJsTree() {
         return this.$().jstree(this._buildConfig());
     },
 
     /**
-    * Builds config object for jsTree. Could be used to override config in descendant classes.
-    *
-    * @method _buildConfig
-    */
+     * Builds config object for jsTree. Could be used to override config in descendant classes.
+     *
+     * @method _buildConfig
+     */
     _buildConfig() {
         let configObject = {};
-        configObject["core"] = {
-            "data": this.get('data'),
-            "check_callback": this.get('checkCallback'),
-            "multiple": this.get('multiple')
+
+        configObject['core'] = {
+            'data': this.get('data'),
+            'check_callback': this.get('checkCallback'),
+            'multiple': this.get('multiple')
         };
 
         let themes = this.get('themes');
-        if (themes && typeof themes === "object") {
-            configObject["core"]["themes"] = themes;
+        if (Ember.isPresent(themes) && Ember.typeOf(themes) === 'object') {
+            configObject['core']['themes'] = themes;
         }
 
         let pluginsArray = this.get('plugins');
-        if (pluginsArray) {
+        if (Ember.isPresent(pluginsArray)) {
             pluginsArray = pluginsArray.replace(/ /g, '').split(',');
-            configObject["plugins"] = pluginsArray;
+            configObject['plugins'] = pluginsArray;
 
-            if (pluginsArray.indexOf("contextmenu") !== -1 ||
-                pluginsArray.indexOf("dnd") !== -1 ||
-                pluginsArray.indexOf("unique") !== -1) {
+            if (pluginsArray.includes('contextmenu') ||
+                pluginsArray.includes('dnd') ||
+                pluginsArray.includes('unique')) {
                 // These plugins need core.check_callback
-                configObject["core"]["check_callback"] = configObject["core"]["check_callback"] || true;
+                configObject['core']['check_callback'] = configObject['core']['check_callback'] || true;
             }
 
             let checkboxOptions = this.get('checkboxOptions');
-            if (checkboxOptions && pluginsArray.indexOf("checkbox") !== -1) {
-                configObject["checkbox"] = checkboxOptions;
+            if (Ember.isPresent(checkboxOptions) && pluginsArray.includes('checkbox')) {
+                configObject['checkbox'] = checkboxOptions;
             }
 
             let searchOptions = this.get('searchOptions');
-            if (searchOptions && pluginsArray.indexOf("search") !== -1) {
-                configObject["search"] = searchOptions;
+            if (Ember.isPresent(searchOptions) && pluginsArray.includes('search')) {
+                configObject['search'] = searchOptions;
             }
 
             let stateOptions = this.get('stateOptions');
-            if (stateOptions && pluginsArray.indexOf("state") !== -1) {
-                configObject["state"] = stateOptions;
+            if (Ember.isPresent(stateOptions) && pluginsArray.includes('state')) {
+                configObject['state'] = stateOptions;
             }
 
             let typesOptions = this.get('typesOptions');
-            if (typesOptions && pluginsArray.indexOf("types") !== -1) {
-                configObject["types"] = typesOptions;
+            if (Ember.isPresent(typesOptions) && pluginsArray.includes('types')) {
+                configObject['types'] = typesOptions;
             }
 
-            configObject["contextmenu"] = this._setupContextMenus(pluginsArray);
+            let contextmenuOptions = this.get('contextmenuOptions');
+            if (Ember.isPresent(contextmenuOptions) && pluginsArray.includes('contextmenu')) {
+                configObject['contextmenu'] = this._setupContextMenus(contextmenuOptions);
+            }
         }
 
         return configObject;
     },
 
     /**
-     * We essentially need to hijack the jstree contextmenu plugin in order for us
-     * to do messaging between this Ember addon/component and jstree
+     * Setup context menu action handlers to handle ember actions
      *
      * @method _setupContextMenus
-     * @param  {Array} pluginsArray Array of plugins to be used
+     * @param  {Array} contextmenuOptions Context menu configuration options
      * @return {Array} An Array of Ember-friendly options to pass back into the config object
      */
-    _setupContextMenus(pluginsArray) {
-        let contextmenuOptions = this.get('contextmenuOptions');
+    _setupContextMenus(contextmenuOptions) {
+        if (Ember.typeOf(contextmenuOptions['items']) === 'object') {
+            let newMenuItems = {};
+            let menuItems = Object.keys(contextmenuOptions['items']);
+            for (let menuItem of menuItems) {
+                let itemData = contextmenuOptions['items'][menuItem];
+                newMenuItems[menuItem] = itemData;
 
-        if (null === pluginsArray) {
-            return;
-        }
+                // Only change if not a function
+                // This needs to be done to handle Ember actions
+                if (Ember.typeOf(itemData['action']) !== 'function') {
+                    let emberAction = itemData['action'];
 
-        // This has eventually got to go. It's terrible.
-        if (contextmenuOptions && pluginsArray.indexOf("contextmenu") !== -1) {
-            // Remap action hash to functions and don't forget to pass node through
-            if (typeof contextmenuOptions["items"] === "object") {
-                let newMenuItems = {};
-                for (let menuItem in contextmenuOptions["items"]) {
-                    if (contextmenuOptions["items"].hasOwnProperty(menuItem)) {
-                        // Copy over everything first
-                        newMenuItems[menuItem] = contextmenuOptions["items"][menuItem];
-
-                        // Only change it if it's a string. If a function, leave it
-                        // This needs to be done so Ember can hijack the action and call it instead
-                        if (typeof contextmenuOptions["items"][menuItem]["action"] === "string") {
-                            let emberAction = contextmenuOptions["items"][menuItem]["action"];
-                            newMenuItems[menuItem]["action"] = (function(self, action) {
-                                return function() {
-                                    Ember.run(self, function() {
-                                        let node = self.get('currentNode');
-                                        self.send("contextmenuItemDidClick", action, node);
-                                    });
-                                };
-                            })(this, emberAction);
-                        }
-                    }
+                    newMenuItems[menuItem]['action'] = (data) => {
+                        this.send("contextmenuItemDidClick", emberAction, data);
+                    };
                 }
-
-                // Wrap it up
-                contextmenuOptions["items"] = function(node) {
-                    Ember.run(this, function() {
-                        this.set('currentNode', node);
-                    });
-                    return newMenuItems;
-                }.bind(this);
-
             }
 
-            // Pass options back into the config object
-            return contextmenuOptions;
+            contextmenuOptions['items'] = newMenuItems;
         }
+
+        return contextmenuOptions;
     },
 
     /**
@@ -318,9 +305,15 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
                 }
 
                 // Check if selection changed
-                if (this.get('treeObject') && !(this.get('isDestroyed') || this.get('isDestroying'))) {
-                    let selectionChangedEventNames = ["model", "select_node", "deselect_node", "select_all", "deselect_all"];
-                    if (data.action && selectionChangedEventNames.indexOf(data.action) !== -1) {
+                if (Ember.isPresent(this.get('treeObject'))) {
+                    let selectionChangedEventNames = [
+                        'model',
+                        'select_node',
+                        'deselect_node',
+                        'select_all',
+                        'deselect_all'
+                    ];
+                    if (Ember.isPresent(data.action) && selectionChangedEventNames.includes(data.action)) {
                         let selNodes = Ember.A(this.get('treeObject').jstree(true).get_selected(true));
                         this.set('selectedNodes', selNodes);
                     }
@@ -413,10 +406,14 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
 
     actions: {
 
-        contextmenuItemDidClick(actionName, node) {
-            let tree = this.get('getTree');
-            if (undefined !== actionName) {
-                this.sendAction(actionName, node, tree);
+        contextmenuItemDidClick(actionName, data) {
+            let emberTreeObj = this.get('getTree');
+
+            let instance = Ember.$.jstree.reference(data.reference);
+			let node = instance.get_node(data.reference);
+
+            if (Ember.isPresent(actionName)) {
+                this.sendAction(actionName, node, emberTreeObj);
             }
         }
     }
