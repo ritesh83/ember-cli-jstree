@@ -4,7 +4,7 @@
 
 Brings [jsTree](http://www.jstree.com/) functionality into your Ember app.
 
-> Version 0.1.0 of this addon or greater has support for Ember-CLI 1.13 and has **prototype extensions disabled**.
+Demo: http://ritesh83.github.io/ember-cli-jstree/
 
 ## Installation
 
@@ -228,6 +228,8 @@ actionGetNode: function (node) {
 ````
 
 ## Demo
+
+http://ritesh83.github.io/ember-cli-jstree/
 
 Both dynamic (AJAX loaded) and static examples are in the dummy demo.
 
