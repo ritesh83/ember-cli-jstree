@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Ember-cli-jstree by ritesh83</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Ember-cli-jstree</h1>
+      <h2 class="project-tagline">ember-cli addon for jstree</h2>
+      <a href="https://github.com/ritesh83/ember-cli-jstree" class="btn">View on GitHub</a>
+      <a href="https://github.com/ritesh83/ember-cli-jstree/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/ritesh83/ember-cli-jstree/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="ember-cli-jstree" class="anchor" href="#ember-cli-jstree" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ember-cli-jstree</h1>
+
+<p><a href="https://travis-ci.org/yectep/ember-cli-jstree"><img src="https://travis-ci.org/yectep/ember-cli-jstree.svg?branch=master" alt="Travis-CI status"></a> <a href="http://emberobserver.com/addons/ember-cli-jstree"><img src="http://emberobserver.com/badges/ember-cli-jstree.svg" alt="Ember Observer Score"></a></p>
+
+<p>Brings <a href="http://www.jstree.com/">jsTree</a> functionality into your Ember app.</p>
+
+<blockquote>
+<p>Version 0.1.0 of this addon or greater has support for Ember-CLI 1.13 and has <strong>prototype extensions disabled</strong>.</p>
+</blockquote>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Ember CLI addons can be installed with <code>ember install</code></p>
+
+<pre><code>ember install ember-cli-jstree
+</code></pre>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Out of the box, the bare minimum you need on the template is <code>data</code>.
+Run supported actions on the tree by registering it to your controller with the <code>actionReceiver</code> property.</p>
+
+<div class="highlight highlight-text-html-handlebars"><pre>&lt;<span class="pl-ent">div</span> <span class="pl-e"><span class="pl-e">class</span>=</span><span class="pl-s"><span class="pl-pds">"</span>sample-tree<span class="pl-pds">"</span></span>&gt;
+    <span class="pl-c1">{{</span><span class="pl-v">ember-jstree</span>
+        <span class="pl-e"><span class="pl-v">actionReceiver</span>=</span><span class="pl-e"><span class="pl-v">jstreeActionReceiver</span></span>
+        <span class="pl-e"><span class="pl-v">selectedNodes</span>=</span><span class="pl-e"><span class="pl-v">jstreeSelectedNodes</span></span>
+        <span class="pl-e"><span class="pl-v">data</span>=</span><span class="pl-e"><span class="pl-v">data</span></span>
+        <span class="pl-e"><span class="pl-v">plugins</span>=</span><span class="pl-e"><span class="pl-v">plugins</span></span>
+        <span class="pl-e"><span class="pl-v">themes</span>=</span><span class="pl-e"><span class="pl-v">themes</span></span>
+        <span class="pl-e"><span class="pl-v">checkboxOptions</span>=</span><span class="pl-e"><span class="pl-v">checkboxOptions</span></span>
+        <span class="pl-e"><span class="pl-v">contextmenuOptions</span>=</span><span class="pl-e"><span class="pl-v">contextmenuOptions</span></span>
+        <span class="pl-e"><span class="pl-v">stateOptions</span>=</span><span class="pl-e"><span class="pl-v">stateOptions</span></span>
+        <span class="pl-e"><span class="pl-v">typesOptions</span>=</span><span class="pl-e"><span class="pl-v">typesOptions</span></span>
+        <span class="pl-e"><span class="pl-v">searchOptions</span>=</span><span class="pl-e"><span class="pl-v">searchOptions</span></span>
+        <span class="pl-e"><span class="pl-v">searchTerm</span>=</span><span class="pl-e"><span class="pl-v">searchTerm</span></span>
+        <span class="pl-e"><span class="pl-v">contextMenuReportClicked</span>=</span><span class="pl-s"><span class="pl-pds">"</span>contextMenuReportClicked<span class="pl-pds">"</span></span>
+        <span class="pl-e"><span class="pl-v">eventDidBecomeReady</span>=</span><span class="pl-s"><span class="pl-pds">"</span>handleTreeDidBecomeReady<span class="pl-pds">"</span></span>
+    <span class="pl-c1">}}</span>
+&lt;/<span class="pl-ent">div</span>&gt;</pre></div>
+
+<h3>
+<a id="adding-classes" class="anchor" href="#adding-classes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Adding classes</h3>
+
+<p>As per the <a href="https://www.jstree.com/docs/json/">jsTree JSON docs</a>, you can add custom classes to both the <code>&lt;li&gt;</code> and <code>&lt;a&gt;</code> tags of each
+individual node. These are passed on to jQuery's <code>attr</code> function.</p>
+
+<p>For example, to add <a href="http://kushagragour.in/lab/hint/">hint.css</a> tooltips, use the following in your JSON data hash.</p>
+
+<div class="highlight highlight-source-js"><pre>{
+    <span class="pl-s"><span class="pl-pds">'</span>id<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>node15<span class="pl-pds">'</span></span>,
+    <span class="pl-s"><span class="pl-pds">'</span>text<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Node title<span class="pl-pds">'</span></span>,
+    <span class="pl-s"><span class="pl-pds">'</span>state<span class="pl-pds">'</span></span><span class="pl-k">:</span> { <span class="pl-s"><span class="pl-pds">'</span>selected<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-c1">true</span> },
+    <span class="pl-s"><span class="pl-pds">'</span>a_attr<span class="pl-pds">'</span></span><span class="pl-k">:</span> { <span class="pl-s"><span class="pl-pds">'</span>class<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>hint--bottom<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>data-hint<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Some hint goes here<span class="pl-pds">'</span></span> }
+}</pre></div>
+
+<p>This will get rendered in HTML as</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">a</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>jstree-anchor jstree-clicked hint--bottom<span class="pl-pds">"</span></span> <span class="pl-e">href</span>=<span class="pl-s"><span class="pl-pds">"</span>#<span class="pl-pds">"</span></span> <span class="pl-e">tabindex</span>=<span class="pl-s"><span class="pl-pds">"</span>-1<span class="pl-pds">"</span></span> <span class="pl-e">data-hint</span>=<span class="pl-s"><span class="pl-pds">"</span>Some hint goes here<span class="pl-pds">"</span></span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>node15_anchor<span class="pl-pds">"</span></span>&gt;&lt;<span class="pl-ent">i</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>jstree-icon jstree-themeicon<span class="pl-pds">"</span></span> <span class="pl-e">role</span>=<span class="pl-s"><span class="pl-pds">"</span>presentation<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">i</span>&gt;Node title&lt;/<span class="pl-ent">a</span>&gt;</pre></div>
+
+<h2>
+<a id="event-handling" class="anchor" href="#event-handling" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Event Handling</h2>
+
+<p>The addon listens for events from jstree and sends them back to you using actions bound
+to the Handlebars template. Simply set the property to the string name of the action
+in your controller.</p>
+
+<div class="highlight highlight-text-html-handlebars"><pre><span class="pl-c1">{{</span><span class="pl-v">ember-jstree</span>
+    [...]
+    <span class="pl-e"><span class="pl-v">eventDidChange</span>=</span><span class="pl-s"><span class="pl-pds">"</span>handleJstreeEventDidChange<span class="pl-pds">"</span></span>
+    <span class="pl-e"><span class="pl-v">treeObject</span>=</span><span class="pl-e"><span class="pl-v">jstreeObject</span></span>
+<span class="pl-c1">}}</span></pre></div>
+
+<h3>
+<a id="supported-events" class="anchor" href="#supported-events" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Supported events</h3>
+
+<p>The following events have basic support included. More are on the way.</p>
+
+<table>
+<thead>
+<tr>
+<th>jsTree Event</th>
+<th>Ember Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>after_open.jstree</td>
+<td>eventDidOpen</td>
+</tr>
+<tr>
+<td>after_close.jstree</td>
+<td>eventDidClose</td>
+</tr>
+<tr>
+<td>changed.jstree</td>
+<td>eventDidChange</td>
+</tr>
+<tr>
+<td>dehover_node.jstree</td>
+<td>eventDidDehoverNode</td>
+</tr>
+<tr>
+<td>deselect_node.jstree</td>
+<td>eventDidDeselectNode</td>
+</tr>
+<tr>
+<td>hover_node.jstree</td>
+<td>eventDidHoverNode</td>
+</tr>
+<tr>
+<td>init.jstree</td>
+<td>eventDidInit</td>
+</tr>
+<tr>
+<td>ready.jstree</td>
+<td>eventDidBecomeReady</td>
+</tr>
+<tr>
+<td>redraw.jstree</td>
+<td>eventDidRedraw</td>
+</tr>
+<tr>
+<td>show_node.jstree</td>
+<td>eventDidShowNode</td>
+</tr>
+<tr>
+<td>select_node.jstree</td>
+<td>eventDidSelectNode</td>
+</tr>
+<tr>
+<td>(destroyed - no event)</td>
+<td>eventDidDestroy</td>
+</tr>
+<tr>
+<td>move_node.jstree</td>
+<td>eventDidMoveNode</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Note:</strong> In the meantime, you can add event listeners yourself by calling them on a mapped <code>treeObject</code> property.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">_handleOpenNode</span><span class="pl-k">:</span> <span class="pl-k">function</span>() {
+    <span class="pl-k">var</span> treeObject <span class="pl-k">=</span> <span class="pl-v">this</span>.<span class="pl-c1">get</span>(<span class="pl-s"><span class="pl-pds">'</span>jstreeObject<span class="pl-pds">'</span></span>);
+    <span class="pl-smi">treeObject</span>.<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>open_node.jstree<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">e</span>, <span class="pl-smi">data</span>) {
+        <span class="pl-en">console</span>.<span class="pl-c1">info</span>(<span class="pl-s"><span class="pl-pds">'</span>A node was opened.<span class="pl-pds">'</span></span>);
+        <span class="pl-en">console</span>.<span class="pl-c1">log</span>(data);
+    }.<span class="pl-en">bind</span>(<span class="pl-v">this</span>));
+}</pre></div>
+
+<h3>
+<a id="selected-nodes" class="anchor" href="#selected-nodes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Selected nodes</h3>
+
+<p>Selected nodes are always available through the <code>selectedNodes</code> property</p>
+
+<h2>
+<a id="plugins" class="anchor" href="#plugins" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Plugins</h2>
+
+<p>Plugins for your tree should be specified by a <code>plugins</code> string property. Multiple plugins should be
+separated with commas.</p>
+
+<div class="highlight highlight-text-html-handlebars"><pre><span class="pl-c1">{{</span><span class="pl-v">ember-jstree</span>
+    <span class="pl-e"><span class="pl-v">data</span>=</span><span class="pl-e"><span class="pl-v">data</span></span>
+    <span class="pl-e"><span class="pl-v">plugins</span>=</span><span class="pl-e"><span class="pl-v">plugins</span></span>
+<span class="pl-c1">}}</span></pre></div>
+
+<p>The following <a href="http://www.jstree.com/plugins/">plugins</a> are currently supported. More on the way!</p>
+
+<ul>
+<li>Checkbox</li>
+<li>Contextmenu</li>
+<li>Search</li>
+<li>State</li>
+<li>Types</li>
+<li>Wholerow</li>
+<li>Drag and Drop</li>
+</ul>
+
+<h3>
+<a id="configuring-plugins" class="anchor" href="#configuring-plugins" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Configuring plugins</h3>
+
+<p>Send a hash containing the jsTree options through to the addon through the <code>&lt;plugin name&gt;Options</code> key.</p>
+
+<p>In your <strong>controller</strong>:</p>
+
+<div class="highlight highlight-source-js"><pre>jstreeStateOptionHash<span class="pl-k">:</span> {
+    <span class="pl-s"><span class="pl-pds">'</span>key<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>ember-cli-jstree-dummy<span class="pl-pds">'</span></span>
+},
+plugins<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>state<span class="pl-pds">'</span></span></pre></div>
+
+<p>In <strong>Handlebars</strong>:</p>
+
+<div class="highlight highlight-text-html-handlebars"><pre><span class="pl-c1">{{</span><span class="pl-v">ember-jstree</span>
+    [...]
+    <span class="pl-e"><span class="pl-v">plugins</span>=</span><span class="pl-e"><span class="pl-v">plugins</span></span>
+    <span class="pl-e"><span class="pl-v">stateOptions</span>=</span><span class="pl-e"><span class="pl-v">jstreeStateOptionHash</span></span>
+<span class="pl-c1">}}</span></pre></div>
+
+<h3>
+<a id="configuring-tree-refresh" class="anchor" href="#configuring-tree-refresh" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Configuring tree refresh</h3>
+
+<p>Send in the following <a href="https://www.jstree.com/api/#/?f=refresh()">properties</a> to control how the tree is refreshed when you change the data</p>
+
+<ul>
+<li>skipLoading</li>
+<li>forgetState</li>
+</ul>
+
+<p>Both default to false if nothing is passed in</p>
+
+<h2>
+<a id="sending-actions-to-jstree" class="anchor" href="#sending-actions-to-jstree" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sending actions to jsTree</h2>
+
+<p>The addon component will try to register an <code>actionReceiver</code> (see view helper example) to a property in
+your controller if you define it. You can then send actions through that bound property:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-v">this</span>.<span class="pl-c1">get</span>(<span class="pl-s"><span class="pl-pds">'</span>jstreeActionReceiver<span class="pl-pds">'</span></span>).<span class="pl-c1">send</span>(<span class="pl-s"><span class="pl-pds">'</span>redraw<span class="pl-pds">'</span></span>);</pre></div>
+
+<p><strong>Note:</strong> Action names in Ember are camelized (e.g.: <code>get_node()</code> in jsTree is mapped to <code>getNode()</code> in Ember).</p>
+
+<p>If the corresponding jsTree method has a return value, the addon will send an action with the name corresponding
+to supported actions in the table below. Because the addon actually calls these jsTree events, if any events
+occur because of an action, they will be sent as actions (see Event Handling above).</p>
+
+<h3>
+<a id="supported-actions" class="anchor" href="#supported-actions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Supported actions</h3>
+
+<table>
+<thead>
+<tr>
+<th>jsTree Action</th>
+<th>Ember Action</th>
+<th>Return Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>copy_node</td>
+<td>copyNode</td>
+<td></td>
+</tr>
+<tr>
+<td>close_all</td>
+<td>closeAll</td>
+<td></td>
+</tr>
+<tr>
+<td>close_node</td>
+<td>closeNode</td>
+<td></td>
+</tr>
+<tr>
+<td>create_node</td>
+<td>createNode</td>
+<td>actionCreateNode</td>
+</tr>
+<tr>
+<td>delete_node</td>
+<td>deleteNode</td>
+<td>actionDeleteNode</td>
+</tr>
+<tr>
+<td>deselect_all</td>
+<td>deselectAll</td>
+<td></td>
+</tr>
+<tr>
+<td>deselect_node</td>
+<td>deselectNode</td>
+<td></td>
+</tr>
+<tr>
+<td>destroy</td>
+<td>destroy</td>
+<td></td>
+</tr>
+<tr>
+<td>get_children_dom</td>
+<td>getChildrenDom</td>
+<td>actionGetChildrenDom</td>
+</tr>
+<tr>
+<td>get_container</td>
+<td>getContainer</td>
+<td>actionGetContainer</td>
+</tr>
+<tr>
+<td>get_node</td>
+<td>getNode</td>
+<td>actionGetNode</td>
+</tr>
+<tr>
+<td>get_parent</td>
+<td>getParent</td>
+<td>actionGetParent</td>
+</tr>
+<tr>
+<td>get_path</td>
+<td>getPath</td>
+<td>actionGetPath</td>
+</tr>
+<tr>
+<td>get_text</td>
+<td>getText</td>
+<td>actionGetText</td>
+</tr>
+<tr>
+<td>last_error</td>
+<td>lastError</td>
+<td>actionLastError</td>
+</tr>
+<tr>
+<td>load_all</td>
+<td>loadAll</td>
+<td>actionLoadAll</td>
+</tr>
+<tr>
+<td>load_node</td>
+<td>loadNode</td>
+<td>actionLoadNode</td>
+</tr>
+<tr>
+<td>move_node</td>
+<td>moveNode</td>
+<td></td>
+</tr>
+<tr>
+<td>open_all</td>
+<td>openAll</td>
+<td></td>
+</tr>
+<tr>
+<td>open_node</td>
+<td>openNode</td>
+<td></td>
+</tr>
+<tr>
+<td>redraw</td>
+<td>redraw</td>
+<td></td>
+</tr>
+<tr>
+<td>rename_node</td>
+<td>renameNode</td>
+<td>actionRenameNode</td>
+</tr>
+<tr>
+<td>select_all</td>
+<td>selectAll</td>
+<td></td>
+</tr>
+<tr>
+<td>select_node</td>
+<td>selectNode</td>
+<td></td>
+</tr>
+<tr>
+<td>toggle_node</td>
+<td>toggleNode</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="receiving-return-values" class="anchor" href="#receiving-return-values" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Receiving return values</h3>
+
+<p>In your Handlebars component, map the return action (as above, most of which follow the pattern <code>action&lt;action name&gt;</code>):</p>
+
+<div class="highlight highlight-text-html-handlebars"><pre><span class="pl-c1">{{</span><span class="pl-v">ember-jstree</span>
+    [...]
+    <span class="pl-e"><span class="pl-v">actionGetNode</span>=</span><span class="pl-s"><span class="pl-pds">"</span>handleJstreeGetNode<span class="pl-pds">"</span></span>
+<span class="pl-c1">}}</span></pre></div>
+
+<p>Any params that jsTree returns will be given in the order specified by its API.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">actionGetNode</span><span class="pl-k">:</span> <span class="pl-k">function</span> (<span class="pl-smi">node</span>) {
+    <span class="pl-v">this</span>.<span class="pl-c1">set</span>(<span class="pl-s"><span class="pl-pds">'</span>someValue<span class="pl-pds">'</span></span>, node);
+}</pre></div>
+
+<h2>
+<a id="demo" class="anchor" href="#demo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Demo</h2>
+
+<p>Both dynamic (AJAX loaded) and static examples are in the dummy demo.</p>
+
+<ul>
+<li>Clone this repo: <code>git clone</code>
+</li>
+<li>Install packages: <code>npm install</code> then <code>bower install</code>
+</li>
+<li>Run <code>ember serve</code>
+</li>
+<li>Visit the sample app at http://localhost:4200.</li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/ritesh83/ember-cli-jstree">Ember-cli-jstree</a> is maintained by <a href="https://github.com/ritesh83">ritesh83</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
