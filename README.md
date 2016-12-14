@@ -229,6 +229,8 @@ actionGetNode: function (node) {
 
 ## Demo
 
+http://ritesh83.github.io/ember-cli-jstree/
+
 Both dynamic (AJAX loaded) and static examples are in the dummy demo.
 
 * Clone this repo: `git clone`
