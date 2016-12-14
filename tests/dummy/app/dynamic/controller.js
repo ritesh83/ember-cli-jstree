@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ENV from 'dummy/config/environment';
 
 export default Ember.Controller.extend({
     jstreeActionReceiver: null,
@@ -15,9 +16,15 @@ export default Ember.Controller.extend({
 
     data: {
         'url' : function (node) {
-            return node.id === '#' ?
-                '/ajax_data_roots.json' :
-                '/ajax_data_children.json';
+            if (ENV.environment === 'production') {
+                return node.id === '#' ?
+                    '/ember-cli-jstree/ajax_data_roots.json' :
+                    '/ember-cli-jstree/ajax_data_children.json';
+            } else {
+                return node.id === '#' ?
+                    '/ajax_data_roots.json' :
+                    '/ajax_data_children.json';
+            }
         },
         'data' : function (node) {
             return { 'id' : node.id };
