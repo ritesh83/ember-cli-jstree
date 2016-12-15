@@ -4,7 +4,7 @@
 
 Brings [jsTree](http://www.jstree.com/) functionality into your Ember app.
 
-Demo: http://ritesh83.github.io/ember-cli-jstree/
+Demo: http://ritesh83.github.io/ember-cli-jstree/#/static
 
 ## Installation
 
@@ -229,7 +229,7 @@ actionGetNode: function (node) {
 
 ## Demo
 
-http://ritesh83.github.io/ember-cli-jstree/
+http://ritesh83.github.io/ember-cli-jstree/#/static
 
 Both dynamic (AJAX loaded) and static examples are in the dummy demo.
 
