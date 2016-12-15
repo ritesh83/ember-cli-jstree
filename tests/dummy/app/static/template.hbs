@@ -1,4 +1,6 @@
-<div class="sample-tree">
+<h1 class="example-header">Static Tree</h1>
+
+<div class="sample-tree col-xs-5">
     {{ember-jstree
         actionReceiver=jstreeActionReceiver
         selectedNodes=jstreeSelectedNodes
@@ -21,11 +23,11 @@
     }}
 </div>
 
-<div class="info">
+<div class="info col-xs-7">
     <div class="status">
-        <h2>Tree Status</h2>
+        <h2 style="margin-top:0px">Tree Status</h2>
         <p class="tree-status {{if treeReady "tree-ready" "tree-not-ready"}}">
-            Tree Ready? 
+            Tree Ready?
             <strong>
                 {{#if treeReady}}
                     Yes
@@ -36,6 +38,8 @@
         </p>
         <p>Last Context Item Clicked: <strong>{{lastItemClicked}}</strong></p>
     </div>
+
+    <hr />
 
     <div class="selected">
         <h2>Selected Items</h2>
@@ -48,21 +52,27 @@
         {{/if}}
     </div>
 
+    <hr />
+
     <div class="actions ember-test-actions">
         <h2>Actions</h2>
-        <button {{action "getNode" "rn2"}} class="ember-test-getnode-button">Get "Opened node"</button>
+        <button {{action "getNode" "rn2"}} class="ember-test-getnode-button btn btn-default">Get "Opened node"</button>
         <br><br>
-        <button {{action "redraw"}}>Redraw</button>
+        <button class="btn btn-default" {{action "redraw"}}>Redraw</button>
         <br><br>
-        <button {{action "destroy"}} class="ember-test-destroy-button">Destroy</button>
+        <button {{action "destroy"}} class="ember-test-destroy-button btn btn-default">Destroy</button>
         <br><br>
-        <button {{action "addChildByText" "Opened node (has tooltip)"}}>Add child to "Opened node"</button>
+        <button class="btn btn-default" {{action "addChildByText" "Opened node (has tooltip)"}}>Add child to "Opened node"</button>
     </div>
+
+    <hr />
 
     <div class="search">
       <h2>Search</h2>
       {{input type="text" placeholder="Search" class="search-input form-control" value=searchTerm}}
     </div>
+
+    <hr />
 
     <div class="buffer">
         <h2>Buffer Console</h2>

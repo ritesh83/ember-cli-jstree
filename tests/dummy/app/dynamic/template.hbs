@@ -1,4 +1,6 @@
-<div class="sample-tree">
+<h1 class="example-header">Dynamic Tree</h1>
+
+<div class="sample-tree col-xs-5">
     {{ember-jstree
         actionReceiver=jstreeActionReceiver
         selectedNodes=jstreeSelectedNodes
@@ -11,9 +13,9 @@
     }}
 </div>
 
-<div class="info">
+<div class="info col-xs-7">
     <div class="status">
-        <h2>Tree Status</h2>
+        <h2 style="margin-top:0px">Tree Status</h2>
         <p class="tree-status {{if treeReady "tree-ready" "tree-not-ready"}}">
             Tree Ready?
             <strong>
@@ -40,9 +42,9 @@
 
     <div class="actions">
         <h2>Actions</h2>
-        <button {{action "redraw"}}>Redraw</button>
+        <button class="btn btn-default" {{action "redraw"}}>Redraw</button>
         <br><br>
-        <button {{action "destroy"}}>Destroy</button>
+        <button class="btn btn-default" {{action "destroy"}}>Destroy</button>
     </div>
 
 </div>

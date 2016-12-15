@@ -7,18 +7,12 @@ body, html
 .info
 {
 	line-height: 1.2em;
-    position: absolute;
-    top: 60px;
-    left: 400px;
-    padding-left: 20px;
+	padding-left: 20px;
     border-left: 1px solid #ccc;
 }
 
 .sample-tree
 {
-	position: absolute;
-	top: 100px;
-	left: 25px;
 	margin-right: 25px;
 	width: 350px;
 }
@@ -41,4 +35,9 @@ body, html
 	padding: 10px;
 	border: 1px solid #ccc;
 	word-wrap: break-word;
+}
+
+.example-header {
+	margin-top:0px;
+	margin-bottom: 20px;
 }

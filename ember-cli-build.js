@@ -7,6 +7,9 @@ module.exports = function(defaults) {
     babel: {
       optional: ['es6.spec.symbols'],
       includePolyfill: true
+    },
+    'ember-bootstrap': {
+        'importBootstrapTheme': true
     }
   });
 
