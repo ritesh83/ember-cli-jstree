@@ -58,6 +58,6 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
-    "demoURL": "http://ritesh83.github.io/ember-cli-jstree/"
+    "demoURL": "http://ritesh83.github.io/ember-cli-jstree/#/static"
   }
 }
