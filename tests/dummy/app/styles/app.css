@@ -8,7 +8,19 @@ body, html
 {
 	line-height: 1.2em;
 	padding-left: 20px;
-    border-left: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	padding-top: 30px;
+    margin-top: 30px;
+}
+
+@media (min-width: 1160px) {
+	.info
+	{
+		border-left: 1px solid #ccc;
+		border-top: none;
+		margin-top: 0px;
+		padding-top: 0px;	    
+	}
 }
 
 .sample-tree
