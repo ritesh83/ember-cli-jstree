@@ -1,6 +1,6 @@
 # ember-cli-jstree
 
-[![Travis-CI status](https://travis-ci.org/yectep/ember-cli-jstree.svg?branch=master)](https://travis-ci.org/yectep/ember-cli-jstree) [![Ember Observer Score](http://emberobserver.com/badges/ember-cli-jstree.svg)](http://emberobserver.com/addons/ember-cli-jstree)
+[![Travis-CI status](https://travis-ci.org/ritesh83/ember-cli-jstree.svg?branch=master)](https://travis-ci.org/ritesh83/ember-cli-jstree) [![Ember Observer Score](http://emberobserver.com/badges/ember-cli-jstree.svg)](http://emberobserver.com/addons/ember-cli-jstree)
 
 Brings [jsTree](http://www.jstree.com/) functionality into your Ember app.
 
