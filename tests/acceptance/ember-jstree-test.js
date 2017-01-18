@@ -23,7 +23,7 @@ module('Acceptance - ember-cli-jstree', {
 
 test('Has static demo', function(assert) {
     assert.expect(1);
-    visit('/static').then(function() {
+    visit('/static').andThen(function() {
         assert.equal(find('.sample-tree').length, 1, 'Static page contains a sample tree');
     });
 });
@@ -72,7 +72,7 @@ test('Search filters to correct nodes', function(assert) {
 
 test('Has dynamic demo', function(assert) {
     assert.expect(1);
-    visit('/dynamic').then(function() {
+    visit('/dynamic').andThen(function() {
         assert.equal(find('.sample-tree').length, 1, 'Dynamic page contains a sample tree');
     });
 });
