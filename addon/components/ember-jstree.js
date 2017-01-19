@@ -77,8 +77,10 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
             if (Ember.isPresent(searchOptions) && pluginsArray.includes('search')) {
                 let searchTerm = this.get('searchTerm');
                 if (this.get('_searchTerm') !== searchTerm) {
-                    this.set('_searchTerm', searchTerm);
-                    this.getTree().search(searchTerm);
+                    Ember.run.next('afterRender', () => {
+                        this.set('_searchTerm', searchTerm);
+                        this.getTree().search(searchTerm);
+                    });
                 }
             }
         }
