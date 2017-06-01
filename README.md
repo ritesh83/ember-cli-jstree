@@ -237,3 +237,8 @@ Both dynamic (AJAX loaded) and static examples are in the dummy demo.
 * Install packages: `npm install` then `bower install`
 * Run `ember serve`
 * Visit the sample app at http://localhost:4200.
+
+## Guides
+
+http://ridhwana.com/blog/2017/introduction-to-ember-cli-js-tree/
+
