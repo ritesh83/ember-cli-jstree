@@ -155,7 +155,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
 
             let dndOptions = this.get('dndOptions');
             if (Ember.isPresent(dndOptions) && pluginsArray.includes('dnd')) {
-                configObject['dnd'] = this._setupContextMenus(dndOptions);
+                configObject['dnd'] = dndOptions;
             }
         }
 
