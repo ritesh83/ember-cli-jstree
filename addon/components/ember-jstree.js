@@ -27,6 +27,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     contextmenuOptions:   null,
     typesOptions:         null,
     searchOptions:        null,
+    dndOptions:           null,
 
     selectionDidChange:   null,
     treeObject:           null,
@@ -150,6 +151,11 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
             let contextmenuOptions = this.get('contextmenuOptions');
             if (Ember.isPresent(contextmenuOptions) && pluginsArray.includes('contextmenu')) {
                 configObject['contextmenu'] = this._setupContextMenus(contextmenuOptions);
+            }
+
+            let dndOptions = this.get('dndOptions');
+            if (Ember.isPresent(dndOptions) && pluginsArray.includes('dnd')) {
+                configObject['dnd'] = dndOptions;
             }
         }
 
