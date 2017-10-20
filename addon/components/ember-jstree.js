@@ -223,6 +223,34 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         });
 
         /*
+          Event: loading.jstree
+          Action: eventIsLoading
+          triggered after the loading text is shown and before loading starts
+        */
+        treeObject.on('loading.jstree', () => {
+            Ember.run(this, function() {
+                if (this.get('isDestroyed') || this.get('isDestroying')) {
+                    return;
+                }
+                this.sendAction('eventIsLoading');
+            });
+        });
+
+        /*
+          Event: loaded.jstree
+          Action: eventDidLoad
+          triggered after the root node is loaded for the first time
+        */
+        treeObject.on('loaded.jstree', () => {
+            Ember.run(this, function() {
+                if (this.get('isDestroyed') || this.get('isDestroying')) {
+                    return;
+                }
+                this.sendAction('eventDidLoad');
+            });
+        });
+
+        /*
           Event: ready.jstree
           Action: eventDidBecomeReady
           triggered after all nodes are finished loading

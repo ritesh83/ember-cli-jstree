@@ -86,6 +86,8 @@ The following events have basic support included. More are on the way.
 | deselect_node.jstree      | eventDidDeselectNode  |
 | hover_node.jstree         | eventDidHoverNode     |
 | init.jstree               | eventDidInit          |
+| loading.jstree            | eventIsLoading        |
+| loaded.jstreee            | eventDidLoad          |
 | ready.jstree              | eventDidBecomeReady   |
 | redraw.jstree             | eventDidRedraw        |
 | show_node.jstree          | eventDidShowNode      |
