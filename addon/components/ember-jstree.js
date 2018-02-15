@@ -453,8 +453,6 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         });
 
         if (Ember.isPresent('checkboxOptions.tie_selected') && !this.get('checkboxOptions.tie_selected')) {
-          // let checkedNodes = Ember.A(this.get('treeObject').jstree(true).get_checked(true));
-          // this.set('checkedNodes', checkedNodes);
 
           /*
              Event: check_node.jstree
