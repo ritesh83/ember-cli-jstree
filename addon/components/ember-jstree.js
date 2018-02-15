@@ -420,6 +420,97 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
                 this.sendAction('eventDidMoveNode', data);
             });
         });
+
+
+      if (this.get('plugins').indexOf('checkbox') > -1) {
+
+        /*
+           Event: disable_checkbox.jstree
+           Action: eventDidDisableCheckbox
+           triggered when an node's checkbox is disabled
+         */
+        treeObject.on('disable_checkbox.jstree', (event, data) => {
+          Ember.run(this, function() {
+            if (this.get('isDestroyed') || this.get('isDestroying')) {
+              return;
+            }
+            this.sendAction('eventDidDisableCheckbox', data.node);
+          });
+        });
+
+        /*
+           Event: enable_checkbox.jstree
+           Action: eventDidEnableCheckbox
+           triggered when an node's checkbox is enabled
+         */
+        treeObject.on('enable_checkbox.jstree', (event, data) => {
+          Ember.run(this, function() {
+            if (this.get('isDestroyed') || this.get('isDestroying')) {
+              return;
+            }
+            this.sendAction('eventDidEnableCheckbox', data.node);
+          });
+        });
+
+        if (Ember.isPresent('checkboxOptions.tie_selected') && !this.get('checkboxOptions.tie_selected')) {
+
+          /*
+             Event: check_node.jstree
+             Action: eventDidCheckNode
+             triggered when an node is checked (only if tie_selection in checkbox settings is false)
+           */
+          treeObject.on('check_node.jstree', (event, data) => {
+            Ember.run(this, function() {
+              if (this.get('isDestroyed') || this.get('isDestroying')) {
+                return;
+              }
+              this.sendAction('eventDidCheckNode', data.node, data.selected, data.event);
+            });
+          });
+
+          /*
+             Event: uncheck_node.jstree
+             Action: eventDidUncheckNode
+             triggered when an node is unchecked (only if tie_selection in checkbox settings is false)
+           */
+          treeObject.on('uncheck_node.jstree', (event, data) => {
+            Ember.run(this, function() {
+              if (this.get('isDestroyed') || this.get('isDestroying')) {
+                return;
+              }
+              this.sendAction('eventDidUncheckNode', data.node, data.selected, data.event);
+            });
+          });
+
+          /*
+             Event: check_all.jstree
+             Action: eventDidCheckAll
+             triggered when all nodes are checked (only if tie_selection in checkbox settings is false)
+           */
+          treeObject.on('check_all.jstree', (event, data) => {
+            Ember.run(this, function() {
+              if (this.get('isDestroyed') || this.get('isDestroying')) {
+                return;
+              }
+              this.sendAction('eventDidCheckAll', data.selected);
+            });
+          });
+
+          /*
+             Event: uncheck_all.jstree
+             Action: eventDidUncheckAll
+             triggered when all nodes are unchecked (only if tie_selection in checkbox settings is false)
+           */
+          treeObject.on('uncheck_all.jstree', (event, data) => {
+            Ember.run(this, function() {
+              if (this.get('isDestroyed') || this.get('isDestroying')) {
+                return;
+              }
+              this.sendAction('eventDidUncheckAll', data.node, data.selected);
+            });
+          });
+        }
+      }
     },
 
     /**

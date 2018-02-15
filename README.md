@@ -77,23 +77,29 @@ in your controller.
 
 The following events have basic support included. More are on the way.
 
-| jsTree Event              | Ember Action          |
-|---------------------------|-----------------------|
-| after_open.jstree         | eventDidOpen          |
-| after_close.jstree        | eventDidClose         |
-| changed.jstree            | eventDidChange        |
-| dehover_node.jstree       | eventDidDehoverNode   |
-| deselect_node.jstree      | eventDidDeselectNode  |
-| hover_node.jstree         | eventDidHoverNode     |
-| init.jstree               | eventDidInit          |
-| loading.jstree            | eventIsLoading        |
-| loaded.jstreee            | eventDidLoad          |
-| ready.jstree              | eventDidBecomeReady   |
-| redraw.jstree             | eventDidRedraw        |
-| show_node.jstree          | eventDidShowNode      |
-| select_node.jstree        | eventDidSelectNode    |
-| (destroyed - no event)    | eventDidDestroy       |
-| move_node.jstree          | eventDidMoveNode      |
+| jsTree Event              | Ember Action            |
+|---------------------------|-------------------------|
+| after_open.jstree         | eventDidOpen            |
+| after_close.jstree        | eventDidClose           |
+| changed.jstree            | eventDidChange          |
+| dehover_node.jstree       | eventDidDehoverNode     |
+| deselect_node.jstree      | eventDidDeselectNode    |
+| hover_node.jstree         | eventDidHoverNode       |
+| init.jstree               | eventDidInit            |
+| loading.jstree            | eventIsLoading          |
+| loaded.jstreee            | eventDidLoad            |
+| ready.jstree              | eventDidBecomeReady     |
+| redraw.jstree             | eventDidRedraw          |
+| show_node.jstree          | eventDidShowNode        |
+| select_node.jstree        | eventDidSelectNode      |
+| (destroyed - no event)    | eventDidDestroy         |
+| move_node.jstree          | eventDidMoveNode        |
+| disable_checkbox.jstree   | eventDidDisableCheckbox |
+| enable_checkbox.jstree    | eventDidEnableCheckbox  |
+| check_node.jstree         | eventDidCheckNode       |
+| uncheck_node.jstree       | eventDidUncheckNode     |
+| check_all.jstree          | eventDidCheckAll        |
+| uncheck_all.jstree        | eventDidUncheckAll      |
 
 **Note:** In the meantime, you can add event listeners yourself by calling them on a mapped `treeObject` property.
 
