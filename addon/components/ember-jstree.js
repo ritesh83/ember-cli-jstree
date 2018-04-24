@@ -75,7 +75,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         let pluginsArray = this.get('plugins');
         if (Ember.isPresent(pluginsArray)) {
             let searchOptions = this.get('searchOptions');
-            if (Ember.isPresent(searchOptions) && pluginsArray.includes('search')) {
+            if (Ember.isPresent(searchOptions) && pluginsArray.indexOf('search') >= 0) {
                 let searchTerm = this.get('searchTerm');
                 if (this.get('_searchTerm') !== searchTerm) {
                     Ember.run.next('afterRender', () => {
