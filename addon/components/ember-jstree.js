@@ -17,6 +17,7 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
     themes:               null,
     checkCallback:        true,
     multiple:             true,
+    worker:               true,
 
     // Refresh configuration variables
     skipLoading:          false,
@@ -108,7 +109,8 @@ export default Ember.Component.extend(InboundActions, EmberJstreeActions, {
         configObject['core'] = {
             'data': this.get('data'),
             'check_callback': this.get('checkCallback'),
-            'multiple': this.get('multiple')
+            'multiple': this.get('multiple'),
+            'worker': this.get('worker')
         };
 
         let themes = this.get('themes');
