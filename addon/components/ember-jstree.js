@@ -18,9 +18,9 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
   selectedNodes: null,
 
   // Basic configuration objects
-  data: null,
-  plugins: null,
-  themes: null,
+  data: A(),
+  plugins: A(),
+  themes: A(),
   checkCallback: true,
   multiple: true,
   worker: true,
