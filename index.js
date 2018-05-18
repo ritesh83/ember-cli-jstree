@@ -1,32 +1,53 @@
-/* jshint node: true */
-'use strict';
+"use strict";
 
-var path = require('path');
-var Funnel = require('broccoli-funnel');
+const mergeTrees = require("broccoli-merge-trees");
+const Funnel = require("broccoli-funnel");
+const path = require("path");
+const version = require("./package.json").version;
+const writeFile = require("broccoli-file-creator");
 
 module.exports = {
-    name: 'ember-cli-jstree',
+  name: "ember-cli-jstree",
 
-    included: function (app) {
-        this._super.included(app);
+  _jstreePath() {
+    return path.dirname(require.resolve("jstree/package.json"));
+  },
 
-        if (process.env.EMBER_CLI_FASTBOOT) {
-            return;
-        }
+  included(app) {
+    this._super.included.apply(this, app);
 
-        app.import(app.bowerDirectory + '/jstree/dist/jstree.js');
-        app.import(app.bowerDirectory + '/jstree/dist/themes/default/style.css');
-    },
-
-    treeForPublic: function() {
-        var defaultThemePath = path.join(this.app.bowerDirectory, 'jstree', 'dist', 'themes', 'default');
-        var defaultThemeAssets = new Funnel(this.treeGenerator(defaultThemePath), {
-            srcDir: '/',
-            include: ['**/*.png', '**/*.gif'],
-            destDir: '/assets'
-        });
-
-        return defaultThemeAssets;
+    if (process.env.EMBER_CLI_FASTBOOT) {
+      return;
     }
 
+    app.import(path.join(this._jstreePath(), "dist/jstree.js"));
+    app.import("vendor/ember-cli-jstree/style.css");
+    app.import("vendor/ember-cli-jstree/register-version.js");
+  },
+
+  treeForVendor(tree) {
+    let registerVersionTree = writeFile(
+      "ember-cli-jstree/register-version.js",
+      `Ember.libraries.register('Ember CLI jsTree', '${version}')`
+    );
+
+    let stylesTree = new Funnel(
+      path.join(this._jstreePath(), "dist/themes/default"),
+      {
+        include: ["*.css"],
+        destDir: "ember-cli-jstree"
+      }
+    );
+
+    return mergeTrees([tree, registerVersionTree, stylesTree], {
+      overwrite: true
+    });
+  },
+
+  treeForPublic() {
+    return new Funnel(path.join(this._jstreePath(), "dist/themes/default"), {
+      include: ["**/*.png", "**/*.gif"],
+      destDir: "/assets"
+    });
+  }
 };

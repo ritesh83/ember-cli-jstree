@@ -1,3 +1,1 @@
-import EmberJstree from 'ember-cli-jstree/components/ember-jstree';
-
-export default EmberJstree;
+export { default } from "ember-cli-jstree/components/ember-jstree";
