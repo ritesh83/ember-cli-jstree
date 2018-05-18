@@ -16,8 +16,8 @@
     "url": "git://github.com/ritesh83/ember-cli-jstree.git"
   },
   "engines": {
-      "node": ">= 0.12.0"
-    },
+    "node": ">= 0.12.0"
+  },
   "author": "",
   "license": "MIT",
   "devDependencies": {
@@ -45,12 +45,7 @@
     "loader.js": "^4.0.10",
     "phantomjs-prebuilt": "^2.1.12"
   },
-  "keywords": [
-    "ember-addon",
-    "jstree",
-    "tree",
-    "jquery"
-  ],
+  "keywords": ["ember-addon", "jstree", "tree", "jquery"],
   "dependencies": {
     "ember-cli-babel": "^5.1.7",
     "broccoli-funnel": "^1.0.1",
