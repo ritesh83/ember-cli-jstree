@@ -4,14 +4,11 @@ const EmberAddon = require("ember-cli/lib/broccoli/ember-addon");
 
 module.exports = function(defaults) {
   let app = new EmberAddon(defaults, {
-    "ember-cli-babel": {
-      includePolyfill: true
-    },
     "ember-bootstrap": {
       importBootstrapTheme: true,
-      'bootstrapVersion': 3,
-      'importBootstrapFont': true,
-      'importBootstrapCSS': true
+      bootstrapVersion: 3,
+      importBootstrapFont: true,
+      importBootstrapCSS: true
     }
   });
 

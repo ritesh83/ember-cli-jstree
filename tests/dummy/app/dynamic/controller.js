@@ -1,3 +1,4 @@
+import { sort } from "@ember/object/computed";
 import Controller from "@ember/controller";
 import { computed } from "@ember/object";
 import { A } from "@ember/array";
@@ -6,7 +7,7 @@ import ENV from "dummy/config/environment";
 export default Controller.extend({
   jstreeActionReceiver: null,
   jstreeSelectedNodes: A(),
-  sortedSelectedNodes: computed.sort("jstreeSelectedNodes", function(a, b) {
+  sortedSelectedNodes: sort("jstreeSelectedNodes", function(a, b) {
     if (a.text > b.text) {
       return 1;
     } else if (a.text < b.text) {

@@ -1,3 +1,4 @@
+import { sort } from "@ember/object/computed";
 import Controller from "@ember/controller";
 import { A } from "@ember/array";
 import { computed, observer } from "@ember/object";
@@ -9,7 +10,7 @@ export default Controller.extend({
   jsonifiedBuffer: "<No output>",
   searchTerm: "",
 
-  sortedSelectedNodes: computed.sort("jstreeSelectedNodes", function(a, b) {
+  sortedSelectedNodes: sort("jstreeSelectedNodes", function(a, b) {
     if (a.text > b.text) {
       return 1;
     } else if (a.text < b.text) {

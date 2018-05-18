@@ -33,8 +33,8 @@ Run supported actions on the tree by registering it to your controller with the 
         typesOptions=typesOptions
         searchOptions=searchOptions
         searchTerm=searchTerm
-        contextMenuReportClicked="contextMenuReportClicked"
-        eventDidBecomeReady="handleTreeDidBecomeReady"
+        contextMenuReportClicked=(action "contextMenuReportClicked")
+        eventDidBecomeReady=(action "handleTreeDidBecomeReady")
     }}
 </div>
 ```
@@ -70,7 +70,7 @@ in your controller.
 ```Handlebars
 {{ember-jstree
     [...]
-    eventDidChange="handleJstreeEventDidChange"
+    eventDidChange=(action "handleJstreeEventDidChange")
     treeObject=jstreeObject
 }}
 ```
@@ -225,7 +225,7 @@ In your Handlebars component, map the return action (as above, most of which fol
 ```Handlebars
 {{ember-jstree
     [...]
-    actionGetNode="handleJstreeGetNode"
+    actionGetNode=(action "handleJstreeGetNode")
 }}
 ```
 
