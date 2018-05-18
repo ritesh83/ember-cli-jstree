@@ -1,15 +1,17 @@
-/*jshint node:true*/
-/* global require, module */
-var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
+"use strict";
+
+const EmberAddon = require("ember-cli/lib/broccoli/ember-addon");
 
 module.exports = function(defaults) {
-  var app = new EmberAddon(defaults, {
-    babel: {
-      optional: ['es6.spec.symbols'],
+  let app = new EmberAddon(defaults, {
+    "ember-cli-babel": {
       includePolyfill: true
     },
-    'ember-bootstrap': {
-        'importBootstrapTheme': true
+    "ember-bootstrap": {
+      importBootstrapTheme: true,
+      'bootstrapVersion': 3,
+      'importBootstrapFont': true,
+      'importBootstrapCSS': true
     }
   });
 
