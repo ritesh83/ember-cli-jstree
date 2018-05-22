@@ -455,7 +455,8 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
       });
     });
 
-    if (this.get("plugins").indexOf("checkbox") > -1) {
+    let pluginsArray = this.get("plugins");
+    if (isPresent(pluginsArray) && pluginsArray.indexOf("checkbox") > -1) {
       /*
            Event: disable_checkbox.jstree
            Action: eventDidDisableCheckbox
