@@ -20,7 +20,7 @@ module.exports = {
       return;
     }
 
-    app.import(path.join(this._jstreePath(), "dist/jstree.js"));
+    app.import("vendor/ember-cli-jstree/jstree.js");
     app.import("vendor/ember-cli-jstree/style.css");
     app.import("vendor/ember-cli-jstree/register-version.js");
   },
@@ -39,7 +39,12 @@ module.exports = {
       }
     );
 
-    return mergeTrees([tree, registerVersionTree, stylesTree], {
+    let jsTree = new Funnel(path.join(this._jstreePath(), "dist"), {
+      include: ["*.js"],
+      destDir: "ember-cli-jstree"
+    });
+
+    return mergeTrees([tree, registerVersionTree, jsTree, stylesTree], {
       overwrite: true
     });
   },
