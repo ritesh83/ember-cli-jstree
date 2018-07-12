@@ -250,4 +250,4 @@ Both dynamic (AJAX loaded) and static examples are in the dummy demo.
 
 ## Guides
 
-http://ridhwana.com/blog/2017/introduction-to-ember-cli-js-tree/
+http://ridhwana.com/2017/05/28/introduction-to-ember-cli-js-tree.html
