@@ -44,9 +44,8 @@ module.exports = {
       destDir: "ember-cli-jstree"
     });
 
-    return mergeTrees([tree, registerVersionTree, jsTree, stylesTree], {
-      overwrite: true
-    });
+
+    return tree ? mergeTrees([tree, registerVersionTree, jsTree, stylesTree], {overwrite: true}) : mergeTrees([registerVersionTree, jsTree, stylesTree], {overwrite: true});
   },
 
   treeForPublic() {
