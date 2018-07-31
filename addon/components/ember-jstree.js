@@ -7,7 +7,7 @@ import { observer } from "@ember/object";
 import { isPresent, typeOf } from "@ember/utils";
 import { A } from "@ember/array";
 import $ from "jquery";
-import { next } from "@ember/runloop";
+import { next, schedule } from "@ember/runloop";
 
 const { testing } = Ember;
 
@@ -50,7 +50,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
   },
 
   didInsertElement() {
-    run.schedule("afterRender", this, this.createTree);
+    schedule("afterRender", this, this.createTree);
   },
 
   createTree() {
@@ -85,7 +85,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
       if (isPresent(searchOptions) && pluginsArray.indexOf("search") >= 0) {
         let searchTerm = this.get("searchTerm");
         if (this.get("_searchTerm") !== searchTerm) {
-          run.next("afterRender", () => {
+          next("afterRender", () => {
             this.set("_searchTerm", searchTerm);
             this.getTree().search(searchTerm);
           });
