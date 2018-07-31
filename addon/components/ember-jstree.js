@@ -3,11 +3,11 @@ import Component from "@ember/component";
 import InboundActions from "ember-component-inbound-actions/inbound-actions";
 import EmberJstreeActions from "ember-cli-jstree/mixins/ember-jstree-actions";
 import { registerWaiter, unregisterWaiter } from "@ember/test";
-import { run } from "@ember/runloop";
 import { observer } from "@ember/object";
 import { isPresent, typeOf } from "@ember/utils";
 import { A } from "@ember/array";
 import $ from "jquery";
+import { next, schedule } from "@ember/runloop";
 
 const { testing } = Ember;
 
@@ -50,7 +50,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
   },
 
   didInsertElement() {
-    run.schedule("afterRender", this, this.createTree);
+    schedule("afterRender", this, this.createTree);
   },
 
   createTree() {
@@ -85,7 +85,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
       if (isPresent(searchOptions) && pluginsArray.indexOf("search") >= 0) {
         let searchTerm = this.get("searchTerm");
         if (this.get("_searchTerm") !== searchTerm) {
-          run.next("afterRender", () => {
+          next("afterRender", () => {
             this.set("_searchTerm", searchTerm);
             this.getTree().search(searchTerm);
           });
@@ -231,7 +231,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
           triggered after all events are bound
         */
     treeObject.on("init.jstree", () => {
-      run(this, function() {
+      next(this, function() {
         if (this.get("isDestroyed") || this.get("isDestroying")) {
           return;
         }
@@ -245,7 +245,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
           triggered after the loading text is shown and before loading starts
         */
     treeObject.on("loading.jstree", () => {
-      run(this, function() {
+      next(this, function() {
         if (this.get("isDestroyed") || this.get("isDestroying")) {
           return;
         }
@@ -259,7 +259,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
           triggered after the root node is loaded for the first time
         */
     treeObject.on("loaded.jstree", () => {
-      run(this, function() {
+      next(this, function() {
         if (this.get("isDestroyed") || this.get("isDestroying")) {
           return;
         }
@@ -273,7 +273,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
           triggered after all nodes are finished loading
         */
     treeObject.on("ready.jstree", () => {
-      run(this, function() {
+      next(this, function() {
         if (this.get("isDestroyed") || this.get("isDestroying")) {
           return;
         }
@@ -288,7 +288,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
           triggered after nodes are redrawn
         */
     treeObject.on("redraw.jstree", () => {
-      run(this, function() {
+      next(this, function() {
         if (this.get("isDestroyed") || this.get("isDestroying")) {
           return;
         }
@@ -302,7 +302,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
           triggered when a node is opened and the animation is complete
         */
     treeObject.on("after_open.jstree", (event, data) => {
-      run(this, function() {
+      next(this, function() {
         if (this.get("isDestroyed") || this.get("isDestroying")) {
           return;
         }
@@ -316,7 +316,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
           triggered when a node is closed and the animation is complete
         */
     treeObject.on("after_close.jstree", (event, data) => {
-      run(this, function() {
+      next(this, function() {
         if (this.get("isDestroyed") || this.get("isDestroying")) {
           return;
         }
@@ -330,7 +330,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
           triggered when an node is selected
         */
     treeObject.on("select_node.jstree", (event, data) => {
-      run(this, function() {
+      next(this, function() {
         if (this.get("isDestroyed") || this.get("isDestroying")) {
           return;
         }
@@ -349,7 +349,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
           triggered when an node is deselected
         */
     treeObject.on("deselect_node.jstree", (event, data) => {
-      run(this, function() {
+      next(this, function() {
         if (this.get("isDestroyed") || this.get("isDestroying")) {
           return;
         }
@@ -368,7 +368,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
           triggered when selection changes
         */
     treeObject.on("changed.jstree", (event, data) => {
-      run(this, function() {
+      next(this, function() {
         if (this.get("isDestroyed") || this.get("isDestroying")) {
           return;
         }
@@ -405,7 +405,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
           triggered when a node is hovered
         */
     treeObject.on("hover_node.jstree", (event, data) => {
-      run(this, function() {
+      next(this, function() {
         if (this.get("isDestroyed") || this.get("isDestroying")) {
           return;
         }
@@ -419,7 +419,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
           triggered when a node is no longer hovered
         */
     treeObject.on("dehover_node.jstree", (event, data) => {
-      run(this, function() {
+      next(this, function() {
         if (this.get("isDestroyed") || this.get("isDestroying")) {
           return;
         }
@@ -433,7 +433,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
           triggered when a node is no longer hovered
         */
     treeObject.on("show_node.jstree", (event, data) => {
-      run(this, function() {
+      next(this, function() {
         if (this.get("isDestroyed") || this.get("isDestroying")) {
           return;
         }
@@ -447,7 +447,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
           triggered when a node is moved
         */
     treeObject.on("move_node.jstree", (event, data) => {
-      run(this, function() {
+      next(this, function() {
         if (this.get("isDestroyed") || this.get("isDestroying")) {
           return;
         }
@@ -463,7 +463,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
            triggered when an node's checkbox is disabled
          */
       treeObject.on("disable_checkbox.jstree", (event, data) => {
-        run(this, function() {
+        next(this, function() {
           if (this.get("isDestroyed") || this.get("isDestroying")) {
             return;
           }
@@ -477,7 +477,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
            triggered when an node's checkbox is enabled
          */
       treeObject.on("enable_checkbox.jstree", (event, data) => {
-        run(this, function() {
+        next(this, function() {
           if (this.get("isDestroyed") || this.get("isDestroying")) {
             return;
           }
@@ -495,7 +495,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
              triggered when an node is checked (only if tie_selection in checkbox settings is false)
            */
         treeObject.on("check_node.jstree", (event, data) => {
-          run(this, function() {
+          next(this, function() {
             if (this.get("isDestroyed") || this.get("isDestroying")) {
               return;
             }
@@ -514,7 +514,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
              triggered when an node is unchecked (only if tie_selection in checkbox settings is false)
            */
         treeObject.on("uncheck_node.jstree", (event, data) => {
-          run(this, function() {
+          next(this, function() {
             if (this.get("isDestroyed") || this.get("isDestroying")) {
               return;
             }
@@ -533,7 +533,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
              triggered when all nodes are checked (only if tie_selection in checkbox settings is false)
            */
         treeObject.on("check_all.jstree", (event, data) => {
-          run(this, function() {
+          next(this, function() {
             if (this.get("isDestroyed") || this.get("isDestroying")) {
               return;
             }
@@ -547,7 +547,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
              triggered when all nodes are unchecked (only if tie_selection in checkbox settings is false)
            */
         treeObject.on("uncheck_all.jstree", (event, data) => {
-          run(this, function() {
+          next(this, function() {
             if (this.get("isDestroyed") || this.get("isDestroying")) {
               return;
             }
