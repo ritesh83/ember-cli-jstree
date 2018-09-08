@@ -451,7 +451,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
         if (this.get("isDestroyed") || this.get("isDestroying")) {
           return;
         }
-        this.callAction("eventDidMoveNode", data.node);
+        this.callAction("eventDidMoveNode", data);
       });
     });
 
