@@ -89,7 +89,7 @@ The following events have basic support included. More are on the way.
 | hover_node.jstree       | eventDidHoverNode       |
 | init.jstree             | eventDidInit            |
 | loading.jstree          | eventIsLoading          |
-| loaded.jstreee          | eventDidLoad            |
+| loaded.jstree           | eventDidLoad            |
 | ready.jstree            | eventDidBecomeReady     |
 | redraw.jstree           | eventDidRedraw          |
 | show_node.jstree        | eventDidShowNode        |
