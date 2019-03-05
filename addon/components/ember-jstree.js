@@ -186,7 +186,7 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
    * @return {Array} An Array of Ember-friendly options to pass back into the config object
    */
   _setupContextMenus(contextmenuOptions) {
-    if (typeOf(contextmenuOptions["items"]) === "object") {
+    if (typeOf(contextmenuOptions["items"]) === "array") {
       let newMenuItems = {};
       let menuItems = Object.keys(contextmenuOptions["items"]);
       for (let menuItem of menuItems) {
