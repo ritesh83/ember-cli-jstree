@@ -456,6 +456,23 @@ export default Component.extend(InboundActions, EmberJstreeActions, {
     });
 
     let pluginsArray = this.get("plugins");
+    
+    if(isPresent(pluginsArray) && pluginsArray.indexOf("search") > -1){
+        /*
+             Event: search.jstree
+             Action: eventDidSearch
+             triggered when a search action is performed
+        */
+        treeObject.on("search.jstree", (event, data) => {
+          next(this, function() {
+            if (this.get("isDestroyed") || this.get("isDestroying")) {
+              return;
+            }
+            this.callAction("eventDidSearch", event, data);
+          });
+        });
+    }
+    
     if (isPresent(pluginsArray) && pluginsArray.indexOf("checkbox") > -1) {
       /*
            Event: disable_checkbox.jstree
