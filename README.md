@@ -33,6 +33,7 @@ Run supported actions on the tree by registering it to your controller with the 
         typesOptions=typesOptions
         searchOptions=searchOptions
         searchTerm=searchTerm
+        sort=sort
         contextMenuReportClicked=(action "contextMenuReportClicked")
         eventDidBecomeReady=(action "handleTreeDidBecomeReady")
     }}
@@ -136,6 +137,7 @@ The following [plugins](http://www.jstree.com/plugins/) are currently supported.
 * Checkbox
 * Contextmenu
 * Search
+* Sort
 * State
 * Types
 * Wholerow
@@ -161,6 +163,16 @@ In **Handlebars**:
     [...]
     plugins=plugins
     stateOptions=jstreeStateOptionHash
+}}
+```
+
+The sort plugin accepts a sort function instead of an options hash.
+
+```Handlebars
+{{ember-jstree
+    [...]
+    plugins=plugins
+    sort=sortFunction
 }}
 ```
 
